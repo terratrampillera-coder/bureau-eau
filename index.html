@@ -1,0 +1,2114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BRABUS SUNREEF HCCH™ · Command Nexus</title>
+
+    <!-- Font Awesome 6 Free -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <!-- Three.js -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+            }
+        }
+    </script>
+
+    <style>
+        /* ============================================================
+           RESET & BASE
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: radial-gradient(ellipse at center, #0b1a2a 0%, #03070e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #e8f0f8;
+            overflow: hidden;
+        }
+
+        /* ============================================================
+           CURVED SCREEN WRAPPER
+           ============================================================ */
+        .screen-wrapper {
+            perspective: 1600px;
+            width: 100%;
+            max-width: 1500px;
+            aspect-ratio: 21 / 9;
+            position: relative;
+        }
+
+        .curved-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 50px 50px 70px 70px;
+            transform: rotateX(2deg) rotateY(0deg) scale(1);
+            transform-style: preserve-3d;
+            box-shadow:
+                0 50px 100px rgba(0, 0, 0, 0.9),
+                0 0 0 2px rgba(60, 160, 255, 0.04),
+                0 0 80px rgba(0, 60, 200, 0.03),
+                inset 0 0 150px rgba(0, 40, 120, 0.03);
+            background: radial-gradient(ellipse at 50% 60%, #0c1028, #050510);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(60, 160, 255, 0.04);
+            transition: all 0.2s ease;
+        }
+
+        .curved-screen::before {
+            content: '';
+            position: absolute;
+            top: -2%;
+            left: -2%;
+            width: 104%;
+            height: 104%;
+            background:
+                radial-gradient(ellipse at 50% 80%, rgba(20, 60, 140, 0.05) 0%, transparent 70%),
+                radial-gradient(ellipse at 50% 20%, rgba(60, 140, 255, 0.02) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 20;
+            border-radius: inherit;
+        }
+
+        .curved-screen::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg,
+                    rgba(255, 255, 255, 0.005) 0%,
+                    rgba(255, 255, 255, 0) 30%,
+                    rgba(255, 255, 255, 0) 70%,
+                    rgba(255, 255, 255, 0.005) 100%);
+            pointer-events: none;
+            z-index: 21;
+            border-radius: inherit;
+        }
+
+        /* ============================================================
+           3D CONTAINER
+           ============================================================ */
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            border-radius: inherit;
+            overflow: hidden;
+        }
+
+        /* ============================================================
+           UI LAYER
+           ============================================================ */
+        .ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+            border-radius: inherit;
+            padding: 18px 28px 16px;
+            display: flex;
+            flex-direction: column;
+        }
+        .ui-layer * {
+            pointer-events: auto;
+        }
+
+        /* ============================================================
+           TOP BAR
+           ============================================================ */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(60, 160, 255, 0.04);
+            flex-wrap: wrap;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .brand h1 {
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 4px;
+            color: #b0d0eb;
+            text-shadow: 0 0 40px rgba(60, 160, 255, 0.06);
+        }
+        .brand h1 span {
+            font-weight: 300;
+            color: #6a8fa8;
+            letter-spacing: 1px;
+            font-size: 12px;
+        }
+        .brand .sub {
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: #4a7a94;
+            margin-top: 1px;
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .status-pill {
+            background: rgba(40, 200, 120, 0.08);
+            border: 1px solid rgba(40, 200, 120, 0.10);
+            padding: 4px 16px;
+            border-radius: 40px;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            color: #70d0a0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.4s ease;
+        }
+        .status-pill i {
+            font-size: 8px;
+        }
+        .status-pill.warning {
+            color: #f0b060;
+            border-color: rgba(240, 176, 96, 0.12);
+            background: rgba(240, 176, 96, 0.05);
+        }
+        .status-pill.error {
+            color: #e06060;
+            border-color: rgba(224, 96, 96, 0.15);
+            background: rgba(224, 96, 96, 0.05);
+        }
+
+        .clock {
+            text-align: right;
+            background: rgba(0, 20, 40, 0.25);
+            padding: 2px 14px;
+            border-radius: 30px;
+            border: 1px solid rgba(60, 160, 255, 0.04);
+            backdrop-filter: blur(4px);
+        }
+        .clock .time {
+            font-size: 20px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: #c8e4f8;
+            font-variant-numeric: tabular-nums;
+            line-height: 1.2;
+        }
+        .clock .date {
+            font-size: 9px;
+            color: #5a8aa0;
+            letter-spacing: 1px;
+        }
+
+        /* ============================================================
+           MAIN CONTENT GRID
+           ============================================================ */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr 1fr;
+            gap: 12px;
+            flex: 1;
+            padding: 8px 0 6px;
+            min-height: 0;
+        }
+
+        /* ============================================================
+           LEFT PANEL · Marine Systems + Radar
+           ============================================================ */
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        /* Radar */
+        .radar-container {
+            background: rgba(0, 16, 32, 0.20);
+            border-radius: 16px;
+            padding: 10px 14px;
+            border: 1px solid rgba(60, 160, 255, 0.04);
+            backdrop-filter: blur(4px);
+            position: relative;
+            overflow: hidden;
+            flex: 1;
+            min-height: 80px;
+        }
+
+        .radar-container .radar-title {
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: #4a7a94;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .radar-container .radar-title .badge {
+            font-size: 8px;
+            color: #60c8a0;
+            background: rgba(60, 200, 120, 0.10);
+            padding: 2px 10px;
+            border-radius: 20px;
+        }
+
+        .radar-canvas-wrap {
+            width: 100%;
+            aspect-ratio: 1/1;
+            max-height: 120px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .radar-canvas-wrap canvas {
+            width: 100% !important;
+            height: 100% !important;
+            border-radius: 50%;
+            display: block;
+        }
+
+        /* System Grid */
+        .sys-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px 10px;
+            background: rgba(0, 16, 32, 0.20);
+            border-radius: 16px;
+            padding: 10px 14px;
+            border: 1px solid rgba(60, 160, 255, 0.04);
+            backdrop-filter: blur(4px);
+        }
+
+        .sys-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            letter-spacing: 0.6px;
+            color: #7a9eb5;
+            padding: 2px 0;
+            border-bottom: 1px solid rgba(60, 160, 255, 0.02);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .sys-item:hover {
+            color: #b0d0eb;
+        }
+        .sys-item .label {
+            text-transform: uppercase;
+            font-weight: 300;
+            font-size: 8px;
+        }
+        .sys-item .status {
+            font-size: 8px;
+            font-weight: 600;
+            color: #60c8a0;
+            transition: color 0.3s ease;
+        }
+        .sys-item .status.warning {
+            color: #f0b060;
+        }
+        .sys-item .status.error {
+            color: #e06060;
+        }
+
+        /* Marine Metrics */
+        .marine-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
+        .marine-card {
+            background: rgba(0, 16, 32, 0.20);
+            border-radius: 14px;
+            padding: 8px 12px;
+            border: 1px solid rgba(60, 160, 255, 0.04);
+            backdrop-filter: blur(2px);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .marine-card:hover {
+            background: rgba(0, 16, 32, 0.35);
+            border-color: rgba(60, 160, 255, 0.07);
+        }
+        .marine-card .label {
+            font-size: 7px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #4a7a94;
+        }
+        .marine-card .value {
+            font-size: 20px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            color: #d0ecff;
+            line-height: 1.2;
+        }
+        .marine-card .value small {
+            font-size: 11px;
+            color: #6a8fa8;
+            margin-left: 2px;
+        }
+        .marine-card .sub {
+            font-size: 9px;
+            color: #5a8aa0;
+            margin-top: 1px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .battery-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(60, 160, 255, 0.06);
+            border-radius: 10px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+        .battery-bar .fill {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #40b080, #70e0b0);
+            transition: width 0.6s ease;
+        }
+
+        /* ============================================================
+           CENTER PANEL · 3D Info Overlay
+           ============================================================ */
+        .center-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 16, 32, 0.12);
+            border-radius: 20px;
+            border: 1px solid rgba(60, 160, 255, 0.03);
+            backdrop-filter: blur(2px);
+            padding: 10px 16px;
+            text-align: center;
+            min-height: 0;
+        }
+
+        .center-panel .coord-main {
+            font-size: 13px;
+            letter-spacing: 2px;
+            color: #8ab4d6;
+            background: rgba(10, 14, 42, 0.35);
+            padding: 4px 18px;
+            border-radius: 30px;
+            border: 1px solid rgba(60, 160, 255, 0.04);
+            backdrop-filter: blur(4px);
+            font-weight: 300;
+        }
+        .center-panel .constellation-hint {
+            margin-top: 6px;
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: #5a7f94;
+            background: rgba(10, 14, 42, 0.20);
+            padding: 2px 14px;
+            border-radius: 20px;
+            backdrop-filter: blur(2px);
+        }
+        .center-panel .nav-status {
+            margin-top: 8px;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: #4a7a94;
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .center-panel .nav-status span {
+            color: #8ab4d6;
+        }
+
+        /* ============================================================
+           RIGHT PANEL · Controls & Navigation
+           ============================================================ */
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 6px;
+        }
+
+        .nav-item {
+            background: rgba(0, 16, 32, 0.20);
+            border-radius: 14px;
+            padding: 8px 10px;
+            border: 1px solid rgba(60, 160, 255, 0.04);
+            text-align: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .nav-item:hover {
+            background: rgba(60, 160, 255, 0.04);
+            border-color: rgba(60, 160, 255, 0.08);
+        }
+        .nav-item .nlabel {
+            font-size: 7px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #4a7a94;
+        }
+        .nav-item .nvalue {
+            font-size: 20px;
+            font-weight: 300;
+            color: #c8e4f8;
+            margin-top: 1px;
+        }
+        .nav-item .nvalue small {
+            font-size: 11px;
+            color: #6a8fa8;
+        }
+
+        /* Controls */
+        .controls-row {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .controls-row .ctrl-group {
+            flex: 1;
+            min-width: 60px;
+            background: rgba(0, 16, 32, 0.15);
+            border-radius: 12px;
+            padding: 6px 10px;
+            border: 1px solid rgba(60, 160, 255, 0.03);
+        }
+        .controls-row .ctrl-group .clabel {
+            font-size: 7px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #4a7a94;
+            display: block;
+        }
+        .controls-row .ctrl-group select,
+        .controls-row .ctrl-group input[type="range"] {
+            width: 100%;
+            background: rgba(60, 160, 255, 0.04);
+            border: 1px solid rgba(60, 160, 255, 0.06);
+            border-radius: 8px;
+            color: #b0d0eb;
+            font-size: 9px;
+            padding: 2px 4px;
+            accent-color: #4488ff;
+            cursor: pointer;
+        }
+        .controls-row .ctrl-group input[type="range"] {
+            padding: 0;
+            height: 4px;
+        }
+
+        /* Action Buttons */
+        .actions-row {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .actions-row button {
+            background: rgba(60, 160, 255, 0.04);
+            border: 1px solid rgba(60, 160, 255, 0.06);
+            color: #8ab4d6;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(2px);
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex: 1;
+            justify-content: center;
+        }
+        .actions-row button:hover {
+            background: rgba(60, 160, 255, 0.08);
+            border-color: rgba(60, 160, 255, 0.12);
+            color: #c8e4f8;
+        }
+        .actions-row button.primary {
+            background: rgba(60, 160, 255, 0.06);
+            border-color: rgba(60, 160, 255, 0.10);
+            color: #c0dcf0;
+        }
+
+        /* ============================================================
+           BOTTOM BAR
+           ============================================================ */
+        .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 6px;
+            border-top: 1px solid rgba(60, 160, 255, 0.04);
+            flex-wrap: wrap;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .bottom-bar .info {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        .bottom-bar .info .item {
+            font-size: 10px;
+            letter-spacing: 1px;
+            color: #5a8aa0;
+        }
+        .bottom-bar .info .item strong {
+            color: #b0d0eb;
+            font-weight: 400;
+            margin-left: 4px;
+        }
+
+        .bottom-bar .preset-indicator {
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            color: #4a7a94;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .bottom-bar .preset-indicator span {
+            color: #8ab4d6;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr 1fr;
+            }
+            .center-panel {
+                grid-column: span 2;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+                padding: 6px 12px;
+            }
+            .center-panel .coord-main {
+                font-size: 11px;
+            }
+            .center-panel .nav-status {
+                font-size: 9px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .screen-wrapper {
+                aspect-ratio: 16 / 9;
+            }
+            .ui-layer {
+                padding: 12px 16px 10px;
+            }
+            .brand h1 {
+                font-size: 15px;
+            }
+            .clock .time {
+                font-size: 17px;
+            }
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+            .center-panel {
+                grid-column: span 1;
+                flex-direction: column;
+                padding: 6px 10px;
+            }
+            .left-panel {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+            .radar-container {
+                grid-column: span 2;
+            }
+            .sys-grid {
+                grid-column: span 2;
+            }
+            .marine-metrics {
+                grid-column: span 2;
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+            .right-panel {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+            .nav-block {
+                grid-column: span 2;
+            }
+            .controls-row {
+                grid-column: span 2;
+            }
+            .actions-row {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .screen-wrapper {
+                aspect-ratio: 4 / 3;
+            }
+            .curved-screen {
+                border-radius: 30px 30px 40px 40px;
+            }
+            .ui-layer {
+                padding: 8px 10px 6px;
+            }
+            .topbar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 4px;
+                padding-bottom: 4px;
+            }
+            .top-right {
+                justify-content: space-between;
+            }
+            .brand h1 {
+                font-size: 13px;
+                letter-spacing: 2px;
+            }
+            .brand .sub {
+                font-size: 8px;
+            }
+            .clock .time {
+                font-size: 15px;
+            }
+            .clock .date {
+                font-size: 8px;
+            }
+            .main-content {
+                gap: 4px;
+            }
+            .sys-grid {
+                padding: 6px 10px;
+            }
+            .sys-item {
+                font-size: 8px;
+            }
+            .sys-item .label {
+                font-size: 7px;
+            }
+            .sys-item .status {
+                font-size: 7px;
+            }
+            .marine-card .value {
+                font-size: 18px;
+            }
+            .nav-item .nvalue {
+                font-size: 16px;
+            }
+            .center-panel .coord-main {
+                font-size: 10px;
+                padding: 3px 12px;
+            }
+            .center-panel .constellation-hint {
+                font-size: 8px;
+            }
+            .controls-row .ctrl-group {
+                padding: 4px 6px;
+            }
+            .controls-row .ctrl-group select,
+            .controls-row .ctrl-group input[type="range"] {
+                font-size: 8px;
+            }
+            .actions-row button {
+                font-size: 8px;
+                padding: 4px 10px;
+            }
+            .bottom-bar .info .item {
+                font-size: 8px;
+            }
+            .bottom-bar .preset-indicator {
+                font-size: 8px;
+            }
+            .radar-canvas-wrap {
+                max-height: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .screen-wrapper {
+                aspect-ratio: 1 / 1;
+            }
+            .curved-screen {
+                border-radius: 20px 20px 30px 30px;
+            }
+            .ui-layer {
+                padding: 4px 6px 4px;
+            }
+            .brand h1 {
+                font-size: 11px;
+                letter-spacing: 1.5px;
+            }
+            .brand h1 span {
+                font-size: 9px;
+            }
+            .brand .sub {
+                font-size: 7px;
+            }
+            .clock .time {
+                font-size: 13px;
+            }
+            .status-pill {
+                font-size: 8px;
+                padding: 2px 10px;
+            }
+            .sys-grid {
+                grid-template-columns: 1fr 1fr;
+                padding: 4px 6px;
+                gap: 1px 6px;
+            }
+            .sys-item {
+                font-size: 7px;
+                padding: 1px 0;
+            }
+            .sys-item .label {
+                font-size: 6px;
+            }
+            .sys-item .status {
+                font-size: 6px;
+            }
+            .marine-metrics {
+                grid-template-columns: 1fr 1fr;
+            }
+            .marine-card {
+                padding: 6px 8px;
+            }
+            .marine-card .value {
+                font-size: 15px;
+            }
+            .nav-block {
+                grid-template-columns: 1fr 1fr;
+            }
+            .nav-item .nvalue {
+                font-size: 14px;
+            }
+            .center-panel .coord-main {
+                font-size: 8px;
+                padding: 2px 8px;
+            }
+            .center-panel .constellation-hint {
+                font-size: 7px;
+                padding: 1px 10px;
+            }
+            .center-panel .nav-status {
+                font-size: 7px;
+                gap: 8px;
+            }
+            .controls-row .ctrl-group .clabel {
+                font-size: 6px;
+            }
+            .controls-row .ctrl-group select,
+            .controls-row .ctrl-group input[type="range"] {
+                font-size: 7px;
+            }
+            .actions-row button {
+                font-size: 7px;
+                padding: 3px 8px;
+            }
+            .bottom-bar .info {
+                gap: 8px;
+            }
+            .bottom-bar .info .item {
+                font-size: 7px;
+            }
+            .bottom-bar .preset-indicator {
+                font-size: 7px;
+            }
+            .radar-canvas-wrap {
+                max-height: 70px;
+            }
+            .radar-container .radar-title {
+                font-size: 7px;
+            }
+        }
+
+        /* ============================================================
+           ANIMATIONS
+           ============================================================ */
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .status-pill i.fa-circle {
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .curved-screen {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes radar-sweep {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .radar-sweep {
+            animation: radar-sweep 4s linear infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="screen-wrapper">
+        <div class="curved-screen">
+
+            <!-- ===== 3D SCENE ===== -->
+            <div id="canvas-container"></div>
+
+            <!-- ===== UI LAYER ===== -->
+            <div class="ui-layer">
+
+                <!-- ===== TOP BAR ===== -->
+                <div class="topbar">
+                    <div class="brand">
+                        <h1>BRABUS · SUNREEF <span>HCCH™ Command Nexus</span></h1>
+                        <div class="sub">Powered by Tersanesi · Cognitive Bridge</div>
+                    </div>
+                    <div class="top-right">
+                        <div class="status-pill" id="statusPill">
+                            <i class="fas fa-circle"></i> ALL SYSTEMS NOMINAL
+                        </div>
+                        <div class="clock">
+                            <div class="time" id="liveTime">14:22:37</div>
+                            <div class="date" id="liveDate">2026-07-31</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== MAIN CONTENT ===== -->
+                <div class="main-content">
+
+                    <!-- LEFT · Marine Systems + Radar -->
+                    <div class="left-panel">
+
+                        <!-- Radar -->
+                        <div class="radar-container">
+                            <div class="radar-title">
+                                <span><i class="fas fa-satellite-dish"></i> NAVIGATION RADAR</span>
+                                <span class="badge"><i class="fas fa-circle" style="color:#60c8a0;font-size:6px;"></i> ACTIVE</span>
+                            </div>
+                            <div class="radar-canvas-wrap">
+                                <canvas id="radarCanvas" width="200" height="200"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- System Grid -->
+                        <div class="sys-grid" id="systemGrid">
+                            <!-- Generated by JavaScript -->
+                        </div>
+
+                        <!-- Marine Metrics -->
+                        <div class="marine-metrics">
+                            <div class="marine-card" data-metric="length">
+                                <div class="label">Length</div>
+                                <div class="value">24.0 <small>m</small></div>
+                                <div class="sub"><i class="fas fa-ruler"></i> LOA</div>
+                            </div>
+                            <div class="marine-card" data-metric="battery">
+                                <div class="label">Battery</div>
+                                <div class="value" id="batteryPercent">92 <small>%</small></div>
+                                <div class="sub"><i class="fas fa-bolt"></i> <span id="batteryTime">10h 45m</span></div>
+                                <div class="battery-bar">
+                                    <div class="fill" id="batteryFill" style="width:92%;"></div>
+                                </div>
+                            </div>
+                            <div class="marine-card" data-metric="range">
+                                <div class="label">Autonomy</div>
+                                <div class="value" id="rangeValue">10 <small>h 45m</small></div>
+                                <div class="sub"><i class="fas fa-ship"></i> remaining</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CENTER · 3D Overlay -->
+                    <div class="center-panel">
+                        <div class="coord-main">
+                            <strong id="coordRa">A.D. 05h 35m</strong> &nbsp; <span id="coordDec">Déc. +22° 00'</span>
+                        </div>
+                        <div class="constellation-hint" id="constellationName">✦ GRANDE OURSE</div>
+                        <div class="nav-status">
+                            <span>🌐 <span id="gridNameDisplay">Équatoriale</span></span>
+                            <span>✦ <span id="nodeCountDisplay">50</span> nodes</span>
+                            <span>📡 <span id="modeDisplay">ALÉATOIRE</span></span>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT · Navigation & Controls -->
+                    <div class="right-panel">
+                        <div class="nav-block">
+                            <div class="nav-item" data-nav="draft">
+                                <div class="nlabel">Draft</div>
+                                <div class="nvalue">1.90 <small>m</small></div>
+                            </div>
+                            <div class="nav-item" data-nav="beam">
+                                <div class="nlabel">Beam</div>
+                                <div class="nvalue">12.6 <small>m</small></div>
+                            </div>
+                            <div class="nav-item" data-nav="distance">
+                                <div class="nlabel">Distance</div>
+                                <div class="nvalue" id="navDistance">268 <small>m</small></div>
+                            </div>
+                        </div>
+
+                        <div class="controls-row">
+                            <div class="ctrl-group">
+                                <span class="clabel">Preset</span>
+                                <select id="presetSelect">
+                                    <option value="random">🎲 Random</option>
+                                    <option value="sphere">🌐 Sphere</option>
+                                    <option value="spiral">🌀 Spiral</option>
+                                    <option value="cube">📦 Cube</option>
+                                    <option value="disk">💿 Disk</option>
+                                    <option value="double">♾️ Double</option>
+                                </select>
+                            </div>
+                            <div class="ctrl-group">
+                                <span class="clabel">Grid</span>
+                                <select id="gridSelect">
+                                    <option value="equatorial">🌐 Equatorial</option>
+                                    <option value="galactic">🌀 Galactic</option>
+                                    <option value="polar">🎯 Polar</option>
+                                    <option value="square">▣ Square</option>
+                                    <option value="hexagonal">⬡ Hexagonal</option>
+                                    <option value="radial">◎ Radial</option>
+                                </select>
+                            </div>
+                            <div class="ctrl-group">
+                                <span class="clabel">Density</span>
+                                <input type="range" id="densityRange" min="4" max="30" value="12" />
+                            </div>
+                        </div>
+
+                        <div class="actions-row">
+                            <button id="refreshBtn"><i class="fas fa-sync-alt"></i> REFRESH</button>
+                            <button id="toggleGridBtn" class="primary"><i class="fas fa-border-all"></i> GRID</button>
+                            <button id="fullscreenBtn"><i class="fas fa-expand"></i> FULL</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ===== BOTTOM BAR ===== -->
+                <div class="bottom-bar">
+                    <div class="info">
+                        <div class="item">TARE MASS <strong id="tareMass">42.6 t</strong></div>
+                        <div class="item">ETA <strong id="etaDisplay">10h 45m</strong></div>
+                        <div class="item">WATER <strong id="waterLevel">86%</strong></div>
+                        <div class="item">SPEED <strong id="speedValue">8.4 kn</strong></div>
+                        <div class="item">WIND <strong id="windSpeed">12.7 kn</strong></div>
+                    </div>
+                    <div class="preset-indicator">
+                        <i class="fas fa-cube"></i> <span id="bottomPreset">Random</span>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /ui-layer -->
+
+        </div>
+        <!-- /curved-screen -->
+    </div>
+    <!-- /screen-wrapper -->
+
+    <!-- ============================================================
+           THREE.JS · 3D Engine
+           ============================================================ -->
+    <script type="module">
+        import * as THREE from 'three';
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        const container = document.getElementById('canvas-container');
+        const parent = container.parentElement;
+
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x050510);
+
+        const camera = new THREE.PerspectiveCamera(45, parent.clientWidth / parent.clientHeight, 0.1, 1000);
+        camera.position.set(10, 6, 18);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(parent.clientWidth, parent.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // ============================================================
+        // STARS
+        // ============================================================
+        const starCount = 3000;
+        const starPos = new Float32Array(starCount * 3);
+        const starSizes = new Float32Array(starCount);
+        const starPhases = new Float32Array(starCount);
+
+        for (let i = 0; i < starCount; i++) {
+            const r = 60 + Math.random() * 140;
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos((Math.random() * 2) - 1);
+            starPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+            starPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+            starPos[i * 3 + 2] = r * Math.cos(phi);
+            starSizes[i] = 0.2 + Math.random() * 0.8;
+            starPhases[i] = Math.random() * Math.PI * 2;
+        }
+
+        const starTex = (() => {
+            const c = document.createElement('canvas');
+            c.width = 64;
+            c.height = 64;
+            const ctx = c.getContext('2d');
+            const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+            g.addColorStop(0, 'rgba(255,255,255,1)');
+            g.addColorStop(0.3, 'rgba(200,230,255,0.8)');
+            g.addColorStop(0.7, 'rgba(100,150,255,0.2)');
+            g.addColorStop(1, 'rgba(255,255,255,0)');
+            ctx.fillStyle = g;
+            ctx.fillRect(0, 0, 64, 64);
+            return new THREE.CanvasTexture(c);
+        })();
+
+        const starMat = new THREE.PointsMaterial({
+            color: 0x88bbff,
+            size: 0.5,
+            map: starTex,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false,
+            transparent: true,
+            sizeAttenuation: true,
+            opacity: 0.8
+        });
+        const stars = new THREE.Points(
+            new THREE.BufferGeometry()
+            .setAttribute('position', new THREE.BufferAttribute(starPos, 3))
+            .setAttribute('size', new THREE.BufferAttribute(starSizes, 1))
+            .setAttribute('phase', new THREE.BufferAttribute(starPhases, 1)),
+            starMat
+        );
+        stars.userData = { sizes: starSizes, phases: starPhases };
+        scene.add(stars);
+
+        // ============================================================
+        // CONSTELLATION
+        // ============================================================
+        let nodeCount = 50;
+        let nodePositions = [];
+        let nodeColors = [];
+        let nodeSizes = [];
+        let nodeSize = 0.7;
+        let connectionThreshold = 3.8;
+        let showGrid = true;
+        let activeGridType = 'equatorial';
+        let gridDensity = 12;
+        let gridColor = '#4488ff';
+        let gridOpacity = 0.12;
+
+        let constellationGroup = new THREE.Group();
+        let nodes = null;
+        let lines = null;
+        let glowGroup = null;
+        let gridObjects = [];
+
+        scene.add(constellationGroup);
+
+        // ============================================================
+        // GENERATE CONSTELLATION
+        // ============================================================
+        function generateConstellation(preset = 'random') {
+            const positions = [];
+            const colors = [];
+            const sizes = [];
+            const n = nodeCount;
+
+            if (preset === 'random') {
+                for (let i = 0; i < n; i++) {
+                    const r = 3 + Math.random() * 7;
+                    const theta = Math.random() * Math.PI * 2;
+                    const phi = Math.acos((Math.random() * 2) - 1);
+                    positions.push(r * Math.sin(phi) * Math.cos(theta));
+                    positions.push(r * Math.sin(phi) * Math.sin(theta) * 0.7);
+                    positions.push(r * Math.cos(phi) * 0.8);
+                    const col = new THREE.Color().setHSL(0.58 + Math.random() * 0.12, 0.8, 0.5 + Math.random() * 0.3);
+                    colors.push(col.r, col.g, col.b);
+                    sizes.push(0.3 + Math.random() * 0.5);
+                }
+            } else if (preset === 'sphere') {
+                for (let i = 0; i < n; i++) {
+                    const r = 3 + Math.random() * 5;
+                    const theta = Math.random() * Math.PI * 2;
+                    const phi = Math.acos((Math.random() * 2) - 1);
+                    positions.push(r * Math.sin(phi) * Math.cos(theta));
+                    positions.push(r * Math.sin(phi) * Math.sin(theta));
+                    positions.push(r * Math.cos(phi));
+                    const col = new THREE.Color().setHSL(0.58 + Math.random() * 0.1, 0.8, 0.6 + Math.random() * 0.2);
+                    colors.push(col.r, col.g, col.b);
+                    sizes.push(0.3 + Math.random() * 0.4);
+                }
+            } else if (preset === 'spiral') {
+                for (let i = 0; i < n; i++) {
+                    const t = i / n * Math.PI * 4;
+                    const r = 2 + t * 0.8;
+                    positions.push(r * Math.cos(t) * 0.8);
+                    positions.push(r * Math.sin(t) * 0.8 * 0.5);
+                    positions.push((i / n - 0.5) * 4);
+                    const col = new THREE.Color().setHSL(0.58 + t * 0.02, 0.8, 0.5 + (i / n) * 0.3);
+                    colors.push(col.r, col.g, col.b);
+                    sizes.push(0.3 + (i / n) * 0.4);
+                }
+            } else if (preset === 'cube') {
+                const side = 4;
+                const perSide = Math.ceil(Math.cbrt(n));
+                let idx = 0;
+                for (let x = 0; x < perSide && idx < n; x++) {
+                    for (let y = 0; y < perSide && idx < n; y++) {
+                        for (let z = 0; z < perSide && idx < n; z++) {
+                            positions.push((x / (perSide - 1) - 0.5) * side * 1.2);
+                            positions.push((y / (perSide - 1) - 0.5) * side * 1.2);
+                            positions.push((z / (perSide - 1) - 0.5) * side * 1.2);
+                            const col = new THREE.Color().setHSL(0.58 + Math.random() * 0.1, 0.8, 0.5 + Math.random() * 0.3);
+                            colors.push(col.r, col.g, col.b);
+                            sizes.push(0.3 + Math.random() * 0.4);
+                            idx++;
+                        }
+                    }
+                }
+            } else if (preset === 'disk') {
+                for (let i = 0; i < n; i++) {
+                    const r = Math.random() * 5;
+                    const theta = Math.random() * Math.PI * 2;
+                    positions.push(r * Math.cos(theta));
+                    positions.push(r * Math.sin(theta) * 0.3);
+                    positions.push((Math.random() - 0.5) * 1.5);
+                    const col = new THREE.Color().setHSL(0.58 + Math.random() * 0.1, 0.8, 0.5 + (r / 5) * 0.3);
+                    colors.push(col.r, col.g, col.b);
+                    sizes.push(0.3 + Math.random() * 0.4);
+                }
+            } else if (preset === 'double') {
+                const half = Math.floor(n / 2);
+                for (let i = 0; i < n; i++) {
+                    const isSecond = i >= half;
+                    const center = isSecond ? 3 : -3;
+                    const r = 1.5 + Math.random() * 2.5;
+                    const theta = Math.random() * Math.PI * 2;
+                    const phi = Math.acos((Math.random() * 2) - 1);
+                    positions.push(center + r * Math.sin(phi) * Math.cos(theta) * 0.6);
+                    positions.push(r * Math.sin(phi) * Math.sin(theta) * 0.6);
+                    positions.push(r * Math.cos(phi) * 0.6);
+                    const col = new THREE.Color().setHSL(isSecond ? 0.65 : 0.5, 0.8, 0.5 + Math.random() * 0.3);
+                    colors.push(col.r, col.g, col.b);
+                    sizes.push(0.3 + Math.random() * 0.4);
+                }
+            }
+
+            nodePositions = positions;
+            nodeColors = colors;
+            nodeSizes = sizes;
+        }
+
+        // ============================================================
+        // BUILD CONSTELLATION
+        // ============================================================
+        function buildConstellation() {
+            while (constellationGroup.children.length > 0) {
+                const child = constellationGroup.children[0];
+                constellationGroup.remove(child);
+                if (child.geometry) child.geometry.dispose();
+                if (child.material) child.material.dispose();
+            }
+
+            const nodeGeo = new THREE.BufferGeometry();
+            nodeGeo.setAttribute('position', new THREE.Float32BufferAttribute(nodePositions, 3));
+            nodeGeo.setAttribute('color', new THREE.Float32BufferAttribute(nodeColors, 3));
+            nodeGeo.setAttribute('size', new THREE.Float32BufferAttribute(nodeSizes, 1));
+
+            const nodeMat = new THREE.PointsMaterial({
+                size: nodeSize,
+                vertexColors: true,
+                map: starTex,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                transparent: true,
+                sizeAttenuation: true,
+                opacity: 1
+            });
+            nodes = new THREE.Points(nodeGeo, nodeMat);
+            nodes.userData = {
+                sizes: nodeSizes,
+                phases: new Float32Array(nodeCount).map(() => Math.random() * Math.PI * 2)
+            };
+            constellationGroup.add(nodes);
+
+            // Lines
+            const linePositions = [];
+            for (let i = 0; i < nodeCount; i++) {
+                for (let j = i + 1; j < nodeCount; j++) {
+                    const ix = i * 3,
+                        iy = i * 3 + 1,
+                        iz = i * 3 + 2;
+                    const jx = j * 3,
+                        jy = j * 3 + 1,
+                        jz = j * 3 + 2;
+                    const dx = nodePositions[ix] - nodePositions[jx];
+                    const dy = nodePositions[iy] - nodePositions[jy];
+                    const dz = nodePositions[iz] - nodePositions[jz];
+                    if (Math.sqrt(dx * dx + dy * dy + dz * dz) < connectionThreshold &&
+                        Math.sqrt(dx * dx + dy * dy + dz * dz) > 0.3) {
+                        linePositions.push(
+                            nodePositions[ix], nodePositions[iy], nodePositions[iz],
+                            nodePositions[jx], nodePositions[jy], nodePositions[jz]
+                        );
+                    }
+                }
+            }
+
+            const lineGeo = new THREE.BufferGeometry();
+            lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+            const lineMat = new THREE.LineBasicMaterial({
+                color: 0x4488ff,
+                transparent: true,
+                opacity: 0.3,
+                blending: THREE.AdditiveBlending
+            });
+            lines = new THREE.LineSegments(lineGeo, lineMat);
+            constellationGroup.add(lines);
+
+            // Glow
+            glowGroup = new THREE.Group();
+            for (let i = 0; i < nodeCount; i += 2) {
+                const idx = i * 3;
+                const sphere = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.15 + Math.random() * 0.15, 6, 6),
+                    new THREE.MeshBasicMaterial({
+                        color: 0x4488ff,
+                        transparent: true,
+                        opacity: 0.15,
+                        blending: THREE.AdditiveBlending
+                    })
+                );
+                sphere.position.set(nodePositions[idx], nodePositions[idx + 1], nodePositions[idx + 2]);
+                sphere.userData = {
+                    phase: Math.random() * Math.PI * 2,
+                    pulseSpeed: 0.01 + Math.random() * 0.02
+                };
+                glowGroup.add(sphere);
+            }
+            constellationGroup.add(glowGroup);
+
+            // Update UI
+            document.getElementById('nodeCountDisplay').textContent = nodeCount;
+
+            // Rebuild grids
+            buildGrids();
+        }
+
+        // ============================================================
+        // GRIDS
+        // ============================================================
+        function buildGrids() {
+            gridObjects.forEach(obj => {
+                scene.remove(obj);
+                if (obj.geometry) obj.geometry.dispose();
+                if (obj.material) obj.material.dispose();
+            });
+            gridObjects = [];
+
+            if (!showGrid) return;
+
+            const color = new THREE.Color(gridColor);
+            const opacity = gridOpacity;
+            const size = 7;
+            const divisions = gridDensity;
+
+            function createSimpleGrid() {
+                const geo = new THREE.BufferGeometry();
+                const verts = [];
+                const step = size / divisions;
+                for (let i = -divisions / 2; i <= divisions / 2; i++) {
+                    const x = i * step;
+                    verts.push(x, -size / 2, 0, x, size / 2, 0);
+                    verts.push(-size / 2, x, 0, size / 2, x, 0);
+                }
+                geo.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+                const mat = new THREE.LineBasicMaterial({
+                    color: color,
+                    transparent: true,
+                    opacity: opacity,
+                    blending: THREE.AdditiveBlending
+                });
+                const grid = new THREE.LineSegments(geo, mat);
+                grid.rotation.x = Math.PI / 2;
+                return grid;
+            }
+
+            function createRadialGrid() {
+                const group = new THREE.Group();
+                const circles = Math.floor(divisions / 2);
+                for (let r = 1; r <= circles; r++) {
+                    const radius = (r / circles) * size / 2;
+                    const pts = 36;
+                    const verts = [];
+                    for (let i = 0; i <= pts; i++) {
+                        const theta = (i / pts) * Math.PI * 2;
+                        verts.push(radius * Math.cos(theta), radius * Math.sin(theta), 0);
+                    }
+                    const geo = new THREE.BufferGeometry();
+                    geo.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+                    const mat = new THREE.LineBasicMaterial({
+                        color: color,
+                        transparent: true,
+                        opacity: opacity * 0.5,
+                        blending: THREE.AdditiveBlending
+                    });
+                    group.add(new THREE.Line(geo, mat));
+                }
+                for (let i = 0; i < divisions; i++) {
+                    const theta = (i / divisions) * Math.PI * 2;
+                    const r = size / 2;
+                    const verts = [0, 0, 0, r * Math.cos(theta), r * Math.sin(theta), 0];
+                    const geo = new THREE.BufferGeometry();
+                    geo.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+                    const mat = new THREE.LineBasicMaterial({
+                        color: color,
+                        transparent: true,
+                        opacity: opacity * 0.3,
+                        blending: THREE.AdditiveBlending
+                    });
+                    group.add(new THREE.Line(geo, mat));
+                }
+                group.rotation.x = Math.PI / 2;
+                return group;
+            }
+
+            function createHexGrid() {
+                const group = new THREE.Group();
+                const hexSize = size / divisions;
+
+                function hexVerts(cx, cy, s) {
+                    const v = [];
+                    for (let i = 0; i < 6; i++) {
+                        const a = (i / 6) * Math.PI * 2 + Math.PI / 6;
+                        v.push(cx + s * Math.cos(a), cy + s * Math.sin(a), 0);
+                    }
+                    v.push(v[0], v[1], v[2]);
+                    return v;
+                }
+
+                const spacing = hexSize * 1.8;
+                const rows = Math.floor(divisions * 0.8);
+                const cols = Math.floor(divisions * 0.8);
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        const cx = -size / 2 + c * spacing + (r % 2) * spacing / 2 + size / 4;
+                        const cy = -size / 2 + r * spacing * 0.87 + size / 4;
+                        if (Math.abs(cx) < size / 2 - hexSize && Math.abs(cy) < size / 2 - hexSize) {
+                            const hv = hexVerts(cx, cy, hexSize * 0.8);
+                            const geo = new THREE.BufferGeometry();
+                            geo.setAttribute('position', new THREE.Float32BufferAttribute(hv, 3));
+                            const mat = new THREE.LineBasicMaterial({
+                                color: color,
+                                transparent: true,
+                                opacity: opacity * 0.4,
+                                blending: THREE.AdditiveBlending
+                            });
+                            group.add(new THREE.Line(geo, mat));
+                        }
+                    }
+                }
+                group.rotation.x = Math.PI / 2;
+                return group;
+            }
+
+            function createPolarGrid() {
+                const group = new THREE.Group();
+                const circles = Math.floor(divisions / 2);
+                for (let r = 1; r <= circles; r++) {
+                    const radius = (r / circles) * size / 2;
+                    const pts = 36;
+                    const verts = [];
+                    for (let i = 0; i <= pts; i++) {
+                        const theta = (i / pts) * Math.PI * 2;
+                        verts.push(radius * Math.cos(theta), radius * Math.sin(theta), 0);
+                    }
+                    const geo = new THREE.BufferGeometry();
+                    geo.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+                    const mat = new THREE.LineBasicMaterial({
+                        color: color,
+                        transparent: true,
+                        opacity: opacity * 0.6,
+                        blending: THREE.AdditiveBlending
+                    });
+                    group.add(new THREE.Line(geo, mat));
+                }
+                for (let i = 0; i < divisions; i++) {
+                    const theta = (i / divisions) * Math.PI * 2;
+                    const r = size / 2;
+                    const verts = [0, 0, 0, r * Math.cos(theta), r * Math.sin(theta), 0];
+                    const geo = new THREE.BufferGeometry();
+                    geo.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+                    const mat = new THREE.LineBasicMaterial({
+                        color: color,
+                        transparent: true,
+                        opacity: opacity * 0.4,
+                        blending: THREE.AdditiveBlending
+                    });
+                    group.add(new THREE.Line(geo, mat));
+                }
+                group.rotation.x = Math.PI / 2;
+                return group;
+            }
+
+            function createGalacticGrid() {
+                const grid = createSimpleGrid();
+                grid.rotation.z = 0.3;
+                return grid;
+            }
+
+            let gridObj;
+            switch (activeGridType) {
+                case 'equatorial':
+                    gridObj = createSimpleGrid();
+                    break;
+                case 'galactic':
+                    gridObj = createGalacticGrid();
+                    break;
+                case 'polar':
+                    gridObj = createPolarGrid();
+                    break;
+                case 'square':
+                    gridObj = createSimpleGrid();
+                    break;
+                case 'hexagonal':
+                    gridObj = createHexGrid();
+                    break;
+                case 'radial':
+                    gridObj = createRadialGrid();
+                    break;
+                default:
+                    gridObj = createSimpleGrid();
+            }
+
+            if (gridObj) {
+                gridObjects.push(gridObj);
+                scene.add(gridObj);
+            }
+
+            const names = {
+                equatorial: 'Équatoriale',
+                galactic: 'Galactique',
+                polar: 'Polaire',
+                square: 'Carrée',
+                hexagonal: 'Hexagonale',
+                radial: 'Radiale'
+            };
+            document.getElementById('gridNameDisplay').textContent = names[activeGridType] || 'Équatoriale';
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        generateConstellation('random');
+        buildConstellation();
+
+        // ============================================================
+        // ANIMATION
+        // ============================================================
+        function animate() {
+            const t = performance.now() / 1000;
+
+            // Stars twinkle
+            const sAttr = stars.geometry.attributes.size;
+            const sArr = sAttr.array;
+            const ph = stars.userData.phases;
+            for (let i = 0; i < sArr.length; i++) {
+                sArr[i] = stars.userData.sizes[i] * (0.6 + 0.4 * Math.sin(t * 1.5 + ph[i]));
+            }
+            sAttr.needsUpdate = true;
+
+            // Nodes pulse
+            if (nodes) {
+                const nAttr = nodes.geometry.attributes.size;
+                const nArr = nAttr.array;
+                const nPh = nodes.userData.phases;
+                for (let i = 0; i < nArr.length; i++) {
+                    nArr[i] = nodes.userData.sizes[i] * (0.7 + 0.5 * Math.sin(t * 2.0 + nPh[i]));
+                }
+                nAttr.needsUpdate = true;
+            }
+
+            // Glow pulse
+            if (glowGroup) {
+                glowGroup.children.forEach(sp => {
+                    const p = 1 + 0.3 * Math.sin(t * sp.userData.pulseSpeed * 8 + sp.userData.phase);
+                    sp.scale.set(p, p, p);
+                });
+            }
+
+            // Rotate constellation
+            constellationGroup.rotation.y += 0.0015;
+
+            // Camera orbit
+            camera.position.x = 12 * Math.sin(t * 0.035);
+            camera.position.z = 12 * Math.cos(t * 0.035);
+            camera.position.y = 5 + 1.5 * Math.sin(t * 0.05);
+            camera.lookAt(0, 0, 0);
+
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // ============================================================
+        // RESIZE
+        // ============================================================
+        function resize3D() {
+            const w = parent.clientWidth;
+            const h = parent.clientHeight;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        }
+        window.addEventListener('resize', resize3D);
+        setTimeout(resize3D, 100);
+
+        // ============================================================
+        // EXPOSE FOR UI CONTROLS
+        // ============================================================
+        window.__3D = {
+            generateConstellation,
+            buildConstellation,
+            buildGrids,
+            setShowGrid: (v) => { showGrid = v;
+                buildGrids(); },
+            setGridType: (type) => { activeGridType = type;
+                buildGrids(); },
+            setGridDensity: (d) => { gridDensity = d;
+                buildGrids(); },
+            setPreset: (preset) => { generateConstellation(preset);
+                buildConstellation(); },
+            setNodeCount: (n) => { nodeCount = n;
+                generateConstellation('random');
+                buildConstellation(); },
+            setConnectionThreshold: (v) => { connectionThreshold = v;
+                buildConstellation(); },
+            setNodeSize: (v) => { nodeSize = v;
+                buildConstellation(); },
+            setGridColor: (c) => { gridColor = c;
+                buildGrids(); },
+            setGridOpacity: (o) => { gridOpacity = o;
+                buildGrids(); }
+        };
+
+        console.log('🚀 BRABUS · SUNREEF HCCH™ Command Nexus');
+        console.log('✓ 3D Constellation Engine Active');
+        console.log('✓ Grid System: ' + activeGridType);
+        console.log('✓ ' + nodeCount + ' nodes');
+
+    </script>
+
+    <!-- ============================================================
+           UI CONTROLS · Vanilla JS + Radar
+           ============================================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================================
+            // SYSTEM DATA (Marine)
+            // ============================================================
+            const systems = [
+                { label: 'Smart Power', status: 'OK' },
+                { label: 'Propulsion', status: 'OK' },
+                { label: 'Electrical', status: 'OK' },
+                { label: 'Batteries', status: 'OK' },
+                { label: 'Climate', status: 'OK' },
+                { label: 'Water', status: 'OK' },
+                { label: 'Navigation', status: 'OK' },
+                { label: 'Safety', status: 'OK' },
+            ];
+
+            // ============================================================
+            // DOM REFS
+            // ============================================================
+            const grid = document.getElementById('systemGrid');
+            const statusPill = document.getElementById('statusPill');
+            const batteryPercent = document.getElementById('batteryPercent');
+            const batteryFill = document.getElementById('batteryFill');
+            const batteryTime = document.getElementById('batteryTime');
+            const rangeValue = document.getElementById('rangeValue');
+            const navDistance = document.getElementById('navDistance');
+            const etaDisplay = document.getElementById('etaDisplay');
+            const waterLevel = document.getElementById('waterLevel');
+            const speedValue = document.getElementById('speedValue');
+            const windSpeed = document.getElementById('windSpeed');
+            const tareMass = document.getElementById('tareMass');
+            const liveTime = document.getElementById('liveTime');
+            const liveDate = document.getElementById('liveDate');
+            const bottomPreset = document.getElementById('bottomPreset');
+
+            // ============================================================
+            // RADAR
+            // ============================================================
+            const radarCanvas = document.getElementById('radarCanvas');
+            const ctx = radarCanvas.getContext('2d');
+            let radarAngle = 0;
+
+            function drawRadar() {
+                const w = radarCanvas.width;
+                const h = radarCanvas.height;
+                const cx = w / 2;
+                const cy = h / 2;
+                const radius = w / 2 - 10;
+
+                ctx.clearRect(0, 0, w, h);
+
+                // Background
+                const bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+                bg.addColorStop(0, 'rgba(10, 30, 60, 0.9)');
+                bg.addColorStop(1, 'rgba(5, 15, 30, 0.95)');
+                ctx.fillStyle = bg;
+                ctx.beginPath();
+                ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Grid circles
+                for (let r = radius / 4; r <= radius; r += radius / 4) {
+                    ctx.strokeStyle = 'rgba(60, 160, 255, 0.08)';
+                    ctx.lineWidth = 0.5;
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+
+                // Crosshairs
+                ctx.strokeStyle = 'rgba(60, 160, 255, 0.06)';
+                ctx.lineWidth = 0.5;
+                ctx.beginPath();
+                ctx.moveTo(cx - radius, cy);
+                ctx.lineTo(cx + radius, cy);
+                ctx.moveTo(cx, cy - radius);
+                ctx.lineTo(cx, cy + radius);
+                ctx.stroke();
+
+                // Bearing labels
+                ctx.fillStyle = 'rgba(60, 160, 255, 0.2)';
+                ctx.font = '6px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('N', cx, 8);
+                ctx.fillText('S', cx, h - 2);
+                ctx.fillText('E', w - 2, cy + 2);
+                ctx.fillText('W', 8, cy + 2);
+
+                // Sweep line with glow
+                const sweepGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+                sweepGrad.addColorStop(0, 'rgba(60, 200, 255, 0.3)');
+                sweepGrad.addColorStop(0.3, 'rgba(60, 200, 255, 0.1)');
+                sweepGrad.addColorStop(1, 'rgba(60, 200, 255, 0)');
+
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.rotate(radarAngle);
+
+                // Sweep cone
+                ctx.fillStyle = sweepGrad;
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.arc(0, 0, radius, -0.15, 0.15);
+                ctx.closePath();
+                ctx.fill();
+
+                // Sweep line
+                ctx.strokeStyle = 'rgba(60, 200, 255, 0.6)';
+                ctx.lineWidth = 1.5;
+                ctx.shadowColor = 'rgba(60, 200, 255, 0.3)';
+                ctx.shadowBlur = 10;
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(radius, 0);
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+
+                // Blips
+                const blips = [
+                    { dist: 0.3, angle: -0.8, size: 4, color: 'rgba(255, 200, 100, 0.8)' },
+                    { dist: 0.5, angle: 1.2, size: 3, color: 'rgba(100, 255, 200, 0.7)' },
+                    { dist: 0.7, angle: -0.3, size: 5, color: 'rgba(255, 100, 100, 0.6)' },
+                    { dist: 0.2, angle: 2.0, size: 2, color: 'rgba(100, 200, 255, 0.8)' },
+                    { dist: 0.6, angle: -1.5, size: 3, color: 'rgba(200, 255, 100, 0.7)' },
+                    { dist: 0.85, angle: 0.7, size: 4, color: 'rgba(255, 150, 200, 0.6)' },
+                    { dist: 0.4, angle: -2.2, size: 2, color: 'rgba(150, 200, 255, 0.8)' },
+                ];
+
+                blips.forEach((b, i) => {
+                    const bx = b.dist * radius * Math.cos(b.angle);
+                    const by = b.dist * radius * Math.sin(b.angle);
+                    const pulse = 1 + 0.3 * Math.sin(Date.now() / 1000 + i * 1.5);
+
+                    // Glow
+                    const grad = ctx.createRadialGradient(bx, by, 0, bx, by, b.size * pulse * 2);
+                    grad.addColorStop(0, b.color);
+                    grad.addColorStop(1, b.color.replace('0.8', '0').replace('0.7', '0').replace('0.6', '0'));
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.arc(bx, by, b.size * pulse * 2, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Core
+                    ctx.fillStyle = b.color;
+                    ctx.shadowColor = b.color;
+                    ctx.shadowBlur = 10;
+                    ctx.beginPath();
+                    ctx.arc(bx, by, b.size * 0.5, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                });
+
+                ctx.restore();
+
+                // Center dot
+                const dotGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 6);
+                dotGrad.addColorStop(0, 'rgba(60, 200, 255, 0.8)');
+                dotGrad.addColorStop(1, 'rgba(60, 200, 255, 0)');
+                ctx.fillStyle = dotGrad;
+                ctx.beginPath();
+                ctx.arc(cx, cy, 6, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = 'rgba(60, 200, 255, 0.9)';
+                ctx.beginPath();
+                ctx.arc(cx, cy, 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Distance rings labels
+                ctx.fillStyle = 'rgba(60, 160, 255, 0.15)';
+                ctx.font = '5px Arial';
+                ctx.textAlign = 'left';
+                for (let i = 1; i <= 4; i++) {
+                    const r = (i / 4) * radius;
+                    ctx.fillText(i * 25 + 'm', cx + r + 2, cy + 2);
+                }
+
+                // Update angle for next frame
+                radarAngle += 0.025;
+                if (radarAngle > Math.PI * 2) radarAngle -= Math.PI * 2;
+
+                requestAnimationFrame(drawRadar);
+            }
+
+            // ============================================================
+            // RENDER SYSTEM GRID
+            // ============================================================
+            function renderSystemGrid() {
+                grid.innerHTML = '';
+                systems.forEach(sys => {
+                    const div = document.createElement('div');
+                    div.className = 'sys-item';
+                    const statusClass = sys.status === 'OK' ? '' :
+                        sys.status === 'WARNING' ? 'warning' : 'error';
+                    div.innerHTML = `
+                        <span class="label">${sys.label}</span>
+                        <span class="status ${statusClass}">${sys.status}</span>
+                    `;
+                    div.addEventListener('click', function() {
+                        alert(`🔧 ${sys.label}\nStatus: ${sys.status}`);
+                    });
+                    grid.appendChild(div);
+                });
+                updateStatusPill();
+            }
+
+            // ============================================================
+            // UPDATE STATUS PILL
+            // ============================================================
+            function updateStatusPill() {
+                const hasError = systems.some(s => s.status === 'ERROR');
+                const hasWarning = systems.some(s => s.status === 'WARNING');
+
+                statusPill.className = 'status-pill';
+                if (hasError) {
+                    statusPill.classList.add('error');
+                    statusPill.innerHTML = '<i class="fas fa-circle"></i> SYSTEM ALERT';
+                } else if (hasWarning) {
+                    statusPill.classList.add('warning');
+                    statusPill.innerHTML = '<i class="fas fa-circle"></i> WARNING';
+                } else {
+                    statusPill.innerHTML = '<i class="fas fa-circle"></i> ALL SYSTEMS NOMINAL';
+                }
+            }
+
+            // ============================================================
+            // RANDOM HELPERS
+            // ============================================================
+            function randomBetween(min, max) {
+                return Math.round((Math.random() * (max - min) + min) * 10) / 10;
+            }
+
+            function randomInt(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            function randomStatus() {
+                const r = Math.random();
+                if (r < 0.82) return 'OK';
+                if (r < 0.92) return 'WARNING';
+                return 'ERROR';
+            }
+
+            function randomBattery() {
+                return randomInt(78, 97);
+            }
+
+            function randomTime() {
+                const h = randomInt(8, 14);
+                const m = randomInt(0, 55);
+                return { hours: h, minutes: m, str: `${h}h ${String(m).padStart(2, '0')}m` };
+            }
+
+            // ============================================================
+            // UPDATE DATA
+            // ============================================================
+            function updateData() {
+                // Battery
+                const batt = randomBattery();
+                batteryPercent.innerHTML = `${batt} <small>%</small>`;
+                batteryFill.style.width = `${batt}%`;
+
+                const time = randomTime();
+                batteryTime.textContent = time.str;
+                rangeValue.innerHTML = `${time.hours} <small>h ${String(time.minutes).padStart(2, '0')}m</small>`;
+                etaDisplay.textContent = time.str;
+
+                // Navigation
+                navDistance.innerHTML = `${randomInt(120, 480)} <small>m</small>`;
+
+                // Speed
+                speedValue.textContent = `${randomBetween(6.5, 12.0).toFixed(1)} kn`;
+
+                // Wind
+                windSpeed.textContent = `${randomBetween(8.0, 22.0).toFixed(1)} kn`;
+
+                // Water
+                waterLevel.textContent = `${randomInt(72, 95)}%`;
+
+                // Tare Mass
+                tareMass.textContent = `${randomBetween(41.0, 44.5).toFixed(1)} t`;
+
+                // Systems
+                systems.forEach(sys => {
+                    if (Math.random() < 0.10) {
+                        sys.status = randomStatus();
+                    } else if (sys.status !== 'OK' && Math.random() < 0.20) {
+                        sys.status = 'OK';
+                    }
+                });
+                renderSystemGrid();
+            }
+
+            // ============================================================
+            // CLOCK
+            // ============================================================
+            function updateClock() {
+                const now = new Date();
+                const h = String(now.getHours()).padStart(2, '0');
+                const m = String(now.getMinutes()).padStart(2, '0');
+                const s = String(now.getSeconds()).padStart(2, '0');
+                liveTime.textContent = `${h}:${m}:${s}`;
+
+                const y = now.getFullYear();
+                const mo = String(now.getMonth() + 1).padStart(2, '0');
+                const d = String(now.getDate()).padStart(2, '0');
+                liveDate.textContent = `${y}-${mo}-${d}`;
+            }
+
+            // ============================================================
+            // CONTROLS
+            // ============================================================
+            function setupControls() {
+                const three = window.__3D;
+
+                // Preset Select
+                document.getElementById('presetSelect').addEventListener('change', function() {
+                    const preset = this.value;
+                    three.setPreset(preset);
+                    const names = {
+                        random: 'Random',
+                        sphere: 'Sphere',
+                        spiral: 'Spiral',
+                        cube: 'Cube',
+                        disk: 'Disk',
+                        double: 'Double'
+                    };
+                    bottomPreset.textContent = names[preset] || 'Random';
+                    document.getElementById('modeDisplay').textContent = names[preset]?.toUpperCase() || 'ALÉATOIRE';
+                });
+
+                // Grid Select
+                document.getElementById('gridSelect').addEventListener('change', function() {
+                    three.setGridType(this.value);
+                });
+
+                // Density Range
+                document.getElementById('densityRange').addEventListener('input', function() {
+                    const val = parseInt(this.value);
+                    three.setGridDensity(val);
+                });
+
+                // Refresh
+                document.getElementById('refreshBtn').addEventListener('click', function() {
+                    systems.forEach(sys => sys.status = 'OK');
+                    renderSystemGrid();
+                    updateData();
+                    this.innerHTML = '<i class="fas fa-check"></i> REFRESHED';
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-sync-alt"></i> REFRESH';
+                    }, 800);
+                });
+
+                // Toggle Grid
+                let gridVisible = true;
+                document.getElementById('toggleGridBtn').addEventListener('click', function() {
+                    gridVisible = !gridVisible;
+                    three.setShowGrid(gridVisible);
+                    this.innerHTML = gridVisible ?
+                        '<i class="fas fa-border-all"></i> GRID' :
+                        '<i class="fas fa-border-all"></i> OFF';
+                });
+
+                // Fullscreen
+                document.getElementById('fullscreenBtn').addEventListener('click', function() {
+                    if (document.fullscreenElement) {
+                        document.exitFullscreen();
+                    } else {
+                        document.documentElement.requestFullscreen?.() ||
+                            document.documentElement.webkitRequestFullscreen?.();
+                    }
+                });
+
+                // Click on nav items
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        const label = this.querySelector('.nlabel')?.textContent || 'Parameter';
+                        const value = this.querySelector('.nvalue')?.textContent?.trim() || '--';
+                        alert(`📍 ${label}\nCurrent value: ${value}`);
+                    });
+                });
+
+                // Click on marine cards
+                document.querySelectorAll('.marine-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const label = this.querySelector('.label')?.textContent || 'Metric';
+                        const value = this.querySelector('.value')?.textContent?.trim() || '--';
+                        const sub = this.querySelector('.sub')?.textContent?.trim() || '';
+                        alert(`📈 ${label}\nValue: ${value}\n${sub}`);
+                    });
+                });
+
+                // Click on center panel
+                document.querySelector('.center-panel')?.addEventListener('click', function() {
+                    const ra = document.getElementById('coordRa')?.textContent || '--';
+                    const dec = document.getElementById('coordDec')?.textContent || '--';
+                    const name = document.getElementById('constellationName')?.textContent || '--';
+                    alert(`🌌 CELESTIAL DATA\n\nRight Ascension: ${ra}\nDeclination: ${dec}\nConstellation: ${name}`);
+                });
+
+                // Click on radar
+                document.querySelector('.radar-container')?.addEventListener('click', function() {
+                    alert(`📡 RADAR STATUS\n\nMode: Active\nRange: 100m\nTargets: 7\nSweep: Continuous\n\nClick REFRESH to reset targets.`);
+                });
+            }
+
+            // ============================================================
+            // KEYBOARD SHORTCUTS
+            // ============================================================
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'r' || e.key === 'R') {
+                    document.getElementById('refreshBtn').click();
+                }
+                if (e.key === 'f' || e.key === 'F') {
+                    document.getElementById('fullscreenBtn').click();
+                }
+                if (e.key === 'g' || e.key === 'G') {
+                    document.getElementById('toggleGridBtn').click();
+                }
+                if (e.key === 'Escape' && document.fullscreenElement) {
+                    document.exitFullscreen();
+                }
+            });
+
+            // ============================================================
+            // INIT
+            // ============================================================
+            renderSystemGrid();
+            updateClock();
+            updateData();
+
+            // Start radar
+            drawRadar();
+
+            setInterval(updateClock, 1000);
+            setInterval(updateData, 3500);
+
+            setTimeout(setupControls, 500);
+
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) updateData();
+            });
+
+            console.log('🚢 BRABUS · SUNREEF HCCH™ Command Nexus');
+            console.log('✓ ' + systems.length + ' marine systems');
+            console.log('✓ 6 constellation presets');
+            console.log('✓ 6 grid types');
+            console.log('✓ Radar active');
+            console.log('✓ Shortcuts: [R]efresh · [F]ullscreen · [G]rid toggle');
+
+        })();
+    </script>
+
+</body>
+</html>
