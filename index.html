@@ -22,12 +22,47 @@ body {
 }
 .container { max-width:1100px; margin:0 auto; padding:20px; }
 
-/* ===== HEADER ===== */
+/* ===== LANGUAGE BAR ===== */
+.lang-bar {
+  background: #0A2463;
+  padding: 10px 20px;
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 6px 12px;
+  margin-bottom: 0;
+}
+.lang-bar a {
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 12px;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.lang-bar a:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.08);
+}
+.lang-bar a.active {
+  color: #fff;
+  background: rgba(167,211,255,0.2);
+  border: 1px solid rgba(167,211,255,0.2);
+}
+.lang-bar .lang-flag { font-size: 1rem; }
+
+/* ===== HERO ===== */
 .hero {
   background: linear-gradient(135deg, #0A2463 0%, #1A3A6B 50%, #0D1B3E 100%);
   color: #fff;
-  padding: 60px 40px;
-  border-radius: 20px;
+  padding: 50px 40px 60px;
+  border-radius: 0 0 20px 20px;
   margin-bottom: 40px;
   position: relative;
   overflow: hidden;
@@ -189,15 +224,61 @@ body {
 .contact-row form button:hover { background:var(--secondary); }
 
 /* ===== FOOTER ===== */
-footer { text-align:center; padding:30px 20px 20px; color:#777; font-size:0.85rem; }
-footer .social a { margin:0 10px; color:#555; font-size:1.2rem; transition:0.2s; }
-footer .social a:hover { color:var(--primary); }
-footer .links a { color:#888; text-decoration:none; margin:0 10px; }
+footer {
+  text-align:center;
+  padding:40px 20px 25px;
+  color:#777;
+  font-size:0.85rem;
+  background:#fff;
+  border-radius:16px;
+  margin-top:10px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.04);
+}
+footer .social {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px 14px;
+  margin:16px 0;
+}
+footer .social a {
+  color:#555;
+  font-size:1.2rem;
+  transition:0.2s;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:#f0f2f5;
+  text-decoration:none;
+}
+footer .social a:hover {
+  color:#fff;
+  background:var(--primary);
+  transform:scale(1.1);
+}
+footer .social a .label {
+  display:none;
+}
+footer .links a {
+  color:#888;
+  text-decoration:none;
+  margin:0 10px;
+}
 footer .links a:hover { color:var(--primary); }
+footer .copyright {
+  margin-top:16px;
+  color:#aaa;
+  font-size:0.8rem;
+}
 
 /* ===== RESPONSIVE ===== */
 @media (max-width:768px) {
-  .hero { padding:40px 24px; }
+  .lang-bar { padding:8px 12px; gap:4px 8px; }
+  .lang-bar a { font-size:0.65rem; padding:2px 6px; }
+  .hero { padding:30px 20px 40px; }
   .hero h1 { font-size:1.8rem; }
   .hero p { font-size:1rem; }
   .grid-2, .grid-3, .grid-4 { grid-template-columns:1fr; }
@@ -208,6 +289,7 @@ footer .links a:hover { color:var(--primary); }
   .hero h1 { font-size:1.5rem; }
   .hero .cta-group { flex-direction:column; align-items:stretch; }
   .hero .btn-primary, .hero .btn-secondary { text-align:center; }
+  .lang-bar a .lang-name { display:none; }
 }
 </style>
 </head>
@@ -215,258 +297,269 @@ footer .links a:hover { color:var(--primary); }
 
 <div class="container">
 
+  <!-- ===== LANGUAGE BAR ===== -->
+  <div class="lang-bar" id="langBar">
+    <a href="#" class="active" data-lang="en"><span class="lang-flag">🇬🇧</span><span class="lang-name">English</span></a>
+    <a href="#" data-lang="ru"><span class="lang-flag">🇷🇺</span><span class="lang-name">Русский</span></a>
+    <a href="#" data-lang="uk"><span class="lang-flag">🇺🇦</span><span class="lang-name">Українська</span></a>
+    <a href="#" data-lang="sr"><span class="lang-flag">🇷🇸</span><span class="lang-name">Српски</span></a>
+    <a href="#" data-lang="ar"><span class="lang-flag">🇸🇦</span><span class="lang-name">العربية</span></a>
+    <a href="#" data-lang="zh"><span class="lang-flag">🇨🇳</span><span class="lang-name">中文</span></a>
+    <a href="#" data-lang="ko"><span class="lang-flag">🇰🇷</span><span class="lang-name">한국어</span></a>
+    <a href="#" data-lang="ja"><span class="lang-flag">🇯🇵</span><span class="lang-name">日本語</span></a>
+    <a href="#" data-lang="hi"><span class="lang-flag">🇮🇳</span><span class="lang-name">हिन्दी</span></a>
+    <a href="#" data-lang="pt"><span class="lang-flag">🇵🇹</span><span class="lang-name">Português</span></a>
+    <a href="#" data-lang="de"><span class="lang-flag">🇩🇪</span><span class="lang-name">Deutsch</span></a>
+    <a href="#" data-lang="fr"><span class="lang-flag">🇫🇷</span><span class="lang-name">Français</span></a>
+  </div>
+
   <!-- ===== HERO ===== -->
-  <header class="hero">
+  <header class="hero" id="hero">
     <h1>🌊 Le Bureau de la <span>Civilisation de l'Eau</span>™</h1>
-    <p>Designing the Future of Water, Territories, and Ocean Civilization</p>
-    <div class="sub">Bespoke Innovation · Systems Architecture · Water Intelligence · Digital Twins · Blue Economy</div>
+    <p id="heroTagline">Designing the Future of Water, Territories, and Ocean Civilization</p>
+    <div class="sub" id="heroSub">Bespoke Innovation · Systems Architecture · Water Intelligence · Digital Twins · Blue Economy</div>
     <div class="badge-group">
-      <span>🌍 Global Initiative</span>
-      <span>🏛️ Supported by Serbia</span>
-      <span>🧠 Community-Driven</span>
-      <span>🔬 Research & Innovation</span>
+      <span id="badge1">🌍 Global Initiative</span>
+      <span id="badge2">🏛️ Supported by Serbia</span>
+      <span id="badge3">🧠 Community-Driven</span>
+      <span id="badge4">🔬 Research & Innovation</span>
     </div>
     <div class="cta-group">
-      <a href="#expertise" class="btn-primary">Explore Our Work →</a>
-      <a href="#contact" class="btn-secondary">Contact Us</a>
+      <a href="#expertise" class="btn-primary" id="cta1">Explore Our Work →</a>
+      <a href="#contact" class="btn-secondary" id="cta2">Contact Us</a>
     </div>
   </header>
 
   <!-- ===== MISSION ===== -->
   <section class="section" id="mission">
-    <h2><i class="fas fa-bullseye"></i> Mission & Vision</h2>
-    <p><strong>Mission:</strong> We develop bespoke concepts, research frameworks, and system architectures for digital twins, water systems, blue economy, and oceanic civilization.</p>
-    <p style="margin-top:8px;"><strong>Vision:</strong> To become an international innovation bureau shaping the future of territories, rivers, and ocean systems through science, design, and technology.</p>
+    <h2><i class="fas fa-bullseye"></i> <span id="mTitle">Mission & Vision</span></h2>
+    <p id="mText1"><strong>Mission:</strong> We develop bespoke concepts, research frameworks, and system architectures for digital twins, water systems, blue economy, and oceanic civilization.</p>
+    <p style="margin-top:8px;" id="mText2"><strong>Vision:</strong> To become an international innovation bureau shaping the future of territories, rivers, and ocean systems through science, design, and technology.</p>
   </section>
 
-  <!-- ===== NEW: MISSION · VISION · REALITY ===== -->
+  <!-- ===== MISSION · VISION · REALITY ===== -->
   <section class="section" id="mission-vision-reality">
-    <h2><i class="fas fa-globe-americas"></i> 🌊 Mission · Vision · Reality</h2>
+    <h2><i class="fas fa-globe-americas"></i> 🌊 <span id="mvrTitle">Mission · Vision · Reality</span></h2>
     
-    <!-- Mission -->
     <div class="card" style="margin-bottom:20px; border-left:4px solid var(--secondary);">
-      <h3 style="color:var(--primary); font-size:1.2rem; display:flex; align-items:center; gap:8px;"><i class="fas fa-flag" style="color:var(--secondary);"></i> Mission</h3>
-      <p>Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™ is a community-driven innovation initiative created by Ukrainian professionals temporarily residing in the Republic of Serbia.</p>
-      <p style="margin-top:8px;">Our mission is to transform professional knowledge, experience, and human potential into a practical contribution to the development of the communities that have provided protection and support.</p>
-      <p style="margin-top:8px;">The Bureau develops concepts, research models, and prototype solutions in the following fields:</p>
+      <h3 style="color:var(--primary); font-size:1.2rem; display:flex; align-items:center; gap:8px;"><i class="fas fa-flag" style="color:var(--secondary);"></i> <span id="mvrMissionTitle">Mission</span></h3>
+      <p id="mvrMission1">Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™ is a community-driven innovation initiative created by Ukrainian professionals temporarily residing in the Republic of Serbia.</p>
+      <p style="margin-top:8px;" id="mvrMission2">Our mission is to transform professional knowledge, experience, and human potential into a practical contribution to the development of the communities that have provided protection and support.</p>
+      <p style="margin-top:8px;" id="mvrMission3">The Bureau develops concepts, research models, and prototype solutions in the following fields:</p>
       <div class="values-wrap" style="margin-top:6px;">
-        <span>territories of the future</span>
-        <span>water and ecological systems</span>
-        <span>digital twins and GIS technologies</span>
-        <span>sustainable architecture</span>
-        <span>adaptive infrastructure</span>
-        <span>AI-powered spatial planning</span>
-        <span>Blue Economy and ocean civilization</span>
+        <span id="f1">territories of the future</span>
+        <span id="f2">water and ecological systems</span>
+        <span id="f3">digital twins and GIS technologies</span>
+        <span id="f4">sustainable architecture</span>
+        <span id="f5">adaptive infrastructure</span>
+        <span id="f6">AI-powered spatial planning</span>
+        <span id="f7">Blue Economy and ocean civilization</span>
       </div>
-      <p style="margin-top:10px; font-size:0.95rem; color:#555;"><i class="fas fa-quote-left" style="color:var(--secondary); margin-right:4px;"></i> The mission of the project is not to replace existing institutions, but to create a platform for cooperation between citizens, professionals, communities, educational organizations, and public institutions.</p>
+      <p style="margin-top:10px; font-size:0.95rem; color:#555;" id="mvrMission4"><i class="fas fa-quote-left" style="color:var(--secondary); margin-right:4px;"></i> The mission of the project is not to replace existing institutions, but to create a platform for cooperation between citizens, professionals, communities, educational organizations, and public institutions.</p>
     </div>
 
-    <!-- Vision -->
     <div class="card" style="margin-bottom:20px; border-left:4px solid var(--accent);">
-      <h3 style="color:var(--primary); font-size:1.2rem; display:flex; align-items:center; gap:8px;"><i class="fas fa-eye" style="color:var(--accent);"></i> Vision</h3>
-      <p>We believe that every crisis can become a point of transformation.</p>
-      <p style="margin-top:8px;">Forced displacement does not mean the loss of professional identity. With the right conditions, knowledge and experience can become a resource for innovation, integration, and development.</p>
-      <p style="margin-top:8px;"><strong>Our vision is to create a new type of 21st-century Innovation Architecture Bureau:</strong></p>
+      <h3 style="color:var(--primary); font-size:1.2rem; display:flex; align-items:center; gap:8px;"><i class="fas fa-eye" style="color:var(--accent);"></i> <span id="mvrVisionTitle">Vision</span></h3>
+      <p id="mvrVision1">We believe that every crisis can become a point of transformation.</p>
+      <p style="margin-top:8px;" id="mvrVision2">Forced displacement does not mean the loss of professional identity. With the right conditions, knowledge and experience can become a resource for innovation, integration, and development.</p>
+      <p style="margin-top:8px;" id="mvrVision3"><strong>Our vision is to create a new type of 21st-century Innovation Architecture Bureau:</strong></p>
       <ul style="margin-left:20px; margin-top:6px; color:#444;">
-        <li>communities become laboratories for practical innovation;</li>
-        <li>temporary environments become prototypes of future solutions;</li>
-        <li>professional human capital becomes a contribution to territorial development;</li>
-        <li>digital technologies support better decision-making;</li>
-        <li>cooperation creates value beyond borders.</li>
+        <li id="v1">communities become laboratories for practical innovation;</li>
+        <li id="v2">temporary environments become prototypes of future solutions;</li>
+        <li id="v3">professional human capital becomes a contribution to territorial development;</li>
+        <li id="v4">digital technologies support better decision-making;</li>
+        <li id="v5">cooperation creates value beyond borders.</li>
       </ul>
-      <p style="margin-top:10px;"><strong>Long-term goal:</strong> To establish an international network of innovation centers working with Water · Territories · Cities · Rivers · Coasts · Oceans · Digital Earth Systems.</p>
+      <p style="margin-top:10px;" id="mvrVision4"><strong>Long-term goal:</strong> To establish an international network of innovation centers working with Water · Territories · Cities · Rivers · Coasts · Oceans · Digital Earth Systems.</p>
     </div>
 
-    <!-- Reality -->
     <div class="card" style="border-left:4px solid #f39c12;">
-      <h3 style="color:var(--primary); font-size:1.2rem; display:flex; align-items:center; gap:8px;"><i class="fas fa-cubes" style="color:#f39c12;"></i> Reality — Current Stage of the Project</h3>
-      <p><strong>Experimental Formation Stage</strong></p>
-      <p>At the present moment, the Bureau is an experimental initiative in the process of formation. It is not yet a fully established organization with permanent infrastructure. It is a practical attempt to create a new type of innovation platform under real-world conditions.</p>
-      <p style="margin-top:8px;">Currently, the project exists through:</p>
+      <h3 style="color:var(--primary); font-size:1.2rem; display:flex; align-items:center; gap:8px;"><i class="fas fa-cubes" style="color:#f39c12;"></i> <span id="mvrRealityTitle">Reality — Current Stage of the Project</span></h3>
+      <p id="mvrReality1"><strong>Experimental Formation Stage</strong></p>
+      <p id="mvrReality2">At the present moment, the Bureau is an experimental initiative in the process of formation. It is not yet a fully established organization with permanent infrastructure. It is a practical attempt to create a new type of innovation platform under real-world conditions.</p>
+      <p style="margin-top:8px;" id="mvrReality3">Currently, the project exists through:</p>
       <ul style="margin-left:20px; color:#444;">
-        <li>professional initiative;</li>
-        <li>voluntary participation;</li>
-        <li>development of concepts;</li>
-        <li>community cooperation;</li>
-        <li>personal contributions of participants.</li>
+        <li id="r1">professional initiative;</li>
+        <li id="r2">voluntary participation;</li>
+        <li id="r3">development of concepts;</li>
+        <li id="r4">community cooperation;</li>
+        <li id="r5">personal contributions of participants.</li>
       </ul>
-      <p style="margin-top:10px;"><em>The Bureau is developing gradually, starting with its main resource — human knowledge and experience.</em></p>
+      <p style="margin-top:10px;" id="mvrReality4"><em>The Bureau is developing gradually, starting with its main resource — human knowledge and experience.</em></p>
 
       <hr style="margin:16px 0; border:0; border-top:1px solid #edf2f7;">
 
-      <h4 style="color:var(--primary); font-size:1rem; margin-bottom:6px;">💻 Digital Infrastructure Reality</h4>
-      <p>At the current stage, the project does not have complete digital infrastructure. The absence of an official domain name, professional hosting, dedicated servers, or specialized digital platforms is not caused by a lack of ideas or strategy, but by limited financial resources during the initial development phase.</p>
-      <p style="margin-top:6px;">The existing website and digital materials represent a prototype demonstration of the concept.</p>
-      <p style="margin-top:6px;">We would appreciate support in the form of: domain registration, hosting services, cloud infrastructure, software, digital equipment, and technical expertise.</p>
+      <h4 style="color:var(--primary); font-size:1rem; margin-bottom:6px;" id="mvrDigitalTitle">💻 Digital Infrastructure Reality</h4>
+      <p id="mvrDigital1">At the current stage, the project does not have complete digital infrastructure. The absence of an official domain name, professional hosting, dedicated servers, or specialized digital platforms is not caused by a lack of ideas or strategy, but by limited financial resources during the initial development phase.</p>
+      <p style="margin-top:6px;" id="mvrDigital2">The existing website and digital materials represent a prototype demonstration of the concept.</p>
+      <p style="margin-top:6px;" id="mvrDigital3">We would appreciate support in the form of: domain registration, hosting services, cloud infrastructure, software, digital equipment, and technical expertise.</p>
 
       <hr style="margin:16px 0; border:0; border-top:1px solid #edf2f7;">
 
-      <h4 style="color:var(--primary); font-size:1rem; margin-bottom:6px;">🤝 Open Model of Support and Cooperation</h4>
-      <p>The Bureau is open to different forms of assistance and partnership.</p>
+      <h4 style="color:var(--primary); font-size:1rem; margin-bottom:6px;" id="mvrSupportTitle">🤝 Open Model of Support and Cooperation</h4>
+      <p id="mvrSupport1">The Bureau is open to different forms of assistance and partnership.</p>
 
       <div class="grid-2" style="margin-top:10px;">
         <div class="card" style="background:#f0f7ff;">
-          <h5 style="color:var(--primary);"><i class="fas fa-car"></i> 🚙 Transportation Infrastructure</h5>
-          <p style="font-size:0.85rem;">Priority: mobility for field research, territorial analysis, equipment transport.</p>
-          <p style="font-size:0.8rem; color:#555;">Needs: used off-road vehicles, expedition vehicles, multipurpose transport vehicles.</p>
+          <h5 style="color:var(--primary);"><i class="fas fa-car"></i> <span id="need1">🚙 Transportation Infrastructure</span></h5>
+          <p style="font-size:0.85rem;" id="need1d">Priority: mobility for field research, territorial analysis, equipment transport.</p>
+          <p style="font-size:0.8rem; color:#555;" id="need1n">Needs: used off-road vehicles, expedition vehicles, multipurpose transport vehicles.</p>
         </div>
         <div class="card" style="background:#f0f7ff;">
-          <h5 style="color:var(--primary);"><i class="fas fa-ship"></i> 🚤 Water & Marine Transport</h5>
-          <p style="font-size:0.85rem;">For coastal and river system research, marine technology experiments.</p>
-          <p style="font-size:0.8rem; color:#555;">Needs: small boats, research vessels, partially functional marine equipment.</p>
+          <h5 style="color:var(--primary);"><i class="fas fa-ship"></i> <span id="need2">🚤 Water & Marine Transport</span></h5>
+          <p style="font-size:0.85rem;" id="need2d">For coastal and river system research, marine technology experiments.</p>
+          <p style="font-size:0.8rem; color:#555;" id="need2n">Needs: small boats, research vessels, partially functional marine equipment.</p>
         </div>
         <div class="card" style="background:#f0f7ff;">
-          <h5 style="color:var(--primary);"><i class="fas fa-home"></i> 🌊 Research Base</h5>
-          <p style="font-size:0.85rem;">Long-term goal: coastal research and innovation base.</p>
-          <p style="font-size:0.8rem; color:#555;">Needs: coastal land, facilities, workshops, lab spaces.</p>
+          <h5 style="color:var(--primary);"><i class="fas fa-home"></i> <span id="need3">🌊 Research Base</span></h5>
+          <p style="font-size:0.85rem;" id="need3d">Long-term goal: coastal research and innovation base.</p>
+          <p style="font-size:0.8rem; color:#555;" id="need3n">Needs: coastal land, facilities, workshops, lab spaces.</p>
         </div>
         <div class="card" style="background:#f0f7ff;">
-          <h5 style="color:var(--primary);"><i class="fas fa-microchip"></i> 🖥️ Technical Equipment</h5>
-          <p style="font-size:0.85rem;">Digital equipment, office infrastructure, communication systems.</p>
-          <p style="font-size:0.8rem; color:#555;">Needs: computers, servers, satellite equipment, network gear.</p>
+          <h5 style="color:var(--primary);"><i class="fas fa-microchip"></i> <span id="need4">🖥️ Technical Equipment</span></h5>
+          <p style="font-size:0.85rem;" id="need4d">Digital equipment, office infrastructure, communication systems.</p>
+          <p style="font-size:0.8rem; color:#555;" id="need4n">Needs: computers, servers, satellite equipment, network gear.</p>
         </div>
       </div>
 
       <hr style="margin:16px 0; border:0; border-top:1px solid #edf2f7;">
 
-      <h4 style="color:var(--primary); font-size:1rem; margin-bottom:6px;">💶 Financial and Institutional Support</h4>
-      <p>Support may take different forms: donations, equipment transfer, institutional partnerships, research grants, participation in innovation programs, educational cooperation, infrastructure assistance.</p>
-      <p style="margin-top:6px;"><em>Every contribution helps transform the concept into a functioning innovation platform.</em></p>
+      <h4 style="color:var(--primary); font-size:1rem; margin-bottom:6px;" id="mvrFinancialTitle">💶 Financial and Institutional Support</h4>
+      <p id="mvrFinancial1">Support may take different forms: donations, equipment transfer, institutional partnerships, research grants, participation in innovation programs, educational cooperation, infrastructure assistance.</p>
+      <p style="margin-top:6px;" id="mvrFinancial2"><em>Every contribution helps transform the concept into a functioning innovation platform.</em></p>
 
       <hr style="margin:16px 0; border:0; border-top:1px solid #edf2f7;">
 
-      <h4 style="color:var(--primary); font-size:1rem; margin-bottom:6px;">🌱 Why This Matters</h4>
-      <p>This project demonstrates a simple principle: <strong>Human potential does not disappear together with forced displacement.</strong></p>
-      <p>Engineers, architects, IT specialists, designers, researchers, and managers can continue creating value when they have space for participation and development.</p>
-      <p style="margin-top:6px;">Vranje can become not only a place of temporary residence, but also a living example of how cooperation between a local community and professional human capital creates new opportunities.</p>
+      <h4 style="color:var(--primary); font-size:1rem; margin-bottom:6px;" id="mvrWhyTitle">🌱 Why This Matters</h4>
+      <p id="mvrWhy1">This project demonstrates a simple principle: <strong>Human potential does not disappear together with forced displacement.</strong></p>
+      <p id="mvrWhy2">Engineers, architects, IT specialists, designers, researchers, and managers can continue creating value when they have space for participation and development.</p>
+      <p style="margin-top:6px;" id="mvrWhy3">Vranje can become not only a place of temporary residence, but also a living example of how cooperation between a local community and professional human capital creates new opportunities.</p>
 
       <hr style="margin:16px 0; border:0; border-top:1px solid #edf2f7;">
 
       <div style="background:#0A2463; color:#fff; padding:20px 24px; border-radius:12px; margin-top:6px;">
-        <p style="margin:0; font-size:1rem;"><i class="fas fa-quote-left" style="color:var(--accent); margin-right:6px;"></i> “We are Ukrainian professionals, a multinational team temporarily residing in Serbia. Today we are creating this initiative with limited resources, but with a long-term vision. We are not only asking for support — we are offering knowledge, experience, creativity, and our willingness to contribute.”</p>
+        <p style="margin:0; font-size:1rem;" id="mvrQuote"><i class="fas fa-quote-left" style="color:var(--accent); margin-right:6px;"></i> “We are Ukrainian professionals, a multinational team temporarily residing in Serbia. Today we are creating this initiative with limited resources, but with a long-term vision. We are not only asking for support — we are offering knowledge, experience, creativity, and our willingness to contribute.”</p>
       </div>
 
       <hr style="margin:16px 0; border:0; border-top:1px solid #edf2f7;">
 
       <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px;">
-        <p style="margin:0;"><strong>🇷🇸🇺🇦 Final Statement</strong><br>
+        <p style="margin:0;" id="mvrFinal1"><strong>🇷🇸🇺🇦 Final Statement</strong><br>
         Le Bureau Civilisation Océanique™ today is a developing community innovation initiative.<br>
         Created in Vranje. Supported by Serbia. Open to international cooperation.</p>
-        <p style="margin:0; font-size:0.9rem; color:#555;">The next stage: institutional cooperation, digital infrastructure, transportation, equipment, research capacity, innovation partnerships.</p>
+        <p style="margin:0; font-size:0.9rem; color:#555;" id="mvrFinal2">The next stage: institutional cooperation, digital infrastructure, transportation, equipment, research capacity, innovation partnerships.</p>
       </div>
-      <p style="margin-top:10px; font-style:italic; color:#555;">From a small community initiative, a new model of sustainable development focused on the future can emerge.</p>
+      <p style="margin-top:10px; font-style:italic; color:#555;" id="mvrFinal3">From a small community initiative, a new model of sustainable development focused on the future can emerge.</p>
     </div>
   </section>
 
   <!-- ===== EXPERTISE ===== -->
   <section class="section" id="expertise">
-    <h2><i class="fas fa-flask"></i> Areas of Expertise</h2>
+    <h2><i class="fas fa-flask"></i> <span id="expTitle">Areas of Expertise</span></h2>
     <div class="grid-3">
-      <div class="card"><div class="icon">🌊</div><strong>Water Intelligence</strong><span>Data-driven water management</span></div>
-      <div class="card"><div class="icon">🌐</div><strong>Digital Twins</strong><span>Territorial & urban twins</span></div>
-      <div class="card"><div class="icon">🐟</div><strong>Blue Economy</strong><span>Sustainable ocean & coastal development</span></div>
-      <div class="card"><div class="icon">🤖</div><strong>AI Decision Support</strong><span>ML for water & territory planning</span></div>
-      <div class="card"><div class="icon">🏙️</div><strong>Future Territories</strong><span>Resilient territorial systems</span></div>
-      <div class="card"><div class="icon">🚀</div><strong>Oceanic Civilization</strong><span>Future models for ocean living</span></div>
-      <div class="card"><div class="icon">📊</div><strong>Systems Architecture</strong><span>Frameworks for complex systems</span></div>
-      <div class="card"><div class="icon">🌿</div><strong>Ecosystem Restoration</strong><span>River & coastal restoration</span></div>
-      <div class="card"><div class="icon">⚡</div><strong>Climate Adaptation</strong><span>Resilience strategies</span></div>
+      <div class="card"><div class="icon">🌊</div><strong id="e1">Water Intelligence</strong><span id="e1d">Data-driven water management</span></div>
+      <div class="card"><div class="icon">🌐</div><strong id="e2">Digital Twins</strong><span id="e2d">Territorial & urban twins</span></div>
+      <div class="card"><div class="icon">🐟</div><strong id="e3">Blue Economy</strong><span id="e3d">Sustainable ocean & coastal development</span></div>
+      <div class="card"><div class="icon">🤖</div><strong id="e4">AI Decision Support</strong><span id="e4d">ML for water & territory planning</span></div>
+      <div class="card"><div class="icon">🏙️</div><strong id="e5">Future Territories</strong><span id="e5d">Resilient territorial systems</span></div>
+      <div class="card"><div class="icon">🚀</div><strong id="e6">Oceanic Civilization</strong><span id="e6d">Future models for ocean living</span></div>
+      <div class="card"><div class="icon">📊</div><strong id="e7">Systems Architecture</strong><span id="e7d">Frameworks for complex systems</span></div>
+      <div class="card"><div class="icon">🌿</div><strong id="e8">Ecosystem Restoration</strong><span id="e8d">River & coastal restoration</span></div>
+      <div class="card"><div class="icon">⚡</div><strong id="e9">Climate Adaptation</strong><span id="e9d">Resilience strategies</span></div>
     </div>
   </section>
 
   <!-- ===== RESEARCH DOMAINS ===== -->
   <section class="section">
-    <h2><i class="fas fa-microscope"></i> Research Domains</h2>
+    <h2><i class="fas fa-microscope"></i> <span id="rdTitle">Research Domains</span></h2>
     <div class="grid-3">
-      <div class="card"><div class="icon">🏞️</div><strong>River Systems</strong><span>Restoration, flood management, river intelligence</span></div>
-      <div class="card"><div class="icon">🏖️</div><strong>Coastal Systems</strong><span>Resilience, sea-level adaptation, coastal zones</span></div>
-      <div class="card"><div class="icon">🌊</div><strong>Ocean Systems</strong><span>Floating infrastructure, marine robotics, blue innovation</span></div>
+      <div class="card"><div class="icon">🏞️</div><strong id="rd1">River Systems</strong><span id="rd1d">Restoration, flood management, river intelligence</span></div>
+      <div class="card"><div class="icon">🏖️</div><strong id="rd2">Coastal Systems</strong><span id="rd2d">Resilience, sea-level adaptation, coastal zones</span></div>
+      <div class="card"><div class="icon">🌊</div><strong id="rd3">Ocean Systems</strong><span id="rd3d">Floating infrastructure, marine robotics, blue innovation</span></div>
     </div>
   </section>
 
   <!-- ===== FUTURE TERRITORIAL SYSTEMS ===== -->
   <section class="section">
-    <h2><i class="fas fa-city"></i> Future Territorial Systems</h2>
+    <h2><i class="fas fa-city"></i> <span id="ftsTitle">Future Territorial Systems</span></h2>
     <div class="grid-3">
-      <div class="card"><strong>Smart Territories</strong><span>Connected, data-driven regions</span></div>
-      <div class="card"><strong>Blue Innovation Zones</strong><span>Ocean & coastal innovation hubs</span></div>
-      <div class="card"><strong>Resilient Cities</strong><span>Climate-adaptive urban systems</span></div>
-      <div class="card"><strong>River Basins 2.0</strong><span>Integrated river management</span></div>
-      <div class="card"><strong>Floating Territories</strong><span>Offshore platforms & communities</span></div>
-      <div class="card"><strong>Oceanic Territories</strong><span>New models for ocean governance</span></div>
+      <div class="card"><strong id="fts1">Smart Territories</strong><span id="fts1d">Connected, data-driven regions</span></div>
+      <div class="card"><strong id="fts2">Blue Innovation Zones</strong><span id="fts2d">Ocean & coastal innovation hubs</span></div>
+      <div class="card"><strong id="fts3">Resilient Cities</strong><span id="fts3d">Climate-adaptive urban systems</span></div>
+      <div class="card"><strong id="fts4">River Basins 2.0</strong><span id="fts4d">Integrated river management</span></div>
+      <div class="card"><strong id="fts5">Floating Territories</strong><span id="fts5d">Offshore platforms & communities</span></div>
+      <div class="card"><strong id="fts6">Oceanic Territories</strong><span id="fts6d">New models for ocean governance</span></div>
     </div>
   </section>
 
   <!-- ===== DIGITAL TWIN PLATFORMS ===== -->
   <section class="section">
-    <h2><i class="fas fa-cubes"></i> Digital Twin Platforms</h2>
+    <h2><i class="fas fa-cubes"></i> <span id="dtTitle">Digital Twin Platforms</span></h2>
     <div class="grid-3">
-      <div class="card"><strong>City Digital Twin</strong><span>Urban simulation & planning</span></div>
-      <div class="card"><strong>River Basin Twin</strong><span>Real-time river monitoring</span></div>
-      <div class="card"><strong>Coastal Twin</strong><span>Sea-level & erosion modeling</span></div>
-      <div class="card"><strong>Ocean Twin</strong><span>Marine ecosystem simulation</span></div>
-      <div class="card"><strong>Planetary Digital Twin</strong><span>Global environmental network</span></div>
-      <div class="card"><strong>Infrastructure Twin</strong><span>Critical asset management</span></div>
+      <div class="card"><strong id="dt1">City Digital Twin</strong><span id="dt1d">Urban simulation & planning</span></div>
+      <div class="card"><strong id="dt2">River Basin Twin</strong><span id="dt2d">Real-time river monitoring</span></div>
+      <div class="card"><strong id="dt3">Coastal Twin</strong><span id="dt3d">Sea-level & erosion modeling</span></div>
+      <div class="card"><strong id="dt4">Ocean Twin</strong><span id="dt4d">Marine ecosystem simulation</span></div>
+      <div class="card"><strong id="dt5">Planetary Digital Twin</strong><span id="dt5d">Global environmental network</span></div>
+      <div class="card"><strong id="dt6">Infrastructure Twin</strong><span id="dt6d">Critical asset management</span></div>
     </div>
   </section>
 
   <!-- ===== INNOVATION SERVICES ===== -->
   <section class="section">
-    <h2><i class="fas fa-lightbulb"></i> Innovation Services</h2>
+    <h2><i class="fas fa-lightbulb"></i> <span id="isTitle">Innovation Services</span></h2>
     <div class="grid-3">
-      <div class="card"><div class="icon">🧠</div><strong>Concept Development</strong><span>From vision to prototype</span></div>
-      <div class="card"><div class="icon">📐</div><strong>Systems Design</strong><span>Architectural frameworks</span></div>
-      <div class="card"><div class="icon">🔬</div><strong>Research</strong><span>Applied & speculative research</span></div>
-      <div class="card"><div class="icon">📡</div><strong>Digital Twin Development</strong><span>Custom twin platforms</span></div>
-      <div class="card"><div class="icon">🤝</div><strong>Strategic Vision</strong><span>Long-term roadmaps</span></div>
-      <div class="card"><div class="icon">🌍</div><strong>Global Cooperation</strong><span>International partnerships</span></div>
+      <div class="card"><div class="icon">🧠</div><strong id="is1">Concept Development</strong><span id="is1d">From vision to prototype</span></div>
+      <div class="card"><div class="icon">📐</div><strong id="is2">Systems Design</strong><span id="is2d">Architectural frameworks</span></div>
+      <div class="card"><div class="icon">🔬</div><strong id="is3">Research</strong><span id="is3d">Applied & speculative research</span></div>
+      <div class="card"><div class="icon">📡</div><strong id="is4">Digital Twin Development</strong><span id="is4d">Custom twin platforms</span></div>
+      <div class="card"><div class="icon">🤝</div><strong id="is5">Strategic Vision</strong><span id="is5d">Long-term roadmaps</span></div>
+      <div class="card"><div class="icon">🌍</div><strong id="is6">Global Cooperation</strong><span id="is6d">International partnerships</span></div>
     </div>
-    <p style="margin-top:14px;"><a href="#contact" style="color:var(--secondary);font-weight:600;">Request a Consultation →</a></p>
+    <p style="margin-top:14px;"><a href="#contact" style="color:var(--secondary);font-weight:600;" id="isCTA">Request a Consultation →</a></p>
   </section>
 
   <!-- ===== VALUES ===== -->
   <section class="section">
-    <h2><i class="fas fa-heart"></i> Our Values</h2>
+    <h2><i class="fas fa-heart"></i> <span id="valTitle">Our Values</span></h2>
     <div class="values-wrap">
-      <span>🔬 Scientific Integrity</span>
-      <span>🌱 Sustainability</span>
-      <span>🤝 Collaboration</span>
-      <span>💡 Innovation</span>
-      <span>🌊 Water Stewardship</span>
-      <span>🧠 Transdisciplinarity</span>
-      <span>⚖️ Equity</span>
-      <span>🚀 Future-Focused</span>
+      <span id="val1">🔬 Scientific Integrity</span>
+      <span id="val2">🌱 Sustainability</span>
+      <span id="val3">🤝 Collaboration</span>
+      <span id="val4">💡 Innovation</span>
+      <span id="val5">🌊 Water Stewardship</span>
+      <span id="val6">🧠 Transdisciplinarity</span>
+      <span id="val7">⚖️ Equity</span>
+      <span id="val8">🚀 Future-Focused</span>
     </div>
   </section>
 
   <!-- ===== INNOVATION OFFICE ===== -->
   <section class="section">
-    <h2><i class="fas fa-map-pin"></i> Innovation Office</h2>
-    <p><strong>Made in Vranje, Republic of Serbia</strong> · Supported by Serbia · Open to international cooperation</p>
-    <p style="font-size:0.9rem; opacity:0.7; margin-top:4px;">📍 42.5324, 21.9141 — Radnička 2, Vranje</p>
+    <h2><i class="fas fa-map-pin"></i> <span id="officeTitle">Innovation Office</span></h2>
+    <p id="office1"><strong>Made in Vranje, Republic of Serbia</strong> · Supported by Serbia · Open to international cooperation</p>
+    <p style="font-size:0.9rem; opacity:0.7; margin-top:4px;" id="office2">📍 42.5324, 21.9141 — Radnička 2, Vranje</p>
   </section>
 
   <!-- ===== LONG-TERM VISION ===== -->
   <section class="section">
-    <h2><i class="fas fa-eye"></i> Long-Term Vision</h2>
-    <p>Designing the future of:</p>
+    <h2><i class="fas fa-eye"></i> <span id="ltTitle">Long-Term Vision</span></h2>
+    <p id="ltSub">Designing the future of:</p>
     <div class="values-wrap">
-      <span>Rivers</span><span>Coasts</span><span>Oceans</span>
-      <span>Territories</span><span>Cities</span><span>Ports</span>
-      <span>Water Civilization</span><span>Oceanic Civilization</span>
-      <span>Digital Twins</span><span>AI Systems</span>
+      <span id="lt1">Rivers</span><span id="lt2">Coasts</span><span id="lt3">Oceans</span>
+      <span id="lt4">Territories</span><span id="lt5">Cities</span><span id="lt6">Ports</span>
+      <span id="lt7">Water Civilization</span><span id="lt8">Oceanic Civilization</span>
+      <span id="lt9">Digital Twins</span><span id="lt10">AI Systems</span>
     </div>
   </section>
 
-  <!-- ============================================================ -->
-  <!-- ===== ВИДЖЕТ ИНФРАСТРУКТУРА + 3D ПЛАНЕТА (ОБНОВЛЁННЫЙ) ===== -->
-  <!-- ============================================================ -->
+  <!-- ===== MAP WIDGET ===== -->
   <div class="map-widget">
     <div class="widget-header">
       <div>
-        <h3>🚀 Communications Infrastructure — Vranje Reception Center</h3>
-        <p>Radnička 2 · August 7, 2026</p>
-        <span class="badge-widget">✦ 21 locations on 3D planet</span>
+        <h3 id="widgetTitle">🚀 Communications Infrastructure — Vranje Reception Center</h3>
+        <p id="widgetDate">Radnička 2 · August 7, 2026</p>
+        <span class="badge-widget" id="widgetBadge">✦ 21 locations on 3D planet</span>
       </div>
       <div class="planet-icon" onclick="open3DPlanet()" title="Open 3D planet with all locations">
         <span>🌍</span>
@@ -474,10 +567,10 @@ footer .links a:hover { color:var(--primary); }
     </div>
 
     <div class="widget-body">
-      <p>Satellite internet access system installed on the rooftop. Prototype: two solar panels + satellite unit.</p>
+      <p id="widgetDesc">Satellite internet access system installed on the rooftop. Prototype: two solar panels + satellite unit.</p>
       <p class="coords">
-        <strong>Coordinates:</strong> 42.5324, 21.9141 &nbsp;|&nbsp;
-        <a href="https://www.google.com/maps?q=42.5324,21.9141" target="_blank">Google Maps</a>
+        <strong id="widgetCoordsLabel">Coordinates:</strong> 42.5324, 21.9141 &nbsp;|&nbsp;
+        <a href="https://www.google.com/maps?q=42.5324,21.9141" target="_blank" id="widgetMapLink">Google Maps</a>
       </p>
     </div>
 
@@ -486,25 +579,24 @@ footer .links a:hover { color:var(--primary); }
     </div>
 
     <div class="map-footer">
-      <a class="btn" href="https://www.google.com/maps?q=42.5324,21.9141" target="_blank">Open in Google Maps →</a>
+      <a class="btn" href="https://www.google.com/maps?q=42.5324,21.9141" target="_blank" id="widgetBtn">Open in Google Maps →</a>
     </div>
   </div>
-  <!-- ===== КОНЕЦ ВИДЖЕТА ===== -->
 
   <!-- ===== CONTACT ===== -->
   <section class="section" id="contact">
-    <h2><i class="fas fa-envelope"></i> Get in Touch</h2>
+    <h2><i class="fas fa-envelope"></i> <span id="contactTitle">Get in Touch</span></h2>
     <div class="contact-row">
       <div class="info">
         <p><strong>✉ Email:</strong> <a href="mailto:dracobeansociety@proton.me">dracobeansociety@proton.me</a></p>
-        <p style="font-size:0.85rem; color:#777; margin-top:10px;">📍 Vranje, Republic of Serbia</p>
+        <p style="font-size:0.85rem; color:#777; margin-top:10px;" id="contactAddr">📍 Vranje, Republic of Serbia</p>
       </div>
       <form id="contactForm">
-        <input type="text" placeholder="Your Name" required>
-        <input type="text" placeholder="Organization">
-        <input type="email" placeholder="Email" required>
-        <textarea rows="3" placeholder="Message"></textarea>
-        <button type="submit">Send Inquiry →</button>
+        <input type="text" placeholder="Your Name" required id="inputName">
+        <input type="text" placeholder="Organization" id="inputOrg">
+        <input type="email" placeholder="Email" required id="inputEmail">
+        <textarea rows="3" placeholder="Message" id="inputMsg"></textarea>
+        <button type="submit" id="contactBtn">Send Inquiry →</button>
       </form>
     </div>
   </section>
@@ -512,24 +604,38 @@ footer .links a:hover { color:var(--primary); }
   <!-- ===== FOOTER ===== -->
   <footer>
     <div class="links">
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Service</a>
-      <a href="#">Sitemap</a>
+      <a href="#" id="footerPrivacy">Privacy Policy</a>
+      <a href="#" id="footerTerms">Terms of Service</a>
+      <a href="#" id="footerSitemap">Sitemap</a>
     </div>
     <div class="social">
       <a href="#"><i class="fab fa-github"></i></a>
       <a href="#"><i class="fab fa-telegram"></i></a>
       <a href="#"><i class="fab fa-x-twitter"></i></a>
-      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-tiktok"></i></a>
+      <a href="#"><i class="fab fa-reddit-alien"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+      <a href="#"><i class="fab fa-discord"></i></a>
+      <a href="#"><i class="fab fa-viber"></i></a>
+      <a href="#"><i class="fab fa-signal-messenger"></i></a>
+      <a href="#"><i class="fab fa-snapchat"></i></a>
+      <a href="#"><i class="fab fa-pinterest"></i></a>
+      <a href="#"><i class="fab fa-tumblr"></i></a>
+      <a href="#"><i class="fab fa-medium"></i></a>
+      <a href="#"><i class="fab fa-dev"></i></a>
+      <a href="#"><i class="fab fa-twitch"></i></a>
+      <a href="#"><i class="fab fa-patreon"></i></a>
     </div>
-    <p style="margin-top:16px;">© 2026 Le Bureau de la Civilisation de l'Eau™. All rights reserved.</p>
+    <p class="copyright">© 2026 Le Bureau de la Civilisation de l'Eau™. All rights reserved.</p>
   </footer>
 
 </div>
 
-<!-- ============================================================ -->
-<!-- ===== СКРИПТ 3D ПЛАНЕТЫ (ОБНОВЛЁННЫЙ) ====================== -->
-<!-- ============================================================ -->
+<!-- ===== 3D PLANET SCRIPT ===== -->
 <script>
 function open3DPlanet() {
   const w = window.open('', '_blank', 'width=' + screen.width + ',height=' + screen.height);
@@ -604,7 +710,6 @@ function open3DPlanet() {
     import * as THREE from 'three';
     import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-    // --- SCENE ---
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(55, window.innerWidth/window.innerHeight, 0.1, 1000);
     camera.position.set(0, 0.3, 3.2);
@@ -621,12 +726,10 @@ function open3DPlanet() {
     controls.enablePan = false; controls.minDistance = 1.8; controls.maxDistance = 6;
     controls.autoRotate = true; controls.autoRotateSpeed = 0.6;
 
-    // --- LIGHTS ---
     scene.add(new THREE.AmbientLight(0x404070, 0.6));
     const d = new THREE.DirectionalLight(0xffffff, 1.8); d.position.set(5,5,8); scene.add(d);
     const f = new THREE.DirectionalLight(0x4488ff, 0.4); f.position.set(-5,-3,-5); scene.add(f);
 
-    // --- STARS ---
     const sg = new THREE.BufferGeometry();
     const sc = 4000, sp = new Float32Array(sc*3);
     for (let i=0; i<sc*3; i+=3) {
@@ -637,7 +740,6 @@ function open3DPlanet() {
     const stars = new THREE.Points(sg, new THREE.PointsMaterial({ color:0xffffff, size:0.12, transparent:true, opacity:0.8, sizeAttenuation:true }));
     scene.add(stars);
 
-    // --- EARTH ---
     const loader = new THREE.TextureLoader();
     const R = 1;
     const tex = loader.load(
@@ -650,7 +752,6 @@ function open3DPlanet() {
     );
     scene.add(globe);
 
-    // --- GLOW ---
     const glowMat = new THREE.ShaderMaterial({
       vertexShader: \`varying vec3 vN,vP; void main(){vN=normalize(normalMatrix*normal); vP=(modelViewMatrix*vec4(position,1.0)).xyz; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}\`,
       fragmentShader: \`varying vec3 vN,vP; void main(){float i=pow(0.7-dot(vN,normalize(-vP)),2.8); gl_FragColor=vec4(0.3,0.6,1.0,i*0.35);}\`,
@@ -658,13 +759,11 @@ function open3DPlanet() {
     });
     scene.add(new THREE.Mesh(new THREE.SphereGeometry(R*1.06,64,64), glowMat));
 
-    // --- RINGS ---
     const r1 = new THREE.Mesh(new THREE.TorusGeometry(1.4,0.002,16,200), new THREE.MeshBasicMaterial({ color:0x4da6ff, transparent:true, opacity:0.15 }));
     r1.rotation.x = Math.PI/3.5; r1.rotation.z = 0.3; scene.add(r1);
     const r2 = new THREE.Mesh(new THREE.TorusGeometry(1.5,0.001,8,200), new THREE.MeshBasicMaterial({ color:0x88ccff, transparent:true, opacity:0.08 }));
     r2.rotation.x = -0.8; r2.rotation.y = 0.5; scene.add(r2);
 
-    // --- LOCATIONS ---
     const locs = [
       { name:"Zdravstveni zcvranje.com", url:"https://zcvranje.com", lat:42.5556, lon:21.8958, desc:"Medical centre Vranje, Serbia" },
       { name:"КНП ОХОРОНИ ЗДОРОВ'Я", url:"https://omr.gov.ua", lat:46.4825, lon:30.7233, desc:"Municipal enterprise, Odesa, Ukraine" },
@@ -720,7 +819,6 @@ function open3DPlanet() {
       markers.push({ mesh:g, data:loc });
     });
 
-    // --- RAYCASTER ---
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
     const popup = document.getElementById('popup');
@@ -755,7 +853,6 @@ function open3DPlanet() {
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // --- ANIMATE ---
     let t = 0;
     function anim() {
       requestAnimationFrame(anim);
@@ -781,6 +878,2006 @@ function open3DPlanet() {
     if (w.document.documentElement.requestFullscreen) w.document.documentElement.requestFullscreen();
   }, 1000);
 }
+
+// ===== TRANSLATION ENGINE =====
+const translations = {
+  en: {
+    heroTagline: "Designing the Future of Water, Territories, and Ocean Civilization",
+    heroSub: "Bespoke Innovation · Systems Architecture · Water Intelligence · Digital Twins · Blue Economy",
+    badge1: "🌍 Global Initiative",
+    badge2: "🏛️ Supported by Serbia",
+    badge3: "🧠 Community-Driven",
+    badge4: "🔬 Research & Innovation",
+    cta1: "Explore Our Work →",
+    cta2: "Contact Us",
+    mTitle: "Mission & Vision",
+    mText1: "<strong>Mission:</strong> We develop bespoke concepts, research frameworks, and system architectures for digital twins, water systems, blue economy, and oceanic civilization.",
+    mText2: "<strong>Vision:</strong> To become an international innovation bureau shaping the future of territories, rivers, and ocean systems through science, design, and technology.",
+    mvrTitle: "Mission · Vision · Reality",
+    mvrMissionTitle: "Mission",
+    mvrMission1: "Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™ is a community-driven innovation initiative created by Ukrainian professionals temporarily residing in the Republic of Serbia.",
+    mvrMission2: "Our mission is to transform professional knowledge, experience, and human potential into a practical contribution to the development of the communities that have provided protection and support.",
+    mvrMission3: "The Bureau develops concepts, research models, and prototype solutions in the following fields:",
+    f1: "territories of the future",
+    f2: "water and ecological systems",
+    f3: "digital twins and GIS technologies",
+    f4: "sustainable architecture",
+    f5: "adaptive infrastructure",
+    f6: "AI-powered spatial planning",
+    f7: "Blue Economy and ocean civilization",
+    mvrMission4: "The mission of the project is not to replace existing institutions, but to create a platform for cooperation between citizens, professionals, communities, educational organizations, and public institutions.",
+    mvrVisionTitle: "Vision",
+    mvrVision1: "We believe that every crisis can become a point of transformation.",
+    mvrVision2: "Forced displacement does not mean the loss of professional identity. With the right conditions, knowledge and experience can become a resource for innovation, integration, and development.",
+    mvrVision3: "<strong>Our vision is to create a new type of 21st-century Innovation Architecture Bureau:</strong>",
+    v1: "communities become laboratories for practical innovation;",
+    v2: "temporary environments become prototypes of future solutions;",
+    v3: "professional human capital becomes a contribution to territorial development;",
+    v4: "digital technologies support better decision-making;",
+    v5: "cooperation creates value beyond borders.",
+    mvrVision4: "<strong>Long-term goal:</strong> To establish an international network of innovation centers working with Water · Territories · Cities · Rivers · Coasts · Oceans · Digital Earth Systems.",
+    mvrRealityTitle: "Reality — Current Stage of the Project",
+    mvrReality1: "<strong>Experimental Formation Stage</strong>",
+    mvrReality2: "At the present moment, the Bureau is an experimental initiative in the process of formation. It is not yet a fully established organization with permanent infrastructure. It is a practical attempt to create a new type of innovation platform under real-world conditions.",
+    mvrReality3: "Currently, the project exists through:",
+    r1: "professional initiative;",
+    r2: "voluntary participation;",
+    r3: "development of concepts;",
+    r4: "community cooperation;",
+    r5: "personal contributions of participants.",
+    mvrReality4: "<em>The Bureau is developing gradually, starting with its main resource — human knowledge and experience.</em>",
+    mvrDigitalTitle: "💻 Digital Infrastructure Reality",
+    mvrDigital1: "At the current stage, the project does not have complete digital infrastructure. The absence of an official domain name, professional hosting, dedicated servers, or specialized digital platforms is not caused by a lack of ideas or strategy, but by limited financial resources during the initial development phase.",
+    mvrDigital2: "The existing website and digital materials represent a prototype demonstration of the concept.",
+    mvrDigital3: "We would appreciate support in the form of: domain registration, hosting services, cloud infrastructure, software, digital equipment, and technical expertise.",
+    mvrSupportTitle: "🤝 Open Model of Support and Cooperation",
+    mvrSupport1: "The Bureau is open to different forms of assistance and partnership.",
+    need1: "🚙 Transportation Infrastructure",
+    need1d: "Priority: mobility for field research, territorial analysis, equipment transport.",
+    need1n: "Needs: used off-road vehicles, expedition vehicles, multipurpose transport vehicles.",
+    need2: "🚤 Water & Marine Transport",
+    need2d: "For coastal and river system research, marine technology experiments.",
+    need2n: "Needs: small boats, research vessels, partially functional marine equipment.",
+    need3: "🌊 Research Base",
+    need3d: "Long-term goal: coastal research and innovation base.",
+    need3n: "Needs: coastal land, facilities, workshops, lab spaces.",
+    need4: "🖥️ Technical Equipment",
+    need4d: "Digital equipment, office infrastructure, communication systems.",
+    need4n: "Needs: computers, servers, satellite equipment, network gear.",
+    mvrFinancialTitle: "💶 Financial and Institutional Support",
+    mvrFinancial1: "Support may take different forms: donations, equipment transfer, institutional partnerships, research grants, participation in innovation programs, educational cooperation, infrastructure assistance.",
+    mvrFinancial2: "<em>Every contribution helps transform the concept into a functioning innovation platform.</em>",
+    mvrWhyTitle: "🌱 Why This Matters",
+    mvrWhy1: "This project demonstrates a simple principle: <strong>Human potential does not disappear together with forced displacement.</strong>",
+    mvrWhy2: "Engineers, architects, IT specialists, designers, researchers, and managers can continue creating value when they have space for participation and development.",
+    mvrWhy3: "Vranje can become not only a place of temporary residence, but also a living example of how cooperation between a local community and professional human capital creates new opportunities.",
+    mvrQuote: "“We are Ukrainian professionals, a multinational team temporarily residing in Serbia. Today we are creating this initiative with limited resources, but with a long-term vision. We are not only asking for support — we are offering knowledge, experience, creativity, and our willingness to contribute.”",
+    mvrFinal1: "<strong>🇷🇸🇺🇦 Final Statement</strong><br>Le Bureau Civilisation Océanique™ today is a developing community innovation initiative.<br>Created in Vranje. Supported by Serbia. Open to international cooperation.",
+    mvrFinal2: "The next stage: institutional cooperation, digital infrastructure, transportation, equipment, research capacity, innovation partnerships.",
+    mvrFinal3: "From a small community initiative, a new model of sustainable development focused on the future can emerge.",
+    expTitle: "Areas of Expertise",
+    e1: "Water Intelligence", e1d: "Data-driven water management",
+    e2: "Digital Twins", e2d: "Territorial & urban twins",
+    e3: "Blue Economy", e3d: "Sustainable ocean & coastal development",
+    e4: "AI Decision Support", e4d: "ML for water & territory planning",
+    e5: "Future Territories", e5d: "Resilient territorial systems",
+    e6: "Oceanic Civilization", e6d: "Future models for ocean living",
+    e7: "Systems Architecture", e7d: "Frameworks for complex systems",
+    e8: "Ecosystem Restoration", e8d: "River & coastal restoration",
+    e9: "Climate Adaptation", e9d: "Resilience strategies",
+    rdTitle: "Research Domains",
+    rd1: "River Systems", rd1d: "Restoration, flood management, river intelligence",
+    rd2: "Coastal Systems", rd2d: "Resilience, sea-level adaptation, coastal zones",
+    rd3: "Ocean Systems", rd3d: "Floating infrastructure, marine robotics, blue innovation",
+    ftsTitle: "Future Territorial Systems",
+    fts1: "Smart Territories", fts1d: "Connected, data-driven regions",
+    fts2: "Blue Innovation Zones", fts2d: "Ocean & coastal innovation hubs",
+    fts3: "Resilient Cities", fts3d: "Climate-adaptive urban systems",
+    fts4: "River Basins 2.0", fts4d: "Integrated river management",
+    fts5: "Floating Territories", fts5d: "Offshore platforms & communities",
+    fts6: "Oceanic Territories", fts6d: "New models for ocean governance",
+    dtTitle: "Digital Twin Platforms",
+    dt1: "City Digital Twin", dt1d: "Urban simulation & planning",
+    dt2: "River Basin Twin", dt2d: "Real-time river monitoring",
+    dt3: "Coastal Twin", dt3d: "Sea-level & erosion modeling",
+    dt4: "Ocean Twin", dt4d: "Marine ecosystem simulation",
+    dt5: "Planetary Digital Twin", dt5d: "Global environmental network",
+    dt6: "Infrastructure Twin", dt6d: "Critical asset management",
+    isTitle: "Innovation Services",
+    is1: "Concept Development", is1d: "From vision to prototype",
+    is2: "Systems Design", is2d: "Architectural frameworks",
+    is3: "Research", is3d: "Applied & speculative research",
+    is4: "Digital Twin Development", is4d: "Custom twin platforms",
+    is5: "Strategic Vision", is5d: "Long-term roadmaps",
+    is6: "Global Cooperation", is6d: "International partnerships",
+    isCTA: "Request a Consultation →",
+    valTitle: "Our Values",
+    val1: "🔬 Scientific Integrity",
+    val2: "🌱 Sustainability",
+    val3: "🤝 Collaboration",
+    val4: "💡 Innovation",
+    val5: "🌊 Water Stewardship",
+    val6: "🧠 Transdisciplinarity",
+    val7: "⚖️ Equity",
+    val8: "🚀 Future-Focused",
+    officeTitle: "Innovation Office",
+    office1: "<strong>Made in Vranje, Republic of Serbia</strong> · Supported by Serbia · Open to international cooperation",
+    office2: "📍 42.5324, 21.9141 — Radnička 2, Vranje",
+    ltTitle: "Long-Term Vision",
+    ltSub: "Designing the future of:",
+    lt1: "Rivers", lt2: "Coasts", lt3: "Oceans",
+    lt4: "Territories", lt5: "Cities", lt6: "Ports",
+    lt7: "Water Civilization", lt8: "Oceanic Civilization",
+    lt9: "Digital Twins", lt10: "AI Systems",
+    widgetTitle: "🚀 Communications Infrastructure — Vranje Reception Center",
+    widgetDate: "Radnička 2 · August 7, 2026",
+    widgetBadge: "✦ 21 locations on 3D planet",
+    widgetDesc: "Satellite internet access system installed on the rooftop. Prototype: two solar panels + satellite unit.",
+    widgetCoordsLabel: "Coordinates:",
+    widgetMapLink: "Google Maps",
+    widgetBtn: "Open in Google Maps →",
+    contactTitle: "Get in Touch",
+    contactAddr: "📍 Vranje, Republic of Serbia",
+    inputName: "Your Name",
+    inputOrg: "Organization",
+    inputEmail: "Email",
+    inputMsg: "Message",
+    contactBtn: "Send Inquiry →",
+    footerPrivacy: "Privacy Policy",
+    footerTerms: "Terms of Service",
+    footerSitemap: "Sitemap",
+    copyright: "© 2026 Le Bureau de la Civilisation de l'Eau™. All rights reserved."
+  },
+  ru: {
+    heroTagline: "Проектирование будущего воды, территорий и океанической цивилизации",
+    heroSub: "Индивидуальные инновации · Системная архитектура · Водный интеллект · Цифровые двойники · Голубая экономика",
+    badge1: "🌍 Глобальная инициатива",
+    badge2: "🏛️ При поддержке Сербии",
+    badge3: "🧠 Сообщество профессионалов",
+    badge4: "🔬 Исследования и инновации",
+    cta1: "Изучить наши проекты →",
+    cta2: "Связаться с нами",
+    mTitle: "Миссия и Видение",
+    mText1: "<strong>Миссия:</strong> Мы разрабатываем индивидуальные концепции, исследовательские рамки и системные архитектуры для цифровых двойников, водных систем, голубой экономики и океанической цивилизации.",
+    mText2: "<strong>Видение:</strong> Стать международным инновационным бюро, формирующим будущее территорий, рек и океанических систем через науку, дизайн и технологии.",
+    mvrTitle: "Миссия · Видение · Реальность",
+    mvrMissionTitle: "Миссия",
+    mvrMission1: "Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™ — это общественная инновационная инициатива, созданная украинскими профессионалами, временно проживающими в Республике Сербия.",
+    mvrMission2: "Наша миссия — превратить профессиональные знания, опыт и человеческий потенциал в практический вклад в развитие сообществ, которые предоставили защиту и поддержку.",
+    mvrMission3: "Бюро разрабатывает концепции, исследовательские модели и прототипы решений в следующих областях:",
+    f1: "территории будущего",
+    f2: "водные и экологические системы",
+    f3: "цифровые двойники и ГИС-технологии",
+    f4: "устойчивая архитектура",
+    f5: "адаптивная инфраструктура",
+    f6: "пространственное планирование на основе ИИ",
+    f7: "Голубая экономика и океаническая цивилизация",
+    mvrMission4: "Миссия проекта — не заменять существующие институты, а создать платформу для сотрудничества между гражданами, профессионалами, сообществами, образовательными организациями и государственными учреждениями.",
+    mvrVisionTitle: "Видение",
+    mvrVision1: "Мы верим, что каждый кризис может стать точкой трансформации.",
+    mvrVision2: "Вынужденное перемещение не означает потерю профессиональной идентичности. При правильных условиях знания и опыт могут стать ресурсом для инноваций, интеграции и развития.",
+    mvrVision3: "<strong>Наше видение — создать новый тип Инновационного Архитектурного Бюро XXI века:</strong>",
+    v1: "сообщества становятся лабораториями практических инноваций;",
+    v2: "временные среды становятся прототипами будущих решений;",
+    v3: "профессиональный человеческий капитал становится вкладом в территориальное развитие;",
+    v4: "цифровые технологии поддерживают принятие лучших решений;",
+    v5: "сотрудничество создает ценность за пределами границ.",
+    mvrVision4: "<strong>Долгосрочная цель:</strong> Создать международную сеть инновационных центров, работающих с Водой · Территориями · Городами · Реками · Побережьями · Океанами · Цифровыми системами Земли.",
+    mvrRealityTitle: "Реальность — Текущий этап проекта",
+    mvrReality1: "<strong>Этап экспериментального формирования</strong>",
+    mvrReality2: "На данный момент Бюро представляет собой экспериментальную инициативу в процессе становления. Это еще не полностью сформированная организация с постоянной инфраструктурой. Это практическая попытка создать новый тип инновационной платформы в реальных условиях.",
+    mvrReality3: "В настоящее время проект существует за счет:",
+    r1: "профессиональной инициативы;",
+    r2: "добровольного участия;",
+    r3: "разработки концепций;",
+    r4: "сотрудничества с сообществами;",
+    r5: "личного вклада участников.",
+    mvrReality4: "<em>Бюро развивается постепенно, начиная с главного ресурса — человеческих знаний и опыта.</em>",
+    mvrDigitalTitle: "💻 Реальность цифровой инфраструктуры",
+    mvrDigital1: "На текущем этапе проект не имеет полной цифровой инфраструктуры. Отсутствие официального доменного имени, профессионального хостинга, выделенных серверов или специализированных цифровых платформ вызвано не отсутствием идей или стратегии, а ограниченными финансовыми ресурсами на начальном этапе развития.",
+    mvrDigital2: "Существующий веб-сайт и цифровые материалы представляют собой прототип-демонстрацию концепции.",
+    mvrDigital3: "Мы будем признательны за поддержку в виде: регистрации домена, хостинговых услуг, облачной инфраструктуры, программного обеспечения, цифрового оборудования и технической экспертизы.",
+    mvrSupportTitle: "🤝 Открытая модель поддержки и сотрудничества",
+    mvrSupport1: "Бюро открыто для различных форм помощи и партнерства.",
+    need1: "🚙 Транспортная инфраструктура",
+    need1d: "Приоритет: мобильность для полевых исследований, территориального анализа, транспортировки оборудования.",
+    need1n: "Потребности: подержанные внедорожники, экспедиционные автомобили, многоцелевой транспорт.",
+    need2: "🚤 Водный и морской транспорт",
+    need2d: "Для исследования прибрежных и речных систем, экспериментов с морскими технологиями.",
+    need2n: "Потребности: малые лодки, исследовательские суда, частично функциональное морское оборудование.",
+    need3: "🌊 Исследовательская база",
+    need3d: "Долгосрочная цель: прибрежная исследовательская и инновационная база.",
+    need3n: "Потребности: прибрежные земли, объекты, мастерские, лабораторные помещения.",
+    need4: "🖥️ Техническое оборудование",
+    need4d: "Цифровое оборудование, офисная инфраструктура, коммуникационные системы.",
+    need4n: "Потребности: компьютеры, серверы, спутниковое оборудование, сетевое оборудование.",
+    mvrFinancialTitle: "💶 Финансовая и институциональная поддержка",
+    mvrFinancial1: "Поддержка может принимать различные формы: пожертвования, передача оборудования, институциональные партнерства, исследовательские гранты, участие в инновационных программах, образовательное сотрудничество, инфраструктурная помощь.",
+    mvrFinancial2: "<em>Каждый вклад помогает превратить концепцию в работающую инновационную платформу.</em>",
+    mvrWhyTitle: "🌱 Почему это важно",
+    mvrWhy1: "Этот проект демонстрирует простой принцип: <strong>Человеческий потенциал не исчезает вместе с вынужденным перемещением.</strong>",
+    mvrWhy2: "Инженеры, архитекторы, IT-специалисты, дизайнеры, исследователи и менеджеры могут продолжать создавать ценность, когда у них есть пространство для участия и развития.",
+    mvrWhy3: "Вранье может стать не только местом временного проживания, но и живым примером того, как сотрудничество между местным сообществом и профессиональным человеческим капиталом создает новые возможности.",
+    mvrQuote: "«Мы — украинские профессионалы, многонациональная команда, временно проживающая в Сербии. Сегодня мы создаем эту инициативу с ограниченными ресурсами, но с долгосрочным видением. Мы не только просим поддержки — мы предлагаем знания, опыт, креативность и готовность вносить вклад.»",
+    mvrFinal1: "<strong>🇷🇸🇺🇦 Заключительное заявление</strong><br>Le Bureau Civilisation Océanique™ сегодня — это развивающаяся общественная инновационная инициатива.<br>Создана в Вранье. При поддержке Сербии. Открыта для международного сотрудничества.",
+    mvrFinal2: "Следующий этап: институциональное сотрудничество, цифровая инфраструктура, транспорт, оборудование, исследовательский потенциал, инновационные партнерства.",
+    mvrFinal3: "Из небольшой общественной инициативы может возникнуть новая модель устойчивого развития, ориентированная на будущее.",
+    expTitle: "Области экспертизы",
+    e1: "Водный интеллект", e1d: "Управление водными ресурсами на основе данных",
+    e2: "Цифровые двойники", e2d: "Территориальные и городские двойники",
+    e3: "Голубая экономика", e3d: "Устойчивое развитие океана и побережий",
+    e4: "ИИ для принятия решений", e4d: "Машинное обучение для планирования воды и территорий",
+    e5: "Территории будущего", e5d: "Устойчивые территориальные системы",
+    e6: "Океаническая цивилизация", e6d: "Будущие модели жизни в океане",
+    e7: "Системная архитектура", e7d: "Рамки для сложных систем",
+    e8: "Восстановление экосистем", e8d: "Восстановление рек и побережий",
+    e9: "Адаптация к климату", e9d: "Стратегии устойчивости",
+    rdTitle: "Исследовательские области",
+    rd1: "Речные системы", rd1d: "Восстановление, управление паводками, речной интеллект",
+    rd2: "Прибрежные системы", rd2d: "Устойчивость, адаптация к уровню моря, прибрежные зоны",
+    rd3: "Океанические системы", rd3d: "Плавающая инфраструктура, морская робототехника, голубые инновации",
+    ftsTitle: "Территориальные системы будущего",
+    fts1: "Умные территории", fts1d: "Подключенные, управляемые данными регионы",
+    fts2: "Голубые инновационные зоны", fts2d: "Океанические и прибрежные инновационные хабы",
+    fts3: "Устойчивые города", fts3d: "Климатически-адаптивные городские системы",
+    fts4: "Речные бассейны 2.0", fts4d: "Интегрированное управление реками",
+    fts5: "Плавающие территории", fts5d: "Шельфовые платформы и сообщества",
+    fts6: "Океанические территории", fts6d: "Новые модели управления океаном",
+    dtTitle: "Платформы цифровых двойников",
+    dt1: "Цифровой двойник города", dt1d: "Городское моделирование и планирование",
+    dt2: "Цифровой двойник речного бассейна", dt2d: "Мониторинг рек в реальном времени",
+    dt3: "Цифровой двойник побережья", dt3d: "Моделирование уровня моря и эрозии",
+    dt4: "Цифровой двойник океана", dt4d: "Моделирование морских экосистем",
+    dt5: "Планетарный цифровой двойник", dt5d: "Глобальная экологическая сеть",
+    dt6: "Цифровой двойник инфраструктуры", dt6d: "Управление критическими активами",
+    isTitle: "Инновационные услуги",
+    is1: "Разработка концепций", is1d: "От видения до прототипа",
+    is2: "Системный дизайн", is2d: "Архитектурные рамки",
+    is3: "Исследования", is3d: "Прикладные и спекулятивные исследования",
+    is4: "Разработка цифровых двойников", is4d: "Индивидуальные платформы двойников",
+    is5: "Стратегическое видение", is5d: "Долгосрочные дорожные карты",
+    is6: "Глобальное сотрудничество", is6d: "Международные партнерства",
+    isCTA: "Запросить консультацию →",
+    valTitle: "Наши ценности",
+    val1: "🔬 Научная добросовестность",
+    val2: "🌱 Устойчивость",
+    val3: "🤝 Сотрудничество",
+    val4: "💡 Инновации",
+    val5: "🌊 Ответственное управление водой",
+    val6: "🧠 Трансдисциплинарность",
+    val7: "⚖️ Равенство",
+    val8: "🚀 Ориентация на будущее",
+    officeTitle: "Инновационный офис",
+    office1: "<strong>Сделано в Вранье, Республика Сербия</strong> · При поддержке Сербии · Открыто для международного сотрудничества",
+    office2: "📍 42.5324, 21.9141 — Радничка 2, Вранье",
+    ltTitle: "Долгосрочное видение",
+    ltSub: "Проектируем будущее:",
+    lt1: "Реки", lt2: "Побережья", lt3: "Океаны",
+    lt4: "Территории", lt5: "Города", lt6: "Порты",
+    lt7: "Водная цивилизация", lt8: "Океаническая цивилизация",
+    lt9: "Цифровые двойники", lt10: "Системы ИИ",
+    widgetTitle: "🚀 Коммуникационная инфраструктура — Центр приема Вранье",
+    widgetDate: "Радничка 2 · 7 августа 2026",
+    widgetBadge: "✦ 21 локация на 3D планете",
+    widgetDesc: "Система спутникового интернета установлена на крыше. Прототип: две солнечные панели + спутниковый блок.",
+    widgetCoordsLabel: "Координаты:",
+    widgetMapLink: "Google Карты",
+    widgetBtn: "Открыть в Google Картах →",
+    contactTitle: "Связаться с нами",
+    contactAddr: "📍 Вранье, Республика Сербия",
+    inputName: "Ваше имя",
+    inputOrg: "Организация",
+    inputEmail: "Email",
+    inputMsg: "Сообщение",
+    contactBtn: "Отправить запрос →",
+    footerPrivacy: "Политика конфиденциальности",
+    footerTerms: "Условия использования",
+    footerSitemap: "Карта сайта",
+    copyright: "© 2026 Le Bureau de la Civilisation de l'Eau™. Все права защищены."
+  },
+  uk: {
+    heroTagline: "Проєктування майбутнього води, територій та океанічної цивілізації",
+    heroSub: "Індивідуальні інновації · Системна архітектура · Водний інтелект · Цифрові двійники · Блакитна економіка",
+    badge1: "🌍 Глобальна ініціатива",
+    badge2: "🏛️ За підтримки Сербії",
+    badge3: "🧠 Спільнота професіоналів",
+    badge4: "🔬 Дослідження та інновації",
+    cta1: "Дослідити наші проєкти →",
+    cta2: "Зв'язатися з нами",
+    mTitle: "Місія та Бачення",
+    mText1: "<strong>Місія:</strong> Ми розробляємо індивідуальні концепції, дослідницькі рамки та системні архітектури для цифрових двійників, водних систем, блакитної економіки та океанічної цивілізації.",
+    mText2: "<strong>Бачення:</strong> Стати міжнародним інноваційним бюро, що формує майбутнє територій, річок та океанічних систем через науку, дизайн та технології.",
+    mvrTitle: "Місія · Бачення · Реальність",
+    mvrMissionTitle: "Місія",
+    mvrMission1: "Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™ — це громадська інноваційна ініціатива, створена українськими професіоналами, які тимчасово проживають у Республіці Сербія.",
+    mvrMission2: "Наша місія — перетворити професійні знання, досвід та людський потенціал на практичний внесок у розвиток громад, які надали захист та підтримку.",
+    mvrMission3: "Бюро розробляє концепції, дослідницькі моделі та прототипи рішень у наступних сферах:",
+    f1: "території майбутнього",
+    f2: "водні та екологічні системи",
+    f3: "цифрові двійники та ГІС-технології",
+    f4: "стала архітектура",
+    f5: "адаптивна інфраструктура",
+    f6: "просторове планування на основі ШІ",
+    f7: "Блакитна економіка та океанічна цивілізація",
+    mvrMission4: "Місія проєкту — не замінювати існуючі інститути, а створити платформу для співпраці між громадянами, професіоналами, громадами, освітніми організаціями та державними установами.",
+    mvrVisionTitle: "Бачення",
+    mvrVision1: "Ми віримо, що кожна криза може стати точкою трансформації.",
+    mvrVision2: "Вимушене переміщення не означає втрату професійної ідентичності. За правильних умов знання та досвід можуть стати ресурсом для інновацій, інтеграції та розвитку.",
+    mvrVision3: "<strong>Наше бачення — створити новий тип Інноваційного Архітектурного Бюро XXI століття:</strong>",
+    v1: "громади стають лабораторіями практичних інновацій;",
+    v2: "тимчасові середовища стають прототипами майбутніх рішень;",
+    v3: "професійний людський капітал стає внеском у територіальний розвиток;",
+    v4: "цифрові технології підтримують прийняття кращих рішень;",
+    v5: "співпраця створює цінність за межами кордонів.",
+    mvrVision4: "<strong>Довгострокова мета:</strong> Створити міжнародну мережу інноваційних центрів, що працюють з Водою · Територіями · Містами · Річками · Узбережжями · Океанами · Цифровими системами Землі.",
+    mvrRealityTitle: "Реальність — Поточний етап проєкту",
+    mvrReality1: "<strong>Етап експериментального формування</strong>",
+    mvrReality2: "На даний момент Бюро є експериментальною ініціативою в процесі становлення. Це ще не повністю сформована організація з постійною інфраструктурою. Це практична спроба створити новий тип інноваційної платформи в реальних умовах.",
+    mvrReality3: "Наразі проєкт існує завдяки:",
+    r1: "професійній ініціативі;",
+    r2: "добровільній участі;",
+    r3: "розробці концепцій;",
+    r4: "співпраці з громадами;",
+    r5: "особистому внеску учасників.",
+    mvrReality4: "<em>Бюро розвивається поступово, починаючи з головного ресурсу — людських знань та досвіду.</em>",
+    mvrDigitalTitle: "💻 Реальність цифрової інфраструктури",
+    mvrDigital1: "На поточному етапі проєкт не має повної цифрової інфраструктури. Відсутність офіційного доменного імені, професійного хостингу, виділених серверів або спеціалізованих цифрових платформ викликана не відсутністю ідей чи стратегії, а обмеженими фінансовими ресурсами на початковому етапі розвитку.",
+    mvrDigital2: "Існуючий веб-сайт та цифрові матеріали представляють собою прототип-демонстрацію концепції.",
+    mvrDigital3: "Ми будемо вдячні за підтримку у вигляді: реєстрації домену, хостингових послуг, хмарної інфраструктури, програмного забезпечення, цифрового обладнання та технічної експертизи.",
+    mvrSupportTitle: "🤝 Відкрита модель підтримки та співпраці",
+    mvrSupport1: "Бюро відкрите для різних форм допомоги та партнерства.",
+    need1: "🚙 Транспортна інфраструктура",
+    need1d: "Пріоритет: мобільність для польових досліджень, територіального аналізу, транспортування обладнання.",
+    need1n: "Потреби: вживані позашляховики, експедиційні автомобілі, багатоцільовий транспорт.",
+    need2: "🚤 Водний та морський транспорт",
+    need2d: "Для дослідження прибережних та річкових систем, експериментів з морськими технологіями.",
+    need2n: "Потреби: малі човни, дослідницькі судна, частково функціональне морське обладнання.",
+    need3: "🌊 Дослідницька база",
+    need3d: "Довгострокова мета: прибережна дослідницька та інноваційна база.",
+    need3n: "Потреби: прибережні землі, об'єкти, майстерні, лабораторні приміщення.",
+    need4: "🖥️ Технічне обладнання",
+    need4d: "Цифрове обладнання, офісна інфраструктура, комунікаційні системи.",
+    need4n: "Потреби: комп'ютери, сервери, супутникове обладнання, мережеве обладнання.",
+    mvrFinancialTitle: "💶 Фінансова та інституційна підтримка",
+    mvrFinancial1: "Підтримка може мати різні форми: пожертви, передача обладнання, інституційні партнерства, дослідницькі гранти, участь в інноваційних програмах, освітня співпраця, інфраструктурна допомога.",
+    mvrFinancial2: "<em>Кожен внесок допомагає перетворити концепцію на працюючу інноваційну платформу.</em>",
+    mvrWhyTitle: "🌱 Чому це важливо",
+    mvrWhy1: "Цей проєкт демонструє простий принцип: <strong>Людський потенціал не зникає разом з вимушеним переміщенням.</strong>",
+    mvrWhy2: "Інженери, архітектори, IT-спеціалісти, дизайнери, дослідники та менеджери можуть продовжувати створювати цінність, коли мають простір для участі та розвитку.",
+    mvrWhy3: "Вранє може стати не лише місцем тимчасового проживання, а й живим прикладом того, як співпраця між місцевою громадою та професійним людським капіталом створює нові можливості.",
+    mvrQuote: "«Ми — українські професіонали, багатонаціональна команда, яка тимчасово проживає в Сербії. Сьогодні ми створюємо цю ініціативу з обмеженими ресурсами, але з довгостроковим баченням. Ми не лише просимо підтримки — ми пропонуємо знання, досвід, креативність та готовність робити внесок.»",
+    mvrFinal1: "<strong>🇷🇸🇺🇦 Заключна заява</strong><br>Le Bureau Civilisation Océanique™ сьогодні — це громадська інноваційна ініціатива, що розвивається.<br>Створена у Вранє. За підтримки Сербії. Відкрита для міжнародної співпраці.",
+    mvrFinal2: "Наступний етап: інституційна співпраця, цифрова інфраструктура, транспорт, обладнання, дослідницький потенціал, інноваційні партнерства.",
+    mvrFinal3: "З невеликої громадської ініціативи може виникнути нова модель сталого розвитку, орієнтована на майбутнє.",
+    expTitle: "Сфери експертизи",
+    e1: "Водний інтелект", e1d: "Управління водними ресурсами на основі даних",
+    e2: "Цифрові двійники", e2d: "Територіальні та міські двійники",
+    e3: "Блакитна економіка", e3d: "Сталий розвиток океану та узбереж",
+    e4: "ШІ для прийняття рішень", e4d: "Машинне навчання для планування води та територій",
+    e5: "Території майбутнього", e5d: "Стійкі територіальні системи",
+    e6: "Океанічна цивілізація", e6d: "Майбутні моделі життя в океані",
+    e7: "Системна архітектура", e7d: "Рамки для складних систем",
+    e8: "Відновлення екосистем", e8d: "Відновлення річок та узбереж",
+    e9: "Адаптація до клімату", e9d: "Стратегії стійкості",
+    rdTitle: "Дослідницькі області",
+    rd1: "Річкові системи", rd1d: "Відновлення, управління повенями, річковий інтелект",
+    rd2: "Прибережні системи", rd2d: "Стійкість, адаптація до рівня моря, прибережні зони",
+    rd3: "Океанічні системи", rd3d: "Плаваюча інфраструктура, морська робототехніка, блакитні інновації",
+    ftsTitle: "Територіальні системи майбутнього",
+    fts1: "Розумні території", fts1d: "Підключені, керовані даними регіони",
+    fts2: "Блакитні інноваційні зони", fts2d: "Океанічні та прибережні інноваційні хаби",
+    fts3: "Стійкі міста", fts3d: "Кліматично-адаптивні міські системи",
+    fts4: "Річкові басейни 2.0", fts4d: "Інтегроване управління річками",
+    fts5: "Плаваючі території", fts5d: "Шельфові платформи та спільноти",
+    fts6: "Океанічні території", fts6d: "Нові моделі управління океаном",
+    dtTitle: "Платформи цифрових двійників",
+    dt1: "Цифровий двійник міста", dt1d: "Міське моделювання та планування",
+    dt2: "Цифровий двійник річкового басейну", dt2d: "Моніторинг річок у реальному часі",
+    dt3: "Цифровий двійник узбережжя", dt3d: "Моделювання рівня моря та ерозії",
+    dt4: "Цифровий двійник океану", dt4d: "Моделювання морських екосистем",
+    dt5: "Планетарний цифровий двійник", dt5d: "Глобальна екологічна мережа",
+    dt6: "Цифровий двійник інфраструктури", dt6d: "Управління критичними активами",
+    isTitle: "Інноваційні послуги",
+    is1: "Розробка концепцій", is1d: "Від бачення до прототипу",
+    is2: "Системний дизайн", is2d: "Архітектурні рамки",
+    is3: "Дослідження", is3d: "Прикладні та спекулятивні дослідження",
+    is4: "Розробка цифрових двійників", is4d: "Індивідуальні платформи двійників",
+    is5: "Стратегічне бачення", is5d: "Довгострокові дорожні карти",
+    is6: "Глобальна співпраця", is6d: "Міжнародні партнерства",
+    isCTA: "Запросити консультацію →",
+    valTitle: "Наші цінності",
+    val1: "🔬 Наукова добросовісність",
+    val2: "🌱 Стійкість",
+    val3: "🤝 Співпраця",
+    val4: "💡 Інновації",
+    val5: "🌊 Відповідальне управління водою",
+    val6: "🧠 Трансдисциплінарність",
+    val7: "⚖️ Рівність",
+    val8: "🚀 Орієнтація на майбутнє",
+    officeTitle: "Інноваційний офіс",
+    office1: "<strong>Зроблено у Вранє, Республіка Сербія</strong> · За підтримки Сербії · Відкрито для міжнародної співпраці",
+    office2: "📍 42.5324, 21.9141 — Радничка 2, Вранє",
+    ltTitle: "Довгострокове бачення",
+    ltSub: "Проєктуємо майбутнє:",
+    lt1: "Річки", lt2: "Узбережжя", lt3: "Океани",
+    lt4: "Території", lt5: "Міста", lt6: "Порти",
+    lt7: "Водна цивілізація", lt8: "Океанічна цивілізація",
+    lt9: "Цифрові двійники", lt10: "Системи ШІ",
+    widgetTitle: "🚀 Комунікаційна інфраструктура — Центр прийому Вранє",
+    widgetDate: "Радничка 2 · 7 серпня 2026",
+    widgetBadge: "✦ 21 локація на 3D планеті",
+    widgetDesc: "Система супутникового інтернету встановлена на даху. Прототип: дві сонячні панелі + супутниковий блок.",
+    widgetCoordsLabel: "Координати:",
+    widgetMapLink: "Google Карти",
+    widgetBtn: "Відкрити в Google Картах →",
+    contactTitle: "Зв'язатися з нами",
+    contactAddr: "📍 Вранє, Республіка Сербія",
+    inputName: "Ваше ім'я",
+    inputOrg: "Організація",
+    inputEmail: "Email",
+    inputMsg: "Повідомлення",
+    contactBtn: "Надіслати запит →",
+    footerPrivacy: "Політика конфіденційності",
+    footerTerms: "Умови використання",
+    footerSitemap: "Карта сайту",
+    copyright: "© 2026 Le Bureau de la Civilisation de l'Eau™. Всі права захищені."
+  },
+  sr: {
+    heroTagline: "Projektovanje budućnosti vode, teritorija i okeanske civilizacije",
+    heroSub: "Inovacije po meri · Sistemska arhitektura · Vodena inteligencija · Digitalni blizanci · Plava ekonomija",
+    badge1: "🌍 Globalna inicijativa",
+    badge2: "🏛️ Uz podršku Srbije",
+    badge3: "🧠 Vođeno zajednicom",
+    badge4: "🔬 Istraživanje i inovacije",
+    cta1: "Istražite naš rad →",
+    cta2: "Kontaktirajte nas",
+    mTitle: "Misija i Vizija",
+    mText1: "<strong>Misija:</strong> Razvijamo koncepte po meri, istraživačke okvire i sistemske arhitekture za digitalne blizance, vodene sisteme, plavu ekonomiju i okeansku civilizaciju.",
+    mText2: "<strong>Vizija:</strong> Da postanemo međunarodno inovaciono biro koje oblikuje budućnost teritorija, reka i okeanskih sistema kroz nauku, dizajn i tehnologiju.",
+    mvrTitle: "Misija · Vizija · Realnost",
+    mvrMissionTitle: "Misija",
+    mvrMission1: "Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™ je inovaciona inicijativa vođena zajednicom, koju su stvorili ukrajinski profesionalci koji privremeno borave u Republici Srbiji.",
+    mvrMission2: "Naša misija je da transformišemo profesionalno znanje, iskustvo i ljudski potencijal u praktičan doprinos razvoju zajednica koje su pružile zaštitu i podršku.",
+    mvrMission3: "Biro razvija koncepte, istraživačke modele i prototipna rešenja u sledećim oblastima:",
+    f1: "teritorije budućnosti",
+    f2: "vodni i ekološki sistemi",
+    f3: "digitalni blizanci i GIS tehnologije",
+    f4: "održiva arhitektura",
+    f5: "adaptivna infrastruktura",
+    f6: "veštačka inteligencija za prostorno planiranje",
+    f7: "Plava ekonomija i okeanska civilizacija",
+    mvrMission4: "Misija projekta nije da zameni postojeće institucije, već da stvori platformu za saradnju između građana, profesionalaca, zajednica, obrazovnih organizacija i javnih institucija.",
+    mvrVisionTitle: "Vizija",
+    mvrVision1: "Verujemo da svaka kriza može postati tačka transformacije.",
+    mvrVision2: "Prinudno raseljavanje ne znači gubitak profesionalnog identiteta. U pravim uslovima, znanje i iskustvo mogu postati resurs za inovacije, integraciju i razvoj.",
+    mvrVision3: "<strong>Naša vizija je da stvorimo novu vrstu Inovacionog Arhitektonskog Biroa 21. veka:</strong>",
+    v1: "zajednice postaju laboratorije za praktične inovacije;",
+    v2: "privremena okruženja postaju prototipovi budućih rešenja;",
+    v3: "profesionalni ljudski kapital postaje doprinos teritorijalnom razvoju;",
+    v4: "digitalne tehnologije podržavaju bolje donošenje odluka;",
+    v5: "saradnja stvara vrednost izvan granica.",
+    mvrVision4: "<strong>Dugoročni cilj:</strong> Uspostaviti međunarodnu mrežu inovacionih centara koji rade sa Vodom · Teritorijama · Gradovima · Rekama · Obalskim područjima · Okeanima · Digitalnim sistemima Zemlje.",
+    mvrRealityTitle: "Realnost — Trenutna faza projekta",
+    mvrReality1: "<strong>Faza eksperimentalnog formiranja</strong>",
+    mvrReality2: "U ovom trenutku, Biro je eksperimentalna inicijativa u procesu formiranja. To još uvek nije potpuno uspostavljena organizacija sa stalnom infrastrukturom. To je praktičan pokušaj da se stvori nova vrsta inovacione platforme u realnim uslovima.",
+    mvrReality3: "Trenutno, projekat postoji kroz:",
+    r1: "profesionalnu inicijativu;",
+    r2: "dobrovoljno učešće;",
+    r3: "razvoj koncepata;",
+    r4: "saradnju sa zajednicom;",
+    r5: "lični doprinos učesnika.",
+    mvrReality4: "<em>Biro se razvija postepeno, počevši od glavnog resursa — ljudskog znanja i iskustva.</em>",
+    mvrDigitalTitle: "💻 Realnost digitalne infrastrukture",
+    mvrDigital1: "U ovoj fazi, projekat nema potpunu digitalnu infrastrukturu. Odsustvo zvaničnog imena domena, profesionalnog hostinga, namenskih servera ili specijalizovanih digitalnih platformi nije uzrokovano nedostatkom ideja ili strategije, već ograničenim finansijskim resursima tokom početne faze razvoja.",
+    mvrDigital2: "Postojeći veb-sajt i digitalni materijali predstavljaju prototip-demonstraciju koncepta.",
+    mvrDigital3: "Cenili bismo podršku u obliku: registracije domena, usluga hostinga, oblak infrastrukture, softvera, digitalne opreme i tehničke ekspertize.",
+    mvrSupportTitle: "🤝 Otvoreni model podrške i saradnje",
+    mvrSupport1: "Biro je otvoren za različite oblike pomoći i partnerstva.",
+    need1: "🚙 Transportna infrastruktura",
+    need1d: "Prioritet: mobilnost za terenska istraživanja, teritorijalnu analizu, transport opreme.",
+    need1n: "Potrebe: polovna terenska vozila, ekspediciona vozila, višenamenska transportna vozila.",
+    need2: "🚤 Vodeni i pomorski transport",
+    need2d: "Za istraživanje obalskih i rečnih sistema, eksperimente sa pomorskim tehnologijama.",
+    need2n: "Potrebe: mali čamci, istraživačka plovila, delimično funkcionalna pomorska oprema.",
+    need3: "🌊 Istraživačka baza",
+    need3d: "Dugoročni cilj: obalska istraživačka i inovaciona baza.",
+    need3n: "Potrebe: obalsko zemljište, objekti, radionice, laboratorijski prostori.",
+    need4: "🖥️ Tehnička oprema",
+    need4d: "Digitalna oprema, kancelarijska infrastruktura, komunikacioni sistemi.",
+    need4n: "Potrebe: računari, serveri, satelitska oprema, mrežna oprema.",
+    mvrFinancialTitle: "💶 Finansijska i institucionalna podrška",
+    mvrFinancial1: "Podrška može imati različite oblike: donacije, prenos opreme, institucionalna partnerstva, istraživački grantovi, učešće u inovacionim programima, obrazovna saradnja, infrastrukturna pomoć.",
+    mvrFinancial2: "<em>Svaki doprinos pomaže da se koncept pretvori u funkcionalnu inovacionu platformu.</em>",
+    mvrWhyTitle: "🌱 Zašto je ovo važno",
+    mvrWhy1: "Ovaj projekat demonstrira jednostavan princip: <strong>Ljudski potencijal ne nestaje sa prinudnim raseljavanjem.</strong>",
+    mvrWhy2: "Inženjeri, arhitekte, IT stručnjaci, dizajneri, istraživači i menadžeri mogu nastaviti da stvaraju vrednost kada imaju prostor za učešće i razvoj.",
+    mvrWhy3: "Vranje može postati ne samo mesto privremenog boravka, već i živi primer kako saradnja između lokalne zajednice i profesionalnog ljudskog kapitala stvara nove mogućnosti.",
+    mvrQuote: "„Mi smo ukrajinski profesionalci, multinacionalni tim koji privremeno boravi u Srbiji. Danas stvaramo ovu inicijativu sa ograničenim resursima, ali sa dugoročnom vizijom. Ne samo da tražimo podršku — nudimo znanje, iskustvo, kreativnost i spremnost da doprinesemo.”",
+    mvrFinal1: "<strong>🇷🇸🇺🇦 Završna izjava</strong><br>Le Bureau Civilisation Océanique™ danas je inovaciona inicijativa zajednice u razvoju.<br>Nastala u Vranju. Uz podršku Srbije. Otvorena za međunarodnu saradnju.",
+    mvrFinal2: "Sledeća faza: institucionalna saradnja, digitalna infrastruktura, transport, oprema, istraživački kapacitet, inovaciona partnerstva.",
+    mvrFinal3: "Iz male inicijative zajednice može nastati novi model održivog razvoja usmeren na budućnost.",
+    expTitle: "Oblasti ekspertize",
+    e1: "Vodena inteligencija", e1d: "Upravljanje vodama na osnovu podataka",
+    e2: "Digitalni blizanci", e2d: "Teritorijalni i urbani blizanci",
+    e3: "Plava ekonomija", e3d: "Održivi razvoj okeana i obala",
+    e4: "AI podrška odlučivanju", e4d: "Mašinsko učenje za planiranje voda i teritorija",
+    e5: "Buduće teritorije", e5d: "Otporni teritorijalni sistemi",
+    e6: "Okeanska civilizacija", e6d: "Budući modeli života u okeanu",
+    e7: "Sistemska arhitektura", e7d: "Okviri za složene sisteme",
+    e8: "Obnova ekosistema", e8d: "Obnova reka i obala",
+    e9: "Prilagođavanje klimi", e9d: "Strategije otpornosti",
+    rdTitle: "Istraživačke oblasti",
+    rd1: "Rečni sistemi", rd1d: "Obnova, upravljanje poplavama, rečna inteligencija",
+    rd2: "Obalski sistemi", rd2d: "Otpornost, prilagođavanje nivou mora, obalske zone",
+    rd3: "Okeanski sistemi", rd3d: "Plutajuća infrastruktura, pomorska robotika, plave inovacije",
+    ftsTitle: "Budući teritorijalni sistemi",
+    fts1: "Pametne teritorije", fts1d: "Povezani regioni vođeni podacima",
+    fts2: "Plave inovacione zone", fts2d: "Okeanski i obalski inovacioni hubovi",
+    fts3: "Otporni gradovi", fts3d: "Klimatski-adaptivni urbani sistemi",
+    fts4: "Rečni baseni 2.0", fts4d: "Integrisano upravljanje rekama",
+    fts5: "Plutajuće teritorije", fts5d: "Platforme na moru i zajednice",
+    fts6: "Okeanske teritorije", fts6d: "Novi modeli upravljanja okeanom",
+    dtTitle: "Platforme digitalnih blizanaca",
+    dt1: "Digitalni blizanac grada", dt1d: "Urbana simulacija i planiranje",
+    dt2: "Digitalni blizanac rečnog basena", dt2d: "Praćenje reka u realnom vremenu",
+    dt3: "Digitalni blizanac obale", dt3d: "Modeliranje nivoa mora i erozije",
+    dt4: "Digitalni blizanac okeana", dt4d: "Simulacija morskih ekosistema",
+    dt5: "Planetarni digitalni blizanac", dt5d: "Globalna ekološka mreža",
+    dt6: "Digitalni blizanac infrastrukture", dt6d: "Upravljanje kritičnom imovinom",
+    isTitle: "Inovacione usluge",
+    is1: "Razvoj koncepata", is1d: "Od vizije do prototipa",
+    is2: "Sistemski dizajn", is2d: "Arhitektonski okviri",
+    is3: "Istraživanje", is3d: "Primenjena i spekulativna istraživanja",
+    is4: "Razvoj digitalnih blizanaca", is4d: "Platforme blizanaca po meri",
+    is5: "Strateška vizija", is5d: "Dugoročne mape puta",
+    is6: "Globalna saradnja", is6d: "Međunarodna partnerstva",
+    isCTA: "Zatražite konsultacije →",
+    valTitle: "Naše vrednosti",
+    val1: "🔬 Naučni integritet",
+    val2: "🌱 Održivost",
+    val3: "🤝 Saradnja",
+    val4: "💡 Inovacije",
+    val5: "🌊 Upravljanje vodama",
+    val6: "🧠 Transdisciplinarnost",
+    val7: "⚖️ Jednakost",
+    val8: "🚀 Usmerenost na budućnost",
+    officeTitle: "Inovacioni ured",
+    office1: "<strong>Napravljeno u Vranju, Republika Srbija</strong> · Uz podršku Srbije · Otvoreno za međunarodnu saradnju",
+    office2: "📍 42.5324, 21.9141 — Radnička 2, Vranje",
+    ltTitle: "Dugoročna vizija",
+    ltSub: "Projektujemo budućnost:",
+    lt1: "Reke", lt2: "Obale", lt3: "Okeane",
+    lt4: "Teritorije", lt5: "Gradove", lt6: "Luke",
+    lt7: "Vodena civilizacija", lt8: "Okeanska civilizacija",
+    lt9: "Digitalni blizanci", lt10: "AI sistemi",
+    widgetTitle: "🚀 Komunikaciona infrastruktura — Prijemni centar Vranje",
+    widgetDate: "Radnička 2 · 7. avgust 2026",
+    widgetBadge: "✦ 21 lokacija na 3D planeti",
+    widgetDesc: "Satelitski internet sistem instaliran na krovu. Prototip: dve solarne ploče + satelitska jedinica.",
+    widgetCoordsLabel: "Koordinate:",
+    widgetMapLink: "Google Mape",
+    widgetBtn: "Otvori u Google Mapama →",
+    contactTitle: "Kontaktirajte nas",
+    contactAddr: "📍 Vranje, Republika Srbija",
+    inputName: "Vaše ime",
+    inputOrg: "Organizacija",
+    inputEmail: "Email",
+    inputMsg: "Poruka",
+    contactBtn: "Pošaljite upit →",
+    footerPrivacy: "Politika privatnosti",
+    footerTerms: "Uslovi korišćenja",
+    footerSitemap: "Mapa sajta",
+    copyright: "© 2026 Le Bureau de la Civilisation de l'Eau™. Sva prava zadržana."
+  },
+  ar: {
+    heroTagline: "تصميم مستقبل المياه والأقاليم والحضارة المحيطية",
+    heroSub: "ابتكار مخصص · هندسة الأنظمة · ذكاء المياه · التوائم الرقمية · الاقتصاد الأزرق",
+    badge1: "🌍 مبادرة عالمية",
+    badge2: "🏛️ بدعم من صربيا",
+    badge3: "🧠 يقودها المجتمع",
+    badge4: "🔬 البحث والابتكار",
+    cta1: "استكشف أعمالنا →",
+    cta2: "اتصل بنا",
+    mTitle: "الرسالة والرؤية",
+    mText1: "<strong>الرسالة:</strong> نقوم بتطوير مفاهيم مخصصة وأطر بحثية وهندسات أنظمة للتوائم الرقمية وأنظمة المياه والاقتصاد الأزرق والحضارة المحيطية.",
+    mText2: "<strong>الرؤية:</strong> أن نصبح مكتبًا دوليًا للابتكار يشكل مستقبل الأقاليم والأنهار والأنظمة المحيطية من خلال العلم والتصميم والتكنولوجيا.",
+    mvrTitle: "الرسالة · الرؤية · الواقع",
+    mvrMissionTitle: "الرسالة",
+    mvrMission1: "Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™ هي مبادرة ابتكارية يقودها المجتمع، أنشأها محترفون أوكرانيون يقيمون مؤقتًا في جمهورية صربيا.",
+    mvrMission2: "مهمتنا هي تحويل المعرفة المهنية والخبرة والإمكانات البشرية إلى مساهمة عملية في تنمية المجتمعات التي قدمت الحماية والدعم.",
+    mvrMission3: "يطور المكتب مفاهيم ونماذج بحثية وحلول نموذجية في المجالات التالية:",
+    f1: "أقاليم المستقبل",
+    f2: "الأنظمة المائية والبيئية",
+    f3: "التوائم الرقمية وتقنيات نظم المعلومات الجغرافية",
+    f4: "الهندسة المعمارية المستدامة",
+    f5: "البنية التحتية التكيفية",
+    f6: "التخطيط المكاني المدعوم بالذكاء الاصطناعي",
+    f7: "الاقتصاد الأزرق والحضارة المحيطية",
+    mvrMission4: "مهمة المشروع ليست استبدال المؤسسات القائمة، بل إنشاء منصة للتعاون بين المواطنين والمحترفين والمجتمعات والمنظمات التعليمية والمؤسسات العامة.",
+    mvrVisionTitle: "الرؤية",
+    mvrVision1: "نعتقد أن كل أزمة يمكن أن تصبح نقطة تحول.",
+    mvrVision2: "النزوح القسري لا يعني فقدان الهوية المهنية. في ظل الظروف المناسبة، يمكن أن تصبح المعرفة والخبرة موردًا للابتكار والاندماج والتنمية.",
+    mvrVision3: "<strong>رؤيتنا هي إنشاء نوع جديد من مكتب الهندسة المعمارية للابتكار في القرن الحادي والعشرين:</strong>",
+    v1: "تصبح المجتمعات مختبرات للابتكار العملي؛",
+    v2: "تصبح البيئات المؤقتة نماذج أولية للحلول المستقبلية؛",
+    v3: "يصبح رأس المال البشري المهني مساهمة في التنمية الإقليمية؛",
+    v4: "تدعم التقنيات الرقمية اتخاذ قرارات أفضل؛",
+    v5: "يخلق التعاون قيمة تتجاوز الحدود.",
+    mvrVision4: "<strong>الهدف طويل المدى:</strong> إنشاء شبكة دولية من مراكز الابتكار التي تعمل مع المياه · الأقاليم · المدن · الأنهار · السواحل · المحيطات · أنظمة الأرض الرقمية.",
+    mvrRealityTitle: "الواقع — المرحلة الحالية للمشروع",
+    mvrReality1: "<strong>مرحلة التكوين التجريبي</strong>",
+    mvrReality2: "في الوقت الحالي، المكتب هو مبادرة تجريبية في طور التكوين. إنها ليست بعد منظمة قائمة بالكامل ذات بنية تحتية دائمة. إنها محاولة عملية لإنشاء نوع جديد من منصة الابتكار في ظروف واقعية.",
+    mvrReality3: "حاليًا، يوجد المشروع من خلال:",
+    r1: "المبادرة المهنية؛",
+    r2: "المشاركة الطوعية؛",
+    r3: "تطوير المفاهيم؛",
+    r4: "التعاون مع المجتمع؛",
+    r5: "المساهمات الشخصية للمشاركين.",
+    mvrReality4: "<em>يتطور المكتب تدريجيًا، بدءًا من موارده الرئيسية — المعرفة والخبرة البشرية.</em>",
+    mvrDigitalTitle: "💻 واقع البنية التحتية الرقمية",
+    mvrDigital1: "في المرحلة الحالية، لا يمتلك المشروع بنية تحتية رقمية كاملة. عدم وجود اسم نطاق رسمي، واستضافة احترافية، وخوادم مخصصة، أو منصات رقمية متخصصة ليس بسبب نقص الأفكار أو الاستراتيجية، ولكن بسبب الموارد المالية المحدودة خلال مرحلة التطوير الأولية.",
+    mvrDigital2: "يمثل الموقع الإلكتروني الحالي والمواد الرقمية عرضًا نموذجيًا للمفهوم.",
+    mvrDigital3: "نقدر الدعم في شكل: تسجيل النطاق، خدمات الاستضافة، البنية التحتية السحابية، البرمجيات، المعدات الرقمية، والخبرة التقنية.",
+    mvrSupportTitle: "🤝 نموذج مفتوح للدعم والتعاون",
+    mvrSupport1: "المكتب مفتوح لأشكال مختلفة من المساعدة والشراكة.",
+    need1: "🚙 البنية التحتية للنقل",
+    need1d: "الأولوية: التنقل للبحث الميداني، التحليل الإقليمي، نقل المعدات.",
+    need1n: "الاحتياجات: مركبات الطرق الوعرة المستعملة، مركبات البعثات، مركبات النقل متعددة الأغراض.",
+    need2: "🚤 النقل المائي والبحري",
+    need2d: "للبحث في الأنظمة الساحلية والأنهار، تجارب التكنولوجيا البحرية.",
+    need2n: "الاحتياجات: القوارب الصغيرة، سفن البحث، المعدات البحرية ذات الوظائف الجزئية.",
+    need3: "🌊 القاعدة البحثية",
+    need3d: "الهدف طويل المدى: القاعدة البحثية والابتكارية الساحلية.",
+    need3n: "الاحتياجات: الأراضي الساحلية، المرافق، ورش العمل، المساحات المخبرية.",
+    need4: "🖥️ المعدات التقنية",
+    need4d: "المعدات الرقمية، البنية التحتية المكتبية، أنظمة الاتصالات.",
+    need4n: "الاحتياجات: أجهزة الكمبيوتر، الخوادم، المعدات الفضائية، معدات الشبكات.",
+    mvrFinancialTitle: "💶 الدعم المالي والمؤسسي",
+    mvrFinancial1: "يمكن أن يتخذ الدعم أشكالًا مختلفة: التبرعات، نقل المعدات، الشراكات المؤسسية، المنح البحثية، المشاركة في برامج الابتكار، التعاون التعليمي، المساعدة في البنية التحتية.",
+    mvrFinancial2: "<em>كل مساهمة تساعد في تحويل المفهوم إلى منصة ابتكار فعالة.</em>",
+    mvrWhyTitle: "🌱 لماذا هذا مهم",
+    mvrWhy1: "يوضح هذا المشروع مبدأ بسيطًا: <strong>الإمكانات البشرية لا تختفي مع النزوح القسري.</strong>",
+    mvrWhy2: "يمكن للمهندسين والمهندسين المعماريين ومتخصصي تكنولوجيا المعلومات والمصممين والباحثين والمديرين الاستمرار في خلق القيمة عندما يكون لديهم مساحة للمشاركة والتطوير.",
+    mvrWhy3: "يمكن أن تصبح فرانييه ليس فقط مكانًا للإقامة المؤقتة، ولكن أيضًا مثالًا حيًا على كيفية خلق التعاون بين المجتمع المحلي ورأس المال البشري المهني لفرص جديدة.",
+    mvrQuote: "«نحن محترفون أوكرانيون، فريق متعدد الجنسيات يقيم مؤقتًا في صربيا. اليوم نقوم بإنشاء هذه المبادرة بموارد محدودة، ولكن برؤية طويلة المدى. نحن لا نطلب الدعم فقط — بل نقدم المعرفة والخبرة والإبداع والاستعداد للمساهمة.»",
+    mvrFinal1: "<strong>🇷🇸🇺🇦 بيان ختامي</strong><br>Le Bureau Civilisation Océanique™ اليوم هو مبادرة ابتكارية مجتمعية متطورة.<br>تم إنشاؤها في فرانييه. بدعم من صربيا. مفتوحة للتعاون الدولي.",
+    mvrFinal2: "المرحلة التالية: التعاون المؤسسي، البنية التحتية الرقمية، النقل، المعدات، القدرة البحثية، الشراكات الابتكارية.",
+    mvrFinal3: "من مبادرة مجتمعية صغيرة، يمكن أن ينمو نموذج جديد للتنمية المستدامة يركز على المستقبل.",
+    expTitle: "مجالات الخبرة",
+    e1: "ذكاء المياه", e1d: "إدارة المياه القائمة على البيانات",
+    e2: "التوائم الرقمية", e2d: "التوائم الإقليمية والحضرية",
+    e3: "الاقتصاد الأزرق", e3d: "التنمية المستدامة للمحيطات والسواحل",
+    e4: "دعم القرار بالذكاء الاصطناعي", e4d: "التعلم الآلي لتخطيط المياه والأقاليم",
+    e5: "أقاليم المستقبل", e5d: "أنظمة إقليمية مرنة",
+    e6: "الحضارة المحيطية", e6d: "نماذج مستقبلية للحياة في المحيط",
+    e7: "هندسة الأنظمة", e7d: "أطر للأنظمة المعقدة",
+    e8: "استعادة النظم البيئية", e8d: "استعادة الأنهار والسواحل",
+    e9: "التكيف مع المناخ", e9d: "استراتيجيات المرونة",
+    rdTitle: "مجالات البحث",
+    rd1: "الأنظمة النهرية", rd1d: "الاستعادة، إدارة الفيضانات، الذكاء النهري",
+    rd2: "الأنظمة الساحلية", rd2d: "المرونة، التكيف مع مستوى البحر، المناطق الساحلية",
+    rd3: "الأنظمة المحيطية", rd3d: "البنية التحتية العائمة، الروبوتات البحرية، الابتكار الأزرق",
+    ftsTitle: "الأنظمة الإقليمية المستقبلية",
+    fts1: "أقاليم ذكية", fts1d: "مناطق متصلة تعتمد على البيانات",
+    fts2: "مناطق الابتكار الأزرق", fts2d: "مراكز الابتكار المحيطية والساحلية",
+    fts3: "مدن مرنة", fts3d: "أنظمة حضرية تتكيف مع المناخ",
+    fts4: "أحواض الأنهار 2.0", fts4d: "إدارة متكاملة للأنهار",
+    fts5: "أقاليم عائمة", fts5d: "منصات بحرية ومجتمعات",
+    fts6: "أقاليم محيطية", fts6d: "نماذج جديدة لإدارة المحيطات",
+    dtTitle: "منصات التوائم الرقمية",
+    dt1: "التوأم الرقمي للمدينة", dt1d: "المحاكاة الحضرية والتخطيط",
+    dt2: "التوأم الرقمي لحوض النهر", dt2d: "مراقبة الأنهار في الوقت الفعلي",
+    dt3: "التوأم الرقمي للساحل", dt3d: "نمذجة مستوى البحر والتعرية",
+    dt4: "التوأم الرقمي للمحيط", dt4d: "محاكاة النظم البيئية البحرية",
+    dt5: "التوأم الرقمي الكوكبي", dt5d: "الشبكة البيئية العالمية",
+    dt6: "التوأم الرقمي للبنية التحتية", dt6d: "إدارة الأصول الحيوية",
+    isTitle: "الخدمات الابتكارية",
+    is1: "تطوير المفاهيم", is1d: "من الرؤية إلى النموذج الأولي",
+    is2: "التصميم المنهجي", is2d: "الأطر المعمارية",
+    is3: "البحث", is3d: "البحوث التطبيقية والتخمينية",
+    is4: "تطوير التوائم الرقمية", is4d: "منصات توائم مخصصة",
+    is5: "الرؤية الاستراتيجية", is5d: "خرائط طريق طويلة المدى",
+    is6: "التعاون العالمي", is6d: "الشراكات الدولية",
+    isCTA: "اطلب استشارة →",
+    valTitle: "قيمنا",
+    val1: "🔬 النزاهة العلمية",
+    val2: "🌱 الاستدامة",
+    val3: "🤝 التعاون",
+    val4: "💡 الابتكار",
+    val5: "🌊 الإشراف على المياه",
+    val6: "🧠 التعددية التخصصية",
+    val7: "⚖️ الإنصاف",
+    val8: "🚀 التركيز على المستقبل",
+    officeTitle: "مكتب الابتكار",
+    office1: "<strong>صنع في فرانييه، جمهورية صربيا</strong> · بدعم من صربيا · مفتوح للتعاون الدولي",
+    office2: "📍 42.5324, 21.9141 — رادنيشكا 2، فرانييه",
+    ltTitle: "الرؤية طويلة المدى",
+    ltSub: "تصميم مستقبل:",
+    lt1: "الأنهار", lt2: "السواحل", lt3: "المحيطات",
+    lt4: "الأقاليم", lt5: "المدن", lt6: "الموانئ",
+    lt7: "حضارة المياه", lt8: "الحضارة المحيطية",
+    lt9: "التوائم الرقمية", lt10: "أنظمة الذكاء الاصطناعي",
+    widgetTitle: "🚀 البنية التحتية للاتصالات — مركز استقبال فرانييه",
+    widgetDate: "رادنيشكا 2 · 7 أغسطس 2026",
+    widgetBadge: "✦ 21 موقعًا على الكوكب ثلاثي الأبعاد",
+    widgetDesc: "تم تركيب نظام إنترنت عبر الأقمار الصناعية على السطح. النموذج الأولي: لوحتان شمسيتان + وحدة قمر صناعي.",
+    widgetCoordsLabel: "الإحداثيات:",
+    widgetMapLink: "خرائط جوجل",
+    widgetBtn: "افتح في خرائط جوجل →",
+    contactTitle: "تواصل معنا",
+    contactAddr: "📍 فرانييه، جمهورية صربيا",
+    inputName: "اسمك",
+    inputOrg: "المؤسسة",
+    inputEmail: "البريد الإلكتروني",
+    inputMsg: "الرسالة",
+    contactBtn: "إرسال استفسار →",
+    footerPrivacy: "سياسة الخصوصية",
+    footerTerms: "شروط الخدمة",
+    footerSitemap: "خريطة الموقع",
+    copyright: "© 2026 Le Bureau de la Civilisation de l'Eau™. جميع الحقوق محفوظة."
+  },
+  zh: {
+    heroTagline: "设计水、领土和海洋文明的未来",
+    heroSub: "定制创新 · 系统架构 · 水智能 · 数字孪生 · 蓝色经济",
+    badge1: "🌍 全球倡议",
+    badge2: "🏛️ 由塞尔维亚支持",
+    badge3: "🧠 社区驱动",
+    badge4: "🔬 研究与创新",
+    cta1: "探索我们的工作 →",
+    cta2: "联系我们",
+    mTitle: "使命与愿景",
+    mText1: "<strong>使命：</strong>我们为数字孪生、水系统、蓝色经济和海洋文明开发定制概念、研究框架和系统架构。",
+    mText2: "<strong>愿景：</strong>成为通过科学、设计和技术塑造领土、河流和海洋系统未来的国际创新局。",
+    mvrTitle: "使命 · 愿景 · 现实",
+    mvrMissionTitle: "使命",
+    mvrMission1: "Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™ 是一个社区驱动的创新倡议，由暂时居住在塞尔维亚共和国的乌克兰专业人士创建。",
+    mvrMission2: "我们的使命是将专业知识、经验和人力潜力转化为对提供保护和支持的社区发展的实际贡献。",
+    mvrMission3: "该局在以下领域开发概念、研究模型和原型解决方案：",
+    f1: "未来领土",
+    f2: "水和生态系统",
+    f3: "数字孪生和地理信息系统技术",
+    f4: "可持续建筑",
+    f5: "自适应基础设施",
+    f6: "人工智能驱动的空间规划",
+    f7: "蓝色经济和海洋文明",
+    mvrMission4: "项目的使命不是取代现有机构，而是为公民、专业人士、社区、教育组织和公共机构之间的合作创建一个平台。",
+    mvrVisionTitle: "愿景",
+    mvrVision1: "我们相信每一次危机都可以成为变革的转折点。",
+    mvrVision2: "被迫流离失所并不意味着失去职业身份。在适当的条件下，知识和经验可以成为创新、融合和发展的资源。",
+    mvrVision3: "<strong>我们的愿景是创建21世纪新型创新建筑局：</strong>",
+    v1: "社区成为实践创新的实验室；",
+    v2: "临时环境成为未来解决方案的原型；",
+    v3: "专业人力资本成为领土发展的贡献；",
+    v4: "数字技术支持更好的决策；",
+    v5: "合作创造超越国界的价值。",
+    mvrVision4: "<strong>长期目标：</strong>建立国际创新中心网络，致力于水 · 领土 · 城市 · 河流 · 海岸 · 海洋 · 数字地球系统。",
+    mvrRealityTitle: "现实 — 项目的当前阶段",
+    mvrReality1: "<strong>实验性形成阶段</strong>",
+    mvrReality2: "目前，该局是一个正在形成过程中的实验性倡议。它还不是一个拥有永久基础设施的完全建立的组织。它是在现实条件下创建新型创新平台的实践尝试。",
+    mvrReality3: "目前，该项目通过以下方式存在：",
+    r1: "专业倡议；",
+    r2: "自愿参与；",
+    r3: "概念开发；",
+    r4: "社区合作；",
+    r5: "参与者的个人贡献。",
+    mvrReality4: "<em>该局逐步发展，从其主要资源 — 人类知识和经验开始。</em>",
+    mvrDigitalTitle: "💻 数字基础设施现实",
+    mvrDigital1: "在目前阶段，该项目没有完整的数字基础设施。缺乏官方域名、专业托管、专用服务器或专业数字平台不是因为缺乏想法或策略，而是因为在初始开发阶段资源有限。",
+    mvrDigital2: "现有网站和数字材料代表了该概念的演示原型。",
+    mvrDigital3: "我们将感谢以下形式的支持：域名注册、托管服务、云基础设施、软件、数字设备和技术专业知识。",
+    mvrSupportTitle: "🤝 开放的支持与合作模式",
+    mvrSupport1: "该局对不同形式的援助和合作伙伴关系持开放态度。",
+    need1: "🚙 交通基础设施",
+    need1d: "优先事项：实地研究、领土分析、设备运输的机动性。",
+    need1n: "需求：二手越野车、探险车、多用途运输车。",
+    need2: "🚤 水上和海上运输",
+    need2d: "用于沿海和河流系统研究、海洋技术实验。",
+    need2n: "需求：小船、研究船、部分功能的海上设备。",
+    need3: "🌊 研究基地",
+    need3d: "长期目标：沿海研究和创新基地。",
+    need3n: "需求：沿海土地、设施、车间、实验室空间。",
+    need4: "🖥️ 技术设备",
+    need4d: "数字设备、办公基础设施、通信系统。",
+    need4n: "需求：计算机、服务器、卫星设备、网络设备。",
+    mvrFinancialTitle: "💶 财政和机构支持",
+    mvrFinancial1: "支持可以采取不同形式：捐赠、设备转让、机构伙伴关系、研究补助金、参与创新计划、教育合作、基础设施援助。",
+    mvrFinancial2: "<em>每一项贡献都有助于将概念转变为功能性的创新平台。</em>",
+    mvrWhyTitle: "🌱 为什么这很重要",
+    mvrWhy1: "这个项目展示了一个简单的原则：<strong>人力潜力不会因被迫流离失所而消失。</strong>",
+    mvrWhy2: "工程师、建筑师、IT专家、设计师、研究人员和管理人员在有参与和发展空间时可以继续创造价值。",
+    mvrWhy3: "弗拉涅不仅可以成为临时居住地，而且可以成为当地社区与专业人力资本之间的合作如何创造新机遇的生动例子。",
+    mvrQuote: "“我们是乌克兰专业人士，一个暂时居住在塞尔维亚的跨国团队。今天我们正在用有限的资源创建这个倡议，但有着长期的愿景。我们不仅是在寻求支持 — 我们还在提供知识、经验、创造力和我们愿意做出贡献的意愿。”",
+    mvrFinal1: "<strong>🇷🇸🇺🇦 最终声明</strong><br>Le Bureau Civilisation Océanique™ 今天是一个正在发展的社区创新倡议。<br>在弗拉涅创建。由塞尔维亚支持。对国际合作开放。",
+    mvrFinal2: "下一阶段：机构合作、数字基础设施、交通、设备、研究能力、创新伙伴关系。",
+    mvrFinal3: "从一个小型社区倡议，可以出现一个面向未来的可持续发展新模式。",
+    expTitle: "专业领域",
+    e1: "水智能", e1d: "基于数据的水资源管理",
+    e2: "数字孪生", e2d: "领土和城市孪生",
+    e3: "蓝色经济", e3d: "可持续海洋和沿海发展",
+    e4: "人工智能决策支持", e4d: "用于水和领土规划的机器学习",
+    e5: "未来领土", e5d: "有弹性的领土系统",
+    e6: "海洋文明", e6d: "未来海洋生活模式",
+    e7: "系统架构", e7d: "复杂系统的框架",
+    e8: "生态系统恢复", e8d: "河流和沿海恢复",
+    e9: "气候适应", e9d: "弹性策略",
+    rdTitle: "研究领域",
+    rd1: "河流系统", rd1d: "恢复、洪水管理、河流智能",
+    rd2: "沿海系统", rd2d: "弹性、海平面适应、沿海区域",
+    rd3: "海洋系统", rd3d: "浮动基础设施、海洋机器人、蓝色创新",
+    ftsTitle: "未来领土系统",
+    fts1: "智能领土", fts1d: "互联的、数据驱动的区域",
+    fts2: "蓝色创新区", fts2d: "海洋和沿海创新中心",
+    fts3: "弹性城市", fts3d: "气候适应型城市系统",
+    fts4: "流域2.0", fts4d: "综合河流管理",
+    fts5: "浮动领土", fts5d: "海上平台和社区",
+    fts6: "海洋领土", fts6d: "新的海洋治理模式",
+    dtTitle: "数字孪生平台",
+    dt1: "城市数字孪生", dt1d: "城市模拟和规划",
+    dt2: "流域数字孪生", dt2d: "实时河流监测",
+    dt3: "沿海数字孪生", dt3d: "海平面和侵蚀建模",
+    dt4: "海洋数字孪生", dt4d: "海洋生态系统模拟",
+    dt5: "行星数字孪生", dt5d: "全球环境网络",
+    dt6: "基础设施数字孪生", dt6d: "关键资产管理",
+    isTitle: "创新服务",
+    is1: "概念开发", is1d: "从愿景到原型",
+    is2: "系统设计", is2d: "架构框架",
+    is3: "研究", is3d: "应用和推测性研究",
+    is4: "数字孪生开发", is4d: "定制孪生平台",
+    is5: "战略愿景", is5d: "长期路线图",
+    is6: "全球合作", is6d: "国际伙伴关系",
+    isCTA: "请求咨询 →",
+    valTitle: "我们的价值观",
+    val1: "🔬 科学诚信",
+    val2: "🌱 可持续性",
+    val3: "🤝 合作",
+    val4: "💡 创新",
+    val5: "🌊 水资源管理",
+    val6: "🧠 跨学科",
+    val7: "⚖️ 公平",
+    val8: "🚀 面向未来",
+    officeTitle: "创新办公室",
+    office1: "<strong>在塞尔维亚共和国弗拉涅制造</strong> · 由塞尔维亚支持 · 对国际合作开放",
+    office2: "📍 42.5324, 21.9141 — 拉德尼奇卡2号，弗拉涅",
+    ltTitle: "长期愿景",
+    ltSub: "设计未来：",
+    lt1: "河流", lt2: "海岸", lt3: "海洋",
+    lt4: "领土", lt5: "城市", lt6: "港口",
+    lt7: "水文明", lt8: "海洋文明",
+    lt9: "数字孪生", lt10: "人工智能系统",
+    widgetTitle: "🚀 通信基础设施 — 弗拉涅接待中心",
+    widgetDate: "拉德尼奇卡2号 · 2026年8月7日",
+    widgetBadge: "✦ 3D星球上的21个位置",
+    widgetDesc: "卫星互联网接入系统安装在屋顶。原型：两块太阳能电池板 + 卫星单元。",
+    widgetCoordsLabel: "坐标：",
+    widgetMapLink: "谷歌地图",
+    widgetBtn: "在谷歌地图中打开 →",
+    contactTitle: "联系我们",
+    contactAddr: "📍 弗拉涅，塞尔维亚共和国",
+    inputName: "您的姓名",
+    inputOrg: "组织",
+    inputEmail: "电子邮件",
+    inputMsg: "消息",
+    contactBtn: "发送咨询 →",
+    footerPrivacy: "隐私政策",
+    footerTerms: "服务条款",
+    footerSitemap: "网站地图",
+    copyright: "© 2026 Le Bureau de la Civilisation de l'Eau™。保留所有权利。"
+  },
+  ko: {
+    heroTagline: "물, 영토, 해양 문명의 미래 설계",
+    heroSub: "맞춤형 혁신 · 시스템 아키텍처 · 물 인텔리전스 · 디지털 트윈 · 블루 이코노미",
+    badge1: "🌍 글로벌 이니셔티브",
+    badge2: "🏛️ 세르비아 지원",
+    badge3: "🧠 커뮤니티 주도",
+    badge4: "🔬 연구 및 혁신",
+    cta1: "우리의 작업 살펴보기 →",
+    cta2: "문의하기",
+    mTitle: "미션과 비전",
+    mText1: "<strong>미션:</strong> 우리는 디지털 트윈, 물 시스템, 블루 이코노미, 해양 문명을 위한 맞춤형 개념, 연구 프레임워크 및 시스템 아키텍처를 개발합니다.",
+    mText2: "<strong>비전:</strong> 과학, 디자인, 기술을 통해 영토, 강, 해양 시스템의 미래를 형성하는 국제 혁신국이 되는 것.",
+    mvrTitle: "미션 · 비전 · 현실",
+    mvrMissionTitle: "미션",
+    mvrMission1: "Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™는 세르비아 공화국에 임시 거주하는 우크라이나 전문가들이 만든 커뮤니티 주도 혁신 이니셔티브입니다.",
+    mvrMission2: "우리의 미션은 전문 지식, 경험, 인간 잠재력을 보호와 지원을 제공한 커뮤니티의 발전에 실질적으로 기여하는 것으로 변환하는 것입니다.",
+    mvrMission3: "국은 다음 분야에서 개념, 연구 모델, 프로토타입 솔루션을 개발합니다:",
+    f1: "미래 영토",
+    f2: "물과 생태 시스템",
+    f3: "디지털 트윈 및 GIS 기술",
+    f4: "지속 가능한 건축",
+    f5: "적응형 인프라",
+    f6: "AI 기반 공간 계획",
+    f7: "블루 이코노미와 해양 문명",
+    mvrMission4: "프로젝트의 미션은 기존 기관을 대체하는 것이 아니라 시민, 전문가, 커뮤니티, 교육 기관, 공공 기관 간의 협력 플랫폼을 만드는 것입니다.",
+    mvrVisionTitle: "비전",
+    mvrVision1: "우리는 모든 위기가 변혁의 지점이 될 수 있다고 믿습니다.",
+    mvrVision2: "강제 이주는 전문적 정체성의 상실을 의미하지 않습니다. 적절한 조건에서 지식과 경험은 혁신, 통합, 발전의 자원이 될 수 있습니다.",
+    mvrVision3: "<strong>우리의 비전은 21세기 새로운 유형의 혁신 건축 국을 만드는 것입니다:</strong>",
+    v1: "커뮤니티가 실용적 혁신의 실험실이 되고;",
+    v2: "임시 환경이 미래 솔루션의 프로토타입이 되고;",
+    v3: "전문적 인적 자본이 영토 발전에 기여하고;",
+    v4: "디지털 기술이 더 나은 의사 결정을 지원하고;",
+    v5: "협력이 국경을 넘어 가치를 창출합니다.",
+    mvrVision4: "<strong>장기 목표:</strong> 물 · 영토 · 도시 · 강 · 해안 · 해양 · 디지털 지구 시스템과 함께 작업하는 혁신 센터의 국제 네트워크 구축.",
+    mvrRealityTitle: "현실 — 프로젝트의 현재 단계",
+    mvrReality1: "<strong>실험적 형성 단계</strong>",
+    mvrReality2: "현재 국은 형성 과정에 있는 실험적 이니셔티브입니다. 아직 영구 인프라를 갖춘 완전히 설립된 조직이 아닙니다. 실제 조건에서 새로운 유형의 혁신 플랫폼을 만들기 위한 실용적 시도입니다.",
+    mvrReality3: "현재 프로젝트는 다음을 통해 존재합니다:",
+    r1: "전문적 이니셔티브;",
+    r2: "자발적 참여;",
+    r3: "개념 개발;",
+    r4: "커뮤니티 협력;",
+    r5: "참가자들의 개인적 기여.",
+    mvrReality4: "<em>국은 주요 자원인 인간 지식과 경험에서 시작하여 점진적으로 발전하고 있습니다.</em>",
+    mvrDigitalTitle: "💻 디지털 인프라 현실",
+    mvrDigital1: "현재 단계에서 프로젝트는 완전한 디지털 인프라를 갖추지 못했습니다. 공식 도메인 이름, 전문 호스팅, 전용 서버 또는 특수 디지털 플랫폼의 부재는 아이디어나 전략의 부족이 아니라 초기 개발 단계의 제한된 재정 자원 때문입니다.",
+    mvrDigital2: "기존 웹사이트와 디지털 자료는 개념의 프로토타입 데모를 나타냅니다.",
+    mvrDigital3: "우리는 도메인 등록, 호스팅 서비스, 클라우드 인프라, 소프트웨어, 디지털 장비, 기술 전문 지식 형태의 지원을 감사히 받겠습니다.",
+    mvrSupportTitle: "🤝 지원과 협력의 개방형 모델",
+    mvrSupport1: "국은 다양한 형태의 지원과 파트너십에 개방되어 있습니다.",
+    need1: "🚙 교통 인프라",
+    need1d: "우선순위: 현장 연구, 영토 분석, 장비 운송을 위한 이동성.",
+    need1n: "필요: 중고 오프로드 차량, 탐험 차량, 다목적 운송 차량.",
+    need2: "🚤 수상 및 해상 운송",
+    need2d: "해안 및 강 시스템 연구, 해양 기술 실험용.",
+    need2n: "필요: 소형 보트, 연구 선박, 부분적으로 기능하는 해양 장비.",
+    need3: "🌊 연구 기지",
+    need3d: "장기 목표: 해안 연구 및 혁신 기지.",
+    need3n: "필요: 해안 토지, 시설, 작업장, 실험실 공간.",
+    need4: "🖥️ 기술 장비",
+    need4d: "디지털 장비, 사무실 인프라, 통신 시스템.",
+    need4n: "필요: 컴퓨터, 서버, 위성 장비, 네트워크 장비.",
+    mvrFinancialTitle: "💶 재정 및 제도적 지원",
+    mvrFinancial1: "지원은 다양한 형태를 취할 수 있습니다: 기부, 장비 이전, 제도적 파트너십, 연구 보조금, 혁신 프로그램 참여, 교육 협력, 인프라 지원.",
+    mvrFinancial2: "<em>모든 기여는 개념을 기능적인 혁신 플랫폼으로 변환하는 데 도움이 됩니다.</em>",
+    mvrWhyTitle: "🌱 이것이 중요한 이유",
+    mvrWhy1: "이 프로젝트는 간단한 원칙을 보여줍니다: <strong>인간 잠재력은 강제 이주와 함께 사라지지 않습니다.</strong>",
+    mvrWhy2: "엔지니어, 건축가, IT 전문가, 디자이너, 연구원, 관리자는 참여와 발전의 공간이 있을 때 가치를 계속 창출할 수 있습니다.",
+    mvrWhy3: "브라네는 임시 거주지일 뿐만 아니라 지역 커뮤니티와 전문적 인적 자본 간의 협력이 새로운 기회를 창출하는 방법의 살아있는 예가 될 수 있습니다.",
+    mvrQuote: "“우리는 세르비아에 임시 거주하는 우크라이나 전문가, 다국적 팀입니다. 오늘 우리는 제한된 자원으로 이 이니셔티브를 만들고 있지만 장기적인 비전을 가지고 있습니다. 우리는 지원을 요청할 뿐만 아니라 지식, 경험, 창의성, 기여하려는 의지를 제공합니다.”",
+    mvrFinal1: "<strong>🇷🇸🇺🇦 최종 성명</strong><br>Le Bureau Civilisation Océanique™ 오늘은 발전하는 커뮤니티 혁신 이니셔티브입니다.<br>브라네에서 만들어졌습니다. 세르비아의 지원을 받습니다. 국제 협력에 개방되어 있습니다.",
+    mvrFinal2: "다음 단계: 제도적 협력, 디지털 인프라, 교통, 장비, 연구 역량, 혁신 파트너십.",
+    mvrFinal3: "작은 커뮤니티 이니셔티브에서 미래에 초점을 맞춘 지속 가능한 발전의 새로운 모델이 등장할 수 있습니다.",
+    expTitle: "전문 분야",
+    e1: "물 인텔리전스", e1d: "데이터 기반 물 관리",
+    e2: "디지털 트윈", e2d: "영토 및 도시 트윈",
+    e3: "블루 이코노미", e3d: "지속 가능한 해양 및 해안 개발",
+    e4: "AI 의사 결정 지원", e4d: "물 및 영토 계획을 위한 기계 학습",
+    e5: "미래 영토", e5d: "회복력 있는 영토 시스템",
+    e6: "해양 문명", e6d: "미래 해양 생활 모델",
+    e7: "시스템 아키텍처", e7d: "복잡한 시스템을 위한 프레임워크",
+    e8: "생태계 복원", e8d: "강 및 해안 복원",
+    e9: "기후 적응", e9d: "회복력 전략",
+    rdTitle: "연구 분야",
+    rd1: "강 시스템", rd1d: "복원, 홍수 관리, 강 인텔리전스",
+    rd2: "해안 시스템", rd2d: "회복력, 해수면 적응, 해안 지역",
+    rd3: "해양 시스템", rd3d: "부유 인프라, 해양 로봇공학, 블루 혁신",
+    ftsTitle: "미래 영토 시스템",
+    fts1: "스마트 영토", fts1d: "연결된 데이터 기반 지역",
+    fts2: "블루 혁신 구역", fts2d: "해양 및 해안 혁신 허브",
+    fts3: "회복력 있는 도시", fts3d: "기후 적응형 도시 시스템",
+    fts4: "강 유역 2.0", fts4d: "통합 강 관리",
+    fts5: "부유 영토", fts5d: "해상 플랫폼 및 커뮤니티",
+    fts6: "해양 영토", fts6d: "새로운 해양 거버넌스 모델",
+    dtTitle: "디지털 트윈 플랫폼",
+    dt1: "도시 디지털 트윈", dt1d: "도시 시뮬레이션 및 계획",
+    dt2: "강 유역 트윈", dt2d: "실시간 강 모니터링",
+    dt3: "해안 트윈", dt3d: "해수면 및 침식 모델링",
+    dt4: "해양 트윈", dt4d: "해양 생태계 시뮬레이션",
+    dt5: "행성 디지털 트윈", dt5d: "글로벌 환경 네트워크",
+    dt6: "인프라 트윈", dt6d: "중요 자산 관리",
+    isTitle: "혁신 서비스",
+    is1: "개념 개발", is1d: "비전에서 프로토타입까지",
+    is2: "시스템 디자인", is2d: "아키텍처 프레임워크",
+    is3: "연구", is3d: "응용 및 추측 연구",
+    is4: "디지털 트윈 개발", is4d: "맞춤형 트윈 플랫폼",
+    is5: "전략적 비전", is5d: "장기 로드맵",
+    is6: "글로벌 협력", is6d: "국제 파트너십",
+    isCTA: "상담 요청 →",
+    valTitle: "우리의 가치",
+    val1: "🔬 과학적 무결성",
+    val2: "🌱 지속 가능성",
+    val3: "🤝 협력",
+    val4: "💡 혁신",
+    val5: "🌊 물 관리",
+    val6: "🧠 초학제적 접근",
+    val7: "⚖️ 형평성",
+    val8: "🚀 미래 지향적",
+    officeTitle: "혁신 오피스",
+    office1: "<strong>세르비아 공화국 브라네에서 제작</strong> · 세르비아 지원 · 국제 협력 개방",
+    office2: "📍 42.5324, 21.9141 — 라드니치카 2, 브라네",
+    ltTitle: "장기 비전",
+    ltSub: "미래 설계:",
+    lt1: "강", lt2: "해안", lt3: "해양",
+    lt4: "영토", lt5: "도시", lt6: "항구",
+    lt7: "물 문명", lt8: "해양 문명",
+    lt9: "디지털 트윈", lt10: "AI 시스템",
+    widgetTitle: "🚀 통신 인프라 — 브라네 접수 센터",
+    widgetDate: "라드니치카 2 · 2026년 8월 7일",
+    widgetBadge: "✦ 3D 행성에 21개 위치",
+    widgetDesc: "위성 인터넷 접속 시스템이 옥상에 설치되었습니다. 프로토타입: 두 개의 태양광 패널 + 위성 유닛.",
+    widgetCoordsLabel: "좌표:",
+    widgetMapLink: "구글 지도",
+    widgetBtn: "구글 지도에서 열기 →",
+    contactTitle: "문의하기",
+    contactAddr: "📍 브라네, 세르비아 공화국",
+    inputName: "이름",
+    inputOrg: "조직",
+    inputEmail: "이메일",
+    inputMsg: "메시지",
+    contactBtn: "문의 보내기 →",
+    footerPrivacy: "개인정보 처리방침",
+    footerTerms: "이용약관",
+    footerSitemap: "사이트맵",
+    copyright: "© 2026 Le Bureau de la Civilisation de l'Eau™. 모든 권리 보유."
+  },
+  ja: {
+    heroTagline: "水、領土、海洋文明の未来をデザインする",
+    heroSub: "カスタムイノベーション · システムアーキテクチャ · ウォーターインテリジェンス · デジタルツイン · ブルーエコノミー",
+    badge1: "🌍 グローバルイニシアチブ",
+    badge2: "🏛️ セルビアの支援",
+    badge3: "🧠 コミュニティ主導",
+    badge4: "🔬 研究とイノベーション",
+    cta1: "私たちの活動を見る →",
+    cta2: "お問い合わせ",
+    mTitle: "ミッションとビジョン",
+    mText1: "<strong>ミッション：</strong>デジタルツイン、水システム、ブルーエコノミー、海洋文明のためのカスタムコンセプト、研究フレームワーク、システムアーキテクチャを開発します。",
+    mText2: "<strong>ビジョン：</strong>科学、デザイン、テクノロジーを通じて領土、河川、海洋システムの未来を形作る国際的なイノベーション局になること。",
+    mvrTitle: "ミッション · ビジョン · 現実",
+    mvrMissionTitle: "ミッション",
+    mvrMission1: "Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™は、セルビア共和国に一時的に居住するウクライナの専門家によって創設されたコミュニティ主導のイノベーションイニシアチブです。",
+    mvrMission2: "私たちのミッションは、専門知識、経験、人間の可能性を、保護と支援を提供したコミュニティの発展への実践的貢献に変えることです。",
+    mvrMission3: "局は以下の分野でコンセプト、研究モデル、プロトタイプソリューションを開発します：",
+    f1: "未来の領土",
+    f2: "水と生態系",
+    f3: "デジタルツインとGIS技術",
+    f4: "持続可能な建築",
+    f5: "適応型インフラ",
+    f6: "AIを活用した空間計画",
+    f7: "ブルーエコノミーと海洋文明",
+    mvrMission4: "プロジェクトのミッションは既存の機関を置き換えることではなく、市民、専門家、コミュニティ、教育機関、公的機関間の協力プラットフォームを創設することです。",
+    mvrVisionTitle: "ビジョン",
+    mvrVision1: "私たちはすべての危機が変革のポイントになり得ると信じています。",
+    mvrVision2: "強制避難は専門的アイデンティティの喪失を意味しません。適切な条件下で、知識と経験はイノベーション、統合、発展のリソースになり得ます。",
+    mvrVision3: "<strong>私たちのビジョンは、21世紀の新しいタイプのイノベーション建築局を創設することです：</strong>",
+    v1: "コミュニティが実践的イノベーションの実験室になり;",
+    v2: "一時的な環境が未来のソリューションのプロトタイプになり;",
+    v3: "専門的人間資本が領土開発への貢献になり;",
+    v4: "デジタル技術がより良い意思決定を支援し;",
+    v5: "協力が国境を越えて価値を創出します。",
+    mvrVision4: "<strong>長期的目標：</strong>水 · 領土 · 都市 · 河川 · 海岸 · 海洋 · デジタルアースシステムと連携するイノベーションセンターの国際ネットワークを確立すること。",
+    mvrRealityTitle: "現実 — プロジェクトの現段階",
+    mvrReality1: "<strong>実験的形成段階</strong>",
+    mvrReality2: "現時点では、局は形成過程にある実験的イニシアチブです。まだ恒久的なインフラを備えた完全に確立された組織ではありません。現実の条件下で新しいタイプのイノベーションプラットフォームを創設する実践的試みです。",
+    mvrReality3: "現在、プロジェクトは以下を通じて存在しています：",
+    r1: "専門的イニシアチブ;",
+    r2: "自発的参加;",
+    r3: "コンセプト開発;",
+    r4: "コミュニティ協力;",
+    r5: "参加者の個人的貢献。",
+    mvrReality4: "<em>局は主要リソースである人間の知識と経験から始めて、徐々に発展しています。</em>",
+    mvrDigitalTitle: "💻 デジタルインフラの現実",
+    mvrDigital1: "現段階では、プロジェクトは完全なデジタルインフラを備えていません。公式ドメイン名、専門的ホスティング、専用サーバー、または専門的デジタルプラットフォームの欠如は、アイデアや戦略の不足ではなく、初期開発段階での限られた財源によるものです。",
+    mvrDigital2: "既存のウェブサイトとデジタル資料は、コンセプトのプロトタイプデモを表しています。",
+    mvrDigital3: "私たちはドメイン登録、ホスティングサービス、クラウドインフラ、ソフトウェア、デジタル機器、技術的専門知識の形での支援に感謝します。",
+    mvrSupportTitle: "🤝 支援と協力のオープンモデル",
+    mvrSupport1: "局は様々な形態の支援とパートナーシップにオープンです。",
+    need1: "🚙 交通インフラ",
+    need1d: "優先事項：フィールド調査、領土分析、機器輸送のためのモビリティ。",
+    need1n: "必要：中古オフロード車両、探検車両、多目的輸送車両。",
+    need2: "🚤 水上・海上輸送",
+    need2d: "沿岸・河川システム研究、海洋技術実験用。",
+    need2n: "必要：小型ボート、研究船、部分的に機能する海洋機器。",
+    need3: "🌊 研究拠点",
+    need3d: "長期的目標：沿岸研究・イノベーション拠点。",
+    need3n: "必要：沿岸土地、施設、ワークショップ、実験室スペース。",
+    need4: "🖥️ 技術機器",
+    need4d: "デジタル機器、オフィスインフラ、通信システム。",
+    need4n: "必要：コンピュータ、サーバー、衛星機器、ネットワーク機器。",
+    mvrFinancialTitle: "💶 財政的・制度的支援",
+    mvrFinancial1: "支援は様々な形態を取ることができます：寄付、機器譲渡、制度的パートナーシップ、研究助成金、イノベーションプログラムへの参加、教育的協力、インフラ支援。",
+    mvrFinancial2: "<em>すべての貢献はコンセプトを機能的なイノベーションプラットフォームに変えるのに役立ちます。</em>",
+    mvrWhyTitle: "🌱 これが重要な理由",
+    mvrWhy1: "このプロジェクトは単純な原則を示しています：<strong>人間の可能性は強制避難とともに消えません。</strong>",
+    mvrWhy2: "エンジニア、建築家、IT専門家、デザイナー、研究者、マネージャーは、参加と発展の余地があるときに価値を生み出し続けることができます。",
+    mvrWhy3: "ヴラニェは単なる一時的な居住地ではなく、地域コミュニティと専門的人間資本との協力がどのように新しい機会を創出するかの生きた例になることができます。",
+    mvrQuote: "「私たちはセルビアに一時的に居住するウクライナ人専門家、多国籍チームです。今日、私たちは限られたリソースでこのイニシアチブを創設していますが、長期的なビジョンを持っています。私たちは支援を求めるだけでなく、知識、経験、創造性、貢献する意欲を提供しています。」",
+    mvrFinal1: "<strong>🇷🇸🇺🇦 最終声明</strong><br>Le Bureau Civilisation Océanique™ 今日は発展中のコミュニティイノベーションイニシアチブです。<br>ヴラニェで創設されました。セルビアの支援を受けています。国際協力にオープンです。",
+    mvrFinal2: "次の段階：制度的協力、デジタルインフラ、交通、機器、研究能力、イノベーションパートナーシップ。",
+    mvrFinal3: "小さなコミュニティイニシアチブから、未来に焦点を当てた持続可能な開発の新しいモデルが生まれることができます。",
+    expTitle: "専門分野",
+    e1: "ウォーターインテリジェンス", e1d: "データ駆動型水管理",
+    e2: "デジタルツイン", e2d: "領土・都市ツイン",
+    e3: "ブルーエコノミー", e3d: "持続可能な海洋・沿岸開発",
+    e4: "AI意思決定支援", e4d: "水・領土計画のための機械学習",
+    e5: "未来の領土", e5d: "レジリエントな領土システム",
+    e6: "海洋文明", e6d: "海洋生活の未来モデル",
+    e7: "システムアーキテクチャ", e7d: "複雑系のためのフレームワーク",
+    e8: "生態系回復", e8d: "河川・沿岸回復",
+    e9: "気候適応", e9d: "レジリエンス戦略",
+    rdTitle: "研究領域",
+    rd1: "河川システム", rd1d: "回復、洪水管理、河川インテリジェンス",
+    rd2: "沿岸システム", rd2d: "レジリエンス、海面上昇適応、沿岸ゾーン",
+    rd3: "海洋システム", rd3d: "浮体インフラ、海洋ロボティクス、ブルーイノベーション",
+    ftsTitle: "未来の領土システム",
+    fts1: "スマート領土", fts1d: "接続されたデータ駆動型地域",
+    fts2: "ブルーイノベーションゾーン", fts2d: "海洋・沿岸イノベーションハブ",
+    fts3: "レジリエントな都市", fts3d: "気候適応型都市システム",
+    fts4: "河川流域2.0", fts4d: "統合河川管理",
+    fts5: "浮体領土", fts5d: "洋上プラットフォームとコミュニティ",
+    fts6: "海洋領土", fts6d: "新しい海洋ガバナンスモデル",
+    dtTitle: "デジタルツインプラットフォーム",
+    dt1: "都市デジタルツイン", dt1d: "都市シミュレーションと計画",
+    dt2: "河川流域ツイン", dt2d: "リアルタイム河川モニタリング",
+    dt3: "沿岸ツイン", dt3d: "海面上昇と侵食のモデリング",
+    dt4: "海洋ツイン", dt4d: "海洋生態系シミュレーション",
+    dt5: "惑星デジタルツイン", dt5d: "グローバル環境ネットワーク",
+    dt6: "インフラツイン", dt6d: "重要資産管理",
+    isTitle: "イノベーションサービス",
+    is1: "コンセプト開発", is1d: "ビジョンからプロトタイプへ",
+    is2: "システムデザイン", is2d: "アーキテクチャフレームワーク",
+    is3: "研究", is3d: "応用・投機的研究",
+    is4: "デジタルツイン開発", is4d: "カスタムツインプラットフォーム",
+    is5: "戦略的ビジョン", is5d: "長期ロードマップ",
+    is6: "グローバル協力", is6d: "国際パートナーシップ",
+    isCTA: "コンサルテーションを依頼 →",
+    valTitle: "私たちの価値観",
+    val1: "🔬 科学的誠実さ",
+    val2: "🌱 持続可能性",
+    val3: "🤝 協力",
+    val4: "💡 イノベーション",
+    val5: "🌊 水の管理",
+    val6: "🧠 トランスディシプリナリティ",
+    val7: "⚖️ 公平性",
+    val8: "🚀 未来志向",
+    officeTitle: "イノベーションオフィス",
+    office1: "<strong>セルビア共和国ヴラニェで製造</strong> · セルビアの支援 · 国際協力にオープン",
+    office2: "📍 42.5324, 21.9141 — ラドニチカ2、ヴラニェ",
+    ltTitle: "長期ビジョン",
+    ltSub: "未来をデザインする：",
+    lt1: "河川", lt2: "海岸", lt3: "海洋",
+    lt4: "領土", lt5: "都市", lt6: "港湾",
+    lt7: "水文明", lt8: "海洋文明",
+    lt9: "デジタルツイン", lt10: "AIシステム",
+    widgetTitle: "🚀 通信インフラ — ヴラニェ受付センター",
+    widgetDate: "ラドニチカ2 · 2026年8月7日",
+    widgetBadge: "✦ 3D惑星上の21箇所",
+    widgetDesc: "衛星インターネットアクセスシステムが屋上に設置されました。プロトタイプ：2枚のソーラーパネル + 衛星ユニット。",
+    widgetCoordsLabel: "座標：",
+    widgetMapLink: "Googleマップ",
+    widgetBtn: "Googleマップで開く →",
+    contactTitle: "お問い合わせ",
+    contactAddr: "📍 ヴラニェ、セルビア共和国",
+    inputName: "お名前",
+    inputOrg: "組織",
+    inputEmail: "メールアドレス",
+    inputMsg: "メッセージ",
+    contactBtn: "お問い合わせを送信 →",
+    footerPrivacy: "プライバシーポリシー",
+    footerTerms: "利用規約",
+    footerSitemap: "サイトマップ",
+    copyright: "© 2026 Le Bureau de la Civilisation de l'Eau™. All rights reserved."
+  },
+  hi: {
+    heroTagline: "जल, क्षेत्रों और महासागरीय सभ्यता के भविष्य का डिज़ाइन",
+    heroSub: "अनुकूलित नवाचार · सिस्टम आर्किटेक्चर · जल इंटेलिजेंस · डिजिटल ट्विन · ब्लू इकोनॉमी",
+    badge1: "🌍 वैश्विक पहल",
+    badge2: "🏛️ सर्बिया द्वारा समर्थित",
+    badge3: "🧠 समुदाय-संचालित",
+    badge4: "🔬 अनुसंधान और नवाचार",
+    cta1: "हमारा कार्य देखें →",
+    cta2: "संपर्क करें",
+    mTitle: "मिशन और विजन",
+    mText1: "<strong>मिशन:</strong> हम डिजिटल ट्विन, जल प्रणालियों, ब्लू इकोनॉमी और महासागरीय सभ्यता के लिए अनुकूलित अवधारणाओं, अनुसंधान ढांचों और सिस्टम आर्किटेक्चर विकसित करते हैं।",
+    mText2: "<strong>विजन:</strong> विज्ञान, डिज़ाइन और प्रौद्योगिकी के माध्यम से क्षेत्रों, नदियों और महासागरीय प्रणालियों के भविष्य को आकार देने वाला एक अंतर्राष्ट्रीय नवाचार ब्यूरो बनना।",
+    mvrTitle: "मिशन · विजन · वास्तविकता",
+    mvrMissionTitle: "मिशन",
+    mvrMission1: "Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™ सर्बिया गणराज्य में अस्थायी रूप से रहने वाले यूक्रेनी पेशेवरों द्वारा बनाई गई एक समुदाय-संचालित नवाचार पहल है।",
+    mvrMission2: "हमारा मिशन पेशेवर ज्ञान, अनुभव और मानवीय क्षमता को उन समुदायों के विकास में व्यावहारिक योगदान में बदलना है जिन्होंने सुरक्षा और समर्थन प्रदान किया है।",
+    mvrMission3: "ब्यूरो निम्नलिखित क्षेत्रों में अवधारणाओं, अनुसंधान मॉडल और प्रोटोटाइप समाधान विकसित करता है:",
+    f1: "भविष्य के क्षेत्र",
+    f2: "जल और पारिस्थितिकी प्रणालियाँ",
+    f3: "डिजिटल ट्विन और जीआईएस प्रौद्योगिकियाँ",
+    f4: "टिकाऊ वास्तुकला",
+    f5: "अनुकूली बुनियादी ढाँचा",
+    f6: "एआई-संचालित स्थानिक योजना",
+    f7: "ब्लू इकोनॉमी और महासागरीय सभ्यता",
+    mvrMission4: "परियोजना का मिशन मौजूदा संस्थानों को बदलना नहीं है, बल्कि नागरिकों, पेशेवरों, समुदायों, शैक्षिक संगठनों और सार्वजनिक संस्थानों के बीच सहयोग के लिए एक मंच बनाना है।",
+    mvrVisionTitle: "विजन",
+    mvrVision1: "हम मानते हैं कि हर संकट परिवर्तन का बिंदु बन सकता है।",
+    mvrVision2: "जबरन विस्थापन का मतलब पेशेवर पहचान का नुकसान नहीं है। सही परिस्थितियों में, ज्ञान और अनुभव नवाचार, एकीकरण और विकास के लिए संसाधन बन सकते हैं।",
+    mvrVision3: "<strong>हमारा विजन 21वीं सदी के एक नए प्रकार का इनोवेशन आर्किटेक्चर ब्यूरो बनाना है:</strong>",
+    v1: "समुदाय व्यावहारिक नवाचार के लिए प्रयोगशाला बन जाते हैं;",
+    v2: "अस्थायी वातावरण भविष्य के समाधानों के प्रोटोटाइप बन जाते हैं;",
+    v3: "पेशेवर मानव पूंजी क्षेत्रीय विकास में योगदान बन जाती है;",
+    v4: "डिजिटल प्रौद्योगिकियाँ बेहतर निर्णय लेने में सहायता करती हैं;",
+    v5: "सहयोग सीमाओं से परे मूल्य बनाता है।",
+    mvrVision4: "<strong>दीर्घकालिक लक्ष्य:</strong> जल · क्षेत्र · शहर · नदियाँ · तट · महासागर · डिजिटल पृथ्वी प्रणालियों के साथ काम करने वाले नवाचार केंद्रों का एक अंतर्राष्ट्रीय नेटवर्क स्थापित करना।",
+    mvrRealityTitle: "वास्तविकता — परियोजना का वर्तमान चरण",
+    mvrReality1: "<strong>प्रायोगिक गठन चरण</strong>",
+    mvrReality2: "वर्तमान में, ब्यूरो गठन की प्रक्रिया में एक प्रायोगिक पहल है। यह अभी तक स्थायी बुनियादी ढाँचे वाला पूरी तरह से स्थापित संगठन नहीं है। यह वास्तविक दुनिया की स्थितियों के तहत एक नए प्रकार का नवाचार मंच बनाने का एक व्यावहारिक प्रयास है।",
+    mvrReality3: "वर्तमान में, परियोजना इसके माध्यम से मौजूद है:",
+    r1: "पेशेवर पहल;",
+    r2: "स्वैच्छिक भागीदारी;",
+    r3: "अवधारणाओं का विकास;",
+    r4: "समुदाय सहयोग;",
+    r5: "प्रतिभागियों के व्यक्तिगत योगदान।",
+    mvrReality4: "<em>ब्यूरो धीरे-धीरे विकसित हो रहा है, अपने मुख्य संसाधन — मानव ज्ञान और अनुभव से शुरू करके।</em>",
+    mvrDigitalTitle: "💻 डिजिटल बुनियादी ढाँचे की वास्तविकता",
+    mvrDigital1: "वर्तमान चरण में, परियोजना के पास पूर्ण डिजिटल बुनियादी ढाँचा नहीं है। आधिकारिक डोमेन नाम, पेशेवर होस्टिंग, समर्पित सर्वर, या विशेष डिजिटल प्लेटफार्मों की अनुपस्थिति विचारों या रणनीति की कमी के कारण नहीं है, बल्कि प्रारंभिक विकास चरण के दौरान सीमित वित्तीय संसाधनों के कारण है।",
+    mvrDigital2: "मौजूदा वेबसाइट और डिजिटल सामग्री अवधारणा का एक प्रोटोटाइप प्रदर्शन प्रस्तुत करती है।",
+    mvrDigital3: "हम निम्नलिखित रूप में समर्थन की सराहना करेंगे: डोमेन पंजीकरण, होस्टिंग सेवाएँ, क्लाउड बुनियादी ढाँचा, सॉफ्टवेयर, डिजिटल उपकरण और तकनीकी विशेषज्ञता।",
+    mvrSupportTitle: "🤝 समर्थन और सहयोग का खुला मॉडल",
+    mvrSupport1: "ब्यूरो विभिन्न प्रकार की सहायता और साझेदारी के लिए खुला है।",
+    need1: "🚙 परिवहन बुनियादी ढाँचा",
+    need1d: "प्राथमिकता: क्षेत्रीय अनुसंधान, क्षेत्रीय विश्लेषण, उपकरण परिवहन के लिए गतिशीलता।",
+    need1n: "आवश्यकता: प्रयुक्त ऑफ-रोड वाहन, अभियान वाहन, बहुउद्देश्यीय परिवहन वाहन।",
+    need2: "🚤 जल और समुद्री परिवहन",
+    need2d: "तटीय और नदी प्रणाली अनुसंधान, समुद्री प्रौद्योगिकी प्रयोगों के लिए।",
+    need2n: "आवश्यकता: छोटी नावें, अनुसंधान पोत, आंशिक रूप से कार्यात्मक समुद्री उपकरण।",
+    need3: "🌊 अनुसंधान आधार",
+    need3d: "दीर्घकालिक लक्ष्य: तटीय अनुसंधान और नवाचार आधार।",
+    need3n: "आवश्यकता: तटीय भूमि, सुविधाएँ, कार्यशालाएँ, प्रयोगशाला स्थान।",
+    need4: "🖥️ तकनीकी उपकरण",
+    need4d: "डिजिटल उपकरण, कार्यालय बुनियादी ढाँचा, संचार प्रणालियाँ।",
+    need4n: "आवश्यकता: कंप्यूटर, सर्वर, उपग्रह उपकरण, नेटवर्क गियर।",
+    mvrFinancialTitle: "💶 वित्तीय और संस्थागत समर्थन",
+    mvrFinancial1: "समर्थन विभिन्न रूप ले सकता है: दान, उपकरण हस्तांतरण, संस्थागत साझेदारी, अनुसंधान अनुदान, नवाचार कार्यक्रमों में भागीदारी, शैक्षिक सहयोग, बुनियादी ढाँचा सहायता।",
+    mvrFinancial2: "<em>हर योगदान अवधारणा को एक कार्यात्मक नवाचार मंच में बदलने में मदद करता है।</em>",
+    mvrWhyTitle: "🌱 यह क्यों मायने रखता है",
+    mvrWhy1: "यह परियोजना एक सरल सिद्धांत प्रदर्शित करती है: <strong>मानवीय क्षमता जबरन विस्थापन के साथ गायब नहीं होती है।</strong>",
+    mvrWhy2: "इंजीनियर, वास्तुकार, आईटी विशेषज्ञ, डिजाइनर, शोधकर्ता और प्रबंधक तब मूल्य बनाना जारी रख सकते हैं जब उनके पास भागीदारी और विकास के लिए स्थान हो।",
+    mvrWhy3: "व्रांजे न केवल अस्थायी निवास का स्थान बन सकता है, बल्कि यह भी एक जीवंत उदाहरण बन सकता है कि कैसे स्थानीय समुदाय और पेशेवर मानव पूंजी के बीच सहयोग नए अवसर पैदा करता है।",
+    mvrQuote: "“हम यूक्रेनी पेशेवर हैं, एक बहुराष्ट्रीय टीम जो अस्थायी रूप से सर्बिया में रह रही है। आज हम सीमित संसाधनों के साथ इस पहल का निर्माण कर रहे हैं, लेकिन दीर्घकालिक दृष्टि के साथ। हम न केवल समर्थन मांग रहे हैं — हम ज्ञान, अनुभव, रचनात्मकता और योगदान करने की अपनी इच्छा की पेशकश कर रहे हैं।”",
+    mvrFinal1: "<strong>🇷🇸🇺🇦 अंतिम वक्तव्य</strong><br>Le Bureau Civilisation Océanique™ आज एक विकासशील समुदाय नवाचार पहल है।<br>व्रांजे में बनाई गई। सर्बिया द्वारा समर्थित। अंतर्राष्ट्रीय सहयोग के लिए खुला।",
+    mvrFinal2: "अगला चरण: संस्थागत सहयोग, डिजिटल बुनियादी ढाँचा, परिवहन, उपकरण, अनुसंधान क्षमता, नवाचार साझेदारी।",
+    mvrFinal3: "एक छोटी समुदाय पहल से, भविष्य पर केंद्रित सतत विकास का एक नया मॉडल उभर सकता है।",
+    expTitle: "विशेषज्ञता के क्षेत्र",
+    e1: "जल इंटेलिजेंस", e1d: "डेटा-संचालित जल प्रबंधन",
+    e2: "डिजिटल ट्विन", e2d: "क्षेत्रीय और शहरी ट्विन",
+    e3: "ब्लू इकोनॉमी", e3d: "सतत महासागर और तटीय विकास",
+    e4: "एआई निर्णय समर्थन", e4d: "जल और क्षेत्र योजना के लिए मशीन लर्निंग",
+    e5: "भविष्य के क्षेत्र", e5d: "लचीली क्षेत्रीय प्रणालियाँ",
+    e6: "महासागरीय सभ्यता", e6d: "महासागर में जीवन के लिए भविष्य के मॉडल",
+    e7: "सिस्टम आर्किटेक्चर", e7d: "जटिल प्रणालियों के लिए ढाँचे",
+    e8: "पारिस्थितिकी तंत्र बहाली", e8d: "नदी और तटीय बहाली",
+    e9: "जलवायु अनुकूलन", e9d: "लचीलापन रणनीतियाँ",
+    rdTitle: "अनुसंधान क्षेत्र",
+    rd1: "नदी प्रणालियाँ", rd1d: "बहाली, बाढ़ प्रबंधन, नदी इंटेलिजेंस",
+    rd2: "तटीय प्रणालियाँ", rd2d: "लचीलापन, समुद्र-स्तर अनुकूलन, तटीय क्षेत्र",
+    rd3: "महासागरीय प्रणालियाँ", rd3d: "तैरती बुनियादी ढाँचा, समुद्री रोबोटिक्स, ब्लू इनोवेशन",
+    ftsTitle: "भविष्य की क्षेत्रीय प्रणालियाँ",
+    fts1: "स्मार्ट क्षेत्र", fts1d: "जुड़े, डेटा-संचालित क्षेत्र",
+    fts2: "ब्लू इनोवेशन जोन", fts2d: "महासागर और तटीय नवाचार केंद्र",
+    fts3: "लचीले शहर", fts3d: "जलवायु-अनुकूली शहरी प्रणालियाँ",
+    fts4: "नदी बेसिन 2.0", fts4d: "एकीकृत नदी प्रबंधन",
+    fts5: "तैरते क्षेत्र", fts5d: "अपतटीय मंच और समुदाय",
+    fts6: "महासागरीय क्षेत्र", fts6d: "महासागर शासन के लिए नए मॉडल",
+    dtTitle: "डिजिटल ट्विन प्लेटफॉर्म",
+    dt1: "शहर डिजिटल ट्विन", dt1d: "शहरी सिमुलेशन और योजना",
+    dt2: "नदी बेसिन ट्विन", dt2d: "वास्तविक समय नदी निगरानी",
+    dt3: "तटीय ट्विन", dt3d: "समुद्र-स्तर और कटाव मॉडलिंग",
+    dt4: "महासागर ट्विन", dt4d: "समुद्री पारिस्थितिकी तंत्र सिमुलेशन",
+    dt5: "ग्रहीय डिजिटल ट्विन", dt5d: "वैश्विक पर्यावरणीय नेटवर्क",
+    dt6: "बुनियादी ढाँचा ट्विन", dt6d: "महत्वपूर्ण संपत्ति प्रबंधन",
+    isTitle: "नवाचार सेवाएँ",
+    is1: "अवधारणा विकास", is1d: "दृष्टि से प्रोटोटाइप तक",
+    is2: "सिस्टम डिज़ाइन", is2d: "आर्किटेक्चरल ढाँचे",
+    is3: "अनुसंधान", is3d: "अनुप्रयुक्त और सट्टा अनुसंधान",
+    is4: "डिजिटल ट्विन विकास", is4d: "अनुकूलित ट्विन प्लेटफॉर्म",
+    is5: "रणनीतिक दृष्टि", is5d: "दीर्घकालिक रोडमैप",
+    is6: "वैश्विक सहयोग", is6d: "अंतर्राष्ट्रीय साझेदारी",
+    isCTA: "परामर्श का अनुरोध करें →",
+    valTitle: "हमारे मूल्य",
+    val1: "🔬 वैज्ञानिक अखंडता",
+    val2: "🌱 स्थिरता",
+    val3: "🤝 सहयोग",
+    val4: "💡 नवाचार",
+    val5: "🌊 जल प्रबंधन",
+    val6: "🧠 अंतर्विषयकता",
+    val7: "⚖️ समानता",
+    val8: "🚀 भविष्य-केंद्रित",
+    officeTitle: "नवाचार कार्यालय",
+    office1: "<strong>सर्बिया गणराज्य के व्रांजे में निर्मित</strong> · सर्बिया द्वारा समर्थित · अंतर्राष्ट्रीय सहयोग के लिए खुला",
+    office2: "📍 42.5324, 21.9141 — राडनिच्का 2, व्रांजे",
+    ltTitle: "दीर्घकालिक दृष्टि",
+    ltSub: "भविष्य डिज़ाइन करना:",
+    lt1: "नदियाँ", lt2: "तट", lt3: "महासागर",
+    lt4: "क्षेत्र", lt5: "शहर", lt6: "बंदरगाह",
+    lt7: "जल सभ्यता", lt8: "महासागरीय सभ्यता",
+    lt9: "डिजिटल ट्विन", lt10: "एआई प्रणालियाँ",
+    widgetTitle: "🚀 संचार बुनियादी ढाँचा — व्रांजे रिसेप्शन सेंटर",
+    widgetDate: "राडनिच्का 2 · 7 अगस्त 2026",
+    widgetBadge: "✦ 3डी ग्रह पर 21 स्थान",
+    widgetDesc: "उपग्रह इंटरनेट पहुँच प्रणाली छत पर स्थापित की गई। प्रोटोटाइप: दो सौर पैनल + उपग्रह इकाई।",
+    widgetCoordsLabel: "निर्देशांक:",
+    widgetMapLink: "गूगल मैप्स",
+    widgetBtn: "गूगल मैप्स में खोलें →",
+    contactTitle: "संपर्क करें",
+    contactAddr: "📍 व्रांजे, सर्बिया गणराज्य",
+    inputName: "आपका नाम",
+    inputOrg: "संगठन",
+    inputEmail: "ईमेल",
+    inputMsg: "संदेश",
+    contactBtn: "पूछताछ भेजें →",
+    footerPrivacy: "गोपनीयता नीति",
+    footerTerms: "सेवा की शर्तें",
+    footerSitemap: "साइटमैप",
+    copyright: "© 2026 Le Bureau de la Civilisation de l'Eau™. सर्वाधिकार सुरक्षित।"
+  },
+  pt: {
+    heroTagline: "Projetando o Futuro da Água, Territórios e Civilização Oceânica",
+    heroSub: "Inovação Sob Medida · Arquitetura de Sistemas · Inteligência Hídrica · Gêmeos Digitais · Economia Azul",
+    badge1: "🌍 Iniciativa Global",
+    badge2: "🏛️ Apoiado pela Sérvia",
+    badge3: "🧠 Orientado pela Comunidade",
+    badge4: "🔬 Pesquisa e Inovação",
+    cta1: "Explore Nosso Trabalho →",
+    cta2: "Contate-nos",
+    mTitle: "Missão e Visão",
+    mText1: "<strong>Missão:</strong> Desenvolvemos conceitos sob medida, estruturas de pesquisa e arquiteturas de sistemas para gêmeos digitais, sistemas hídricos, economia azul e civilização oceânica.",
+    mText2: "<strong>Visão:</strong> Tornar-nos um bureau internacional de inovação que molda o futuro dos territórios, rios e sistemas oceânicos através da ciência, design e tecnologia.",
+    mvrTitle: "Missão · Visão · Realidade",
+    mvrMissionTitle: "Missão",
+    mvrMission1: "Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™ é uma iniciativa de inovação orientada pela comunidade, criada por profissionais ucranianos residentes temporariamente na República da Sérvia.",
+    mvrMission2: "Nossa missão é transformar conhecimento profissional, experiência e potencial humano em uma contribuição prática para o desenvolvimento das comunidades que forneceram proteção e apoio.",
+    mvrMission3: "O Bureau desenvolve conceitos, modelos de pesquisa e soluções protótipo nas seguintes áreas:",
+    f1: "territórios do futuro",
+    f2: "sistemas hídricos e ecológicos",
+    f3: "gêmeos digitais e tecnologias GIS",
+    f4: "arquitetura sustentável",
+    f5: "infraestrutura adaptativa",
+    f6: "planejamento espacial com IA",
+    f7: "Economia Azul e civilização oceânica",
+    mvrMission4: "A missão do projeto não é substituir instituições existentes, mas criar uma plataforma para cooperação entre cidadãos, profissionais, comunidades, organizações educacionais e instituições públicas.",
+    mvrVisionTitle: "Visão",
+    mvrVision1: "Acreditamos que toda crise pode se tornar um ponto de transformação.",
+    mvrVision2: "O deslocamento forçado não significa perda de identidade profissional. Sob as condições certas, conhecimento e experiência podem se tornar um recurso para inovação, integração e desenvolvimento.",
+    mvrVision3: "<strong>Nossa visão é criar um novo tipo de Bureau de Arquitetura de Inovação do século XXI:</strong>",
+    v1: "comunidades se tornam laboratórios para inovação prática;",
+    v2: "ambientes temporários se tornam protótipos de soluções futuras;",
+    v3: "capital humano profissional se torna uma contribuição para o desenvolvimento territorial;",
+    v4: "tecnologias digitais apoiam melhor tomada de decisão;",
+    v5: "cooperação cria valor além das fronteiras.",
+    mvrVision4: "<strong>Objetivo de longo prazo:</strong> Estabelecer uma rede internacional de centros de inovação trabalhando com Água · Territórios · Cidades · Rios · Costas · Oceanos · Sistemas Digitais da Terra.",
+    mvrRealityTitle: "Realidade — Estágio Atual do Projeto",
+    mvrReality1: "<strong>Estágio de Formação Experimental</strong>",
+    mvrReality2: "No momento atual, o Bureau é uma iniciativa experimental em processo de formação. Ainda não é uma organização totalmente estabelecida com infraestrutura permanente. É uma tentativa prática de criar um novo tipo de plataforma de inovação em condições do mundo real.",
+    mvrReality3: "Atualmente, o projeto existe através de:",
+    r1: "iniciativa profissional;",
+    r2: "participação voluntária;",
+    r3: "desenvolvimento de conceitos;",
+    r4: "cooperação comunitária;",
+    r5: "contribuições pessoais dos participantes.",
+    mvrReality4: "<em>O Bureau está se desenvolvendo gradualmente, começando com seu principal recurso — conhecimento e experiência humanos.</em>",
+    mvrDigitalTitle: "💻 Realidade da Infraestrutura Digital",
+    mvrDigital1: "No estágio atual, o projeto não possui infraestrutura digital completa. A ausência de um nome de domínio oficial, hospedagem profissional, servidores dedicados ou plataformas digitais especializadas não é causada por falta de ideias ou estratégia, mas por recursos financeiros limitados durante a fase inicial de desenvolvimento.",
+    mvrDigital2: "O site existente e os materiais digitais representam uma demonstração protótipo do conceito.",
+    mvrDigital3: "Agradeceríamos apoio na forma de: registro de domínio, serviços de hospedagem, infraestrutura em nuvem, software, equipamento digital e experiência técnica.",
+    mvrSupportTitle: "🤝 Modelo Aberto de Apoio e Cooperação",
+    mvrSupport1: "O Bureau está aberto a diferentes formas de assistência e parceria.",
+    need1: "🚙 Infraestrutura de Transporte",
+    need1d: "Prioridade: mobilidade para pesquisa de campo, análise territorial, transporte de equipamentos.",
+    need1n: "Necessidades: veículos off-road usados, veículos de expedição, veículos de transporte multiuso.",
+    need2: "🚤 Transporte Aquático e Marinho",
+    need2d: "Para pesquisa de sistemas costeiros e fluviais, experimentos com tecnologia marinha.",
+    need2n: "Necessidades: barcos pequenos, embarcações de pesquisa, equipamento marinho parcialmente funcional.",
+    need3: "🌊 Base de Pesquisa",
+    need3d: "Objetivo de longo prazo: base de pesquisa e inovação costeira.",
+    need3n: "Necessidades: terra costeira, instalações, oficinas, espaços de laboratório.",
+    need4: "🖥️ Equipamento Técnico",
+    need4d: "Equipamento digital, infraestrutura de escritório, sistemas de comunicação.",
+    need4n: "Necessidades: computadores, servidores, equipamento de satélite, equipamento de rede.",
+    mvrFinancialTitle: "💶 Apoio Financeiro e Institucional",
+    mvrFinancial1: "O apoio pode assumir diferentes formas: doações, transferência de equipamentos, parcerias institucionais, bolsas de pesquisa, participação em programas de inovação, cooperação educacional, assistência em infraestrutura.",
+    mvrFinancial2: "<em>Cada contribuição ajuda a transformar o conceito em uma plataforma de inovação funcional.</em>",
+    mvrWhyTitle: "🌱 Por Que Isso Importa",
+    mvrWhy1: "Este projeto demonstra um princípio simples: <strong>O potencial humano não desaparece com o deslocamento forçado.</strong>",
+    mvrWhy2: "Engenheiros, arquitetos, especialistas em TI, designers, pesquisadores e gerentes podem continuar criando valor quando têm espaço para participação e desenvolvimento.",
+    mvrWhy3: "Vranje pode se tornar não apenas um lugar de residência temporária, mas também um exemplo vivo de como a cooperação entre uma comunidade local e o capital humano profissional cria novas oportunidades.",
+    mvrQuote: "“Somos profissionais ucranianos, uma equipe multinacional residente temporariamente na Sérvia. Hoje estamos criando esta iniciativa com recursos limitados, mas com uma visão de longo prazo. Não estamos apenas pedindo apoio — estamos oferecendo conhecimento, experiência, criatividade e nossa disposição para contribuir.”",
+    mvrFinal1: "<strong>🇷🇸🇺🇦 Declaração Final</strong><br>Le Bureau Civilisation Océanique™ hoje é uma iniciativa de inovação comunitária em desenvolvimento.<br>Criada em Vranje. Apoiada pela Sérvia. Aberta à cooperação internacional.",
+    mvrFinal2: "Próxima etapa: cooperação institucional, infraestrutura digital, transporte, equipamento, capacidade de pesquisa, parcerias de inovação.",
+    mvrFinal3: "De uma pequena iniciativa comunitária, um novo modelo de desenvolvimento sustentável focado no futuro pode emergir.",
+    expTitle: "Áreas de Especialização",
+    e1: "Inteligência Hídrica", e1d: "Gestão hídrica baseada em dados",
+    e2: "Gêmeos Digitais", e2d: "Gêmeos territoriais e urbanos",
+    e3: "Economia Azul", e3d: "Desenvolvimento sustentável oceânico e costeiro",
+    e4: "Suporte a Decisões com IA", e4d: "Aprendizado de máquina para planejamento hídrico e territorial",
+    e5: "Territórios do Futuro", e5d: "Sistemas territoriais resilientes",
+    e6: "Civilização Oceânica", e6d: "Modelos futuros para vida oceânica",
+    e7: "Arquitetura de Sistemas", e7d: "Estruturas para sistemas complexos",
+    e8: "Restauração de Ecossistemas", e8d: "Restauração fluvial e costeira",
+    e9: "Adaptação Climática", e9d: "Estratégias de resiliência",
+    rdTitle: "Domínios de Pesquisa",
+    rd1: "Sistemas Fluviais", rd1d: "Restauração, gestão de enchentes, inteligência fluvial",
+    rd2: "Sistemas Costeiros", rd2d: "Resiliência, adaptação ao nível do mar, zonas costeiras",
+    rd3: "Sistemas Oceânicos", rd3d: "Infraestrutura flutuante, robótica marinha, inovação azul",
+    ftsTitle: "Sistemas Territoriais Futuros",
+    fts1: "Territórios Inteligentes", fts1d: "Regiões conectadas e orientadas por dados",
+    fts2: "Zonas de Inovação Azul", fts2d: "Centros de inovação oceânica e costeira",
+    fts3: "Cidades Resilientes", fts3d: "Sistemas urbanos adaptáveis ao clima",
+    fts4: "Bacias Hidrográficas 2.0", fts4d: "Gestão integrada de rios",
+    fts5: "Territórios Flutuantes", fts5d: "Plataformas offshore e comunidades",
+    fts6: "Territórios Oceânicos", fts6d: "Novos modelos para governança oceânica",
+    dtTitle: "Plataformas de Gêmeos Digitais",
+    dt1: "Gêmeo Digital Urbano", dt1d: "Simulação e planejamento urbano",
+    dt2: "Gêmeo de Bacia Hidrográfica", dt2d: "Monitoramento fluvial em tempo real",
+    dt3: "Gêmeo Costeiro", dt3d: "Modelagem de nível do mar e erosão",
+    dt4: "Gêmeo Oceânico", dt4d: "Simulação de ecossistemas marinhos",
+    dt5: "Gêmeo Digital Planetário", dt5d: "Rede ambiental global",
+    dt6: "Gêmeo de Infraestrutura", dt6d: "Gestão de ativos críticos",
+    isTitle: "Serviços de Inovação",
+    is1: "Desenvolvimento de Conceitos", is1d: "Da visão ao protótipo",
+    is2: "Design de Sistemas", is2d: "Estruturas arquitetônicas",
+    is3: "Pesquisa", is3d: "Pesquisa aplicada e especulativa",
+    is4: "Desenvolvimento de Gêmeos Digitais", is4d: "Plataformas de gêmeos personalizadas",
+    is5: "Visão Estratégica", is5d: "Roteiros de longo prazo",
+    is6: "Cooperação Global", is6d: "Parcerias internacionais",
+    isCTA: "Solicite uma Consultoria →",
+    valTitle: "Nossos Valores",
+    val1: "🔬 Integridade Científica",
+    val2: "🌱 Sustentabilidade",
+    val3: "🤝 Colaboração",
+    val4: "💡 Inovação",
+    val5: "🌊 Gestão Hídrica",
+    val6: "🧠 Transdisciplinaridade",
+    val7: "⚖️ Equidade",
+    val8: "🚀 Foco no Futuro",
+    officeTitle: "Escritório de Inovação",
+    office1: "<strong>Feito em Vranje, República da Sérvia</strong> · Apoiado pela Sérvia · Aberto à cooperação internacional",
+    office2: "📍 42.5324, 21.9141 — Radnička 2, Vranje",
+    ltTitle: "Visão de Longo Prazo",
+    ltSub: "Projetando o futuro de:",
+    lt1: "Rios", lt2: "Costas", lt3: "Oceanos",
+    lt4: "Territórios", lt5: "Cidades", lt6: "Portos",
+    lt7: "Civilização Hídrica", lt8: "Civilização Oceânica",
+    lt9: "Gêmeos Digitais", lt10: "Sistemas de IA",
+    widgetTitle: "🚀 Infraestrutura de Comunicações — Centro de Recepção de Vranje",
+    widgetDate: "Radnička 2 · 7 de agosto de 2026",
+    widgetBadge: "✦ 21 locais no planeta 3D",
+    widgetDesc: "Sistema de acesso à internet via satélite instalado no telhado. Protótipo: dois painéis solares + unidade de satélite.",
+    widgetCoordsLabel: "Coordenadas:",
+    widgetMapLink: "Google Maps",
+    widgetBtn: "Abrir no Google Maps →",
+    contactTitle: "Entre em Contato",
+    contactAddr: "📍 Vranje, República da Sérvia",
+    inputName: "Seu Nome",
+    inputOrg: "Organização",
+    inputEmail: "E-mail",
+    inputMsg: "Mensagem",
+    contactBtn: "Enviar Consulta →",
+    footerPrivacy: "Política de Privacidade",
+    footerTerms: "Termos de Serviço",
+    footerSitemap: "Mapa do Site",
+    copyright: "© 2026 Le Bureau de la Civilisation de l'Eau™. Todos os direitos reservados."
+  },
+  de: {
+    heroTagline: "Die Zukunft von Wasser, Territorien und Ozeanzivilisation gestalten",
+    heroSub: "Maßgeschneiderte Innovation · Systemarchitektur · Wasserintelligenz · Digitale Zwillinge · Blaue Wirtschaft",
+    badge1: "🌍 Globale Initiative",
+    badge2: "🏛️ Unterstützt von Serbien",
+    badge3: "🧠 Gemeinschaftsgetrieben",
+    badge4: "🔬 Forschung & Innovation",
+    cta1: "Entdecken Sie unsere Arbeit →",
+    cta2: "Kontaktieren Sie uns",
+    mTitle: "Mission & Vision",
+    mText1: "<strong>Mission:</strong> Wir entwickeln maßgeschneiderte Konzepte, Forschungsrahmen und Systemarchitekturen für Digitale Zwillinge, Wassersysteme, Blaue Wirtschaft und Ozeanzivilisation.",
+    mText2: "<strong>Vision:</strong> Ein internationales Innovationsbüro zu werden, das die Zukunft von Territorien, Flüssen und Ozeansystemen durch Wissenschaft, Design und Technologie gestaltet.",
+    mvrTitle: "Mission · Vision · Realität",
+    mvrMissionTitle: "Mission",
+    mvrMission1: "Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™ ist eine gemeinschaftsgetriebene Innovationsinitiative, die von ukrainischen Fachkräften ins Leben gerufen wurde, die vorübergehend in der Republik Serbien leben.",
+    mvrMission2: "Unsere Mission ist es, Fachwissen, Erfahrung und menschliches Potenzial in einen praktischen Beitrag zur Entwicklung der Gemeinschaften zu verwandeln, die Schutz und Unterstützung geboten haben.",
+    mvrMission3: "Das Büro entwickelt Konzepte, Forschungsmodelle und Prototyplösungen in folgenden Bereichen:",
+    f1: "Territorien der Zukunft",
+    f2: "Wasser- und Ökosysteme",
+    f3: "Digitale Zwillinge und GIS-Technologien",
+    f4: "Nachhaltige Architektur",
+    f5: "Adaptive Infrastruktur",
+    f6: "KI-gestützte Raumplanung",
+    f7: "Blaue Wirtschaft und Ozeanzivilisation",
+    mvrMission4: "Die Mission des Projekts ist nicht, bestehende Institutionen zu ersetzen, sondern eine Plattform für die Zusammenarbeit zwischen Bürgern, Fachleuten, Gemeinschaften, Bildungseinrichtungen und öffentlichen Institutionen zu schaffen.",
+    mvrVisionTitle: "Vision",
+    mvrVision1: "Wir glauben, dass jede Krise zu einem Punkt der Transformation werden kann.",
+    mvrVision2: "Zwangsvertreibung bedeutet nicht den Verlust der beruflichen Identität. Unter den richtigen Bedingungen können Wissen und Erfahrung zu einer Ressource für Innovation, Integration und Entwicklung werden.",
+    mvrVision3: "<strong>Unsere Vision ist es, eine neue Art von Innovations-Architekturbüro des 21. Jahrhunderts zu schaffen:</strong>",
+    v1: "Gemeinschaften werden zu Laboren für praktische Innovation;",
+    v2: "vorübergehende Umgebungen werden zu Prototypen zukünftiger Lösungen;",
+    v3: "professionelles Humankapital wird zu einem Beitrag zur territorialen Entwicklung;",
+    v4: "digitale Technologien unterstützen bessere Entscheidungsfindung;",
+    v5: "Zusammenarbeit schafft Wert über Grenzen hinweg.",
+    mvrVision4: "<strong>Langfristiges Ziel:</strong> Ein internationales Netzwerk von Innovationszentren aufzubauen, die mit Wasser · Territorien · Städten · Flüssen · Küsten · Ozeanen · Digitalen Erdsystemen arbeiten.",
+    mvrRealityTitle: "Realität — Aktuelle Phase des Projekts",
+    mvrReality1: "<strong>Experimentelle Gründungsphase</strong>",
+    mvrReality2: "Im gegenwärtigen Moment ist das Büro eine experimentelle Initiative im Entstehungsprozess. Es ist noch keine vollständig etablierte Organisation mit permanenter Infrastruktur. Es ist ein praktischer Versuch, eine neue Art von Innovationsplattform unter realen Bedingungen zu schaffen.",
+    mvrReality3: "Derzeit existiert das Projekt durch:",
+    r1: "berufliche Initiative;",
+    r2: "freiwillige Teilnahme;",
+    r3: "Konzeptentwicklung;",
+    r4: "gemeinschaftliche Zusammenarbeit;",
+    r5: "persönliche Beiträge der Teilnehmer.",
+    mvrReality4: "<em>Das Büro entwickelt sich schrittweise, beginnend mit seiner Hauptressource — menschlichem Wissen und Erfahrung.</em>",
+    mvrDigitalTitle: "💻 Digitale Infrastruktur-Realität",
+    mvrDigital1: "In der aktuellen Phase verfügt das Projekt nicht über eine vollständige digitale Infrastruktur. Das Fehlen eines offiziellen Domainnamens, professionellen Hostings, dedizierter Server oder spezialisierter digitaler Plattformen ist nicht auf einen Mangel an Ideen oder Strategie zurückzuführen, sondern auf begrenzte finanzielle Ressourcen während der anfänglichen Entwicklungsphase.",
+    mvrDigital2: "Die bestehende Website und die digitalen Materialien stellen eine Prototyp-Demonstration des Konzepts dar.",
+    mvrDigital3: "Wir würden Unterstützung in Form von: Domain-Registrierung, Hosting-Diensten, Cloud-Infrastruktur, Software, digitaler Ausrüstung und technischem Fachwissen begrüßen.",
+    mvrSupportTitle: "🤝 Offenes Modell der Unterstützung und Zusammenarbeit",
+    mvrSupport1: "Das Büro ist offen für verschiedene Formen der Hilfe und Partnerschaft.",
+    need1: "🚙 Verkehrsinfrastruktur",
+    need1d: "Priorität: Mobilität für Feldforschung, Territorialanalyse, Transport von Ausrüstung.",
+    need1n: "Bedarf: gebrauchte Geländewagen, Expeditionsfahrzeuge, Mehrzwecktransportfahrzeuge.",
+    need2: "🚤 Wasser- und Seetransport",
+    need2d: "Für die Erforschung von Küsten- und Flusssystemen, Experimente mit Meerestechnologie.",
+    need2n: "Bedarf: kleine Boote, Forschungsschiffe, teilweise funktionsfähige Marineausrüstung.",
+    need3: "🌊 Forschungsbasis",
+    need3d: "Langfristiges Ziel: Küstenforschungs- und Innovationsbasis.",
+    need3n: "Bedarf: Küstengrundstücke, Einrichtungen, Werkstätten, Laborräume.",
+    need4: "🖥️ Technische Ausrüstung",
+    need4d: "Digitale Ausrüstung, Büroinfrastruktur, Kommunikationssysteme.",
+    need4n: "Bedarf: Computer, Server, Satellitenausrüstung, Netzwerkausrüstung.",
+    mvrFinancialTitle: "💶 Finanzielle und institutionelle Unterstützung",
+    mvrFinancial1: "Unterstützung kann verschiedene Formen annehmen: Spenden, Ausrüstungsübertragung, institutionelle Partnerschaften, Forschungsstipendien, Teilnahme an Innovationsprogrammen, Bildungskooperation, Infrastrukturhilfe.",
+    mvrFinancial2: "<em>Jeder Beitrag hilft, das Konzept in eine funktionale Innovationsplattform zu verwandeln.</em>",
+    mvrWhyTitle: "🌱 Warum dies wichtig ist",
+    mvrWhy1: "Dieses Projekt demonstriert ein einfaches Prinzip: <strong>Menschliches Potenzial verschwindet nicht mit der Zwangsvertreibung.</strong>",
+    mvrWhy2: "Ingenieure, Architekten, IT-Spezialisten, Designer, Forscher und Manager können weiterhin Werte schaffen, wenn sie Raum für Beteiligung und Entwicklung haben.",
+    mvrWhy3: "Vranje kann nicht nur ein Ort des vorübergehenden Aufenthalts werden, sondern auch ein lebendiges Beispiel dafür, wie die Zusammenarbeit zwischen einer lokalen Gemeinschaft und professionellem Humankapital neue Möglichkeiten schafft.",
+    mvrQuote: "„Wir sind ukrainische Fachkräfte, ein multinationales Team, das vorübergehend in Serbien lebt. Heute schaffen wir diese Initiative mit begrenzten Ressourcen, aber mit einer langfristigen Vision. Wir bitten nicht nur um Unterstützung — wir bieten Wissen, Erfahrung, Kreativität und unsere Bereitschaft, einen Beitrag zu leisten.”",
+    mvrFinal1: "<strong>🇷🇸🇺🇦 Abschließende Erklärung</strong><br>Le Bureau Civilisation Océanique™ ist heute eine sich entwickelnde gemeinschaftliche Innovationsinitiative.<br>Gegründet in Vranje. Unterstützt von Serbien. Offen für internationale Zusammenarbeit.",
+    mvrFinal2: "Die nächste Phase: institutionelle Zusammenarbeit, digitale Infrastruktur, Transport, Ausrüstung, Forschungskapazität, Innovationspartnerschaften.",
+    mvrFinal3: "Aus einer kleinen Gemeinschaftsinitiative kann ein neues, zukunftsorientiertes Modell nachhaltiger Entwicklung entstehen.",
+    expTitle: "Fachgebiete",
+    e1: "Wasserintelligenz", e1d: "Datenbasierte Wasserbewirtschaftung",
+    e2: "Digitale Zwillinge", e2d: "Territoriale und urbane Zwillinge",
+    e3: "Blaue Wirtschaft", e3d: "Nachhaltige Ozean- und Küstenentwicklung",
+    e4: "KI-Entscheidungsunterstützung", e4d: "Maschinelles Lernen für Wasser- und Territorialplanung",
+    e5: "Zukünftige Territorien", e5d: "Resiliente territoriale Systeme",
+    e6: "Ozeanzivilisation", e6d: "Zukünftige Modelle für das Leben im Ozean",
+    e7: "Systemarchitektur", e7d: "Rahmenwerke für komplexe Systeme",
+    e8: "Ökosystemwiederherstellung", e8d: "Fluss- und Küstenwiederherstellung",
+    e9: "Klimaanpassung", e9d: "Resilienzstrategien",
+    rdTitle: "Forschungsbereiche",
+    rd1: "Flusssysteme", rd1d: "Wiederherstellung, Hochwasserbewirtschaftung, Flussintelligenz",
+    rd2: "Küstensysteme", rd2d: "Resilienz, Meeresspiegelanpassung, Küstenzonen",
+    rd3: "Ozeansysteme", rd3d: "Schwimmende Infrastruktur, Meeresrobotik, blaue Innovation",
+    ftsTitle: "Zukünftige Territoriale Systeme",
+    fts1: "Smarte Territorien", fts1d: "Vernetzte, datengesteuerte Regionen",
+    fts2: "Blaue Innovationszonen", fts2d: "Ozean- und Küsteninnovationszentren",
+    fts3: "Resiliente Städte", fts3d: "Klimaadaptive städtische Systeme",
+    fts4: "Flussbecken 2.0", fts4d: "Integrierte Flussbewirtschaftung",
+    fts5: "Schwimmende Territorien", fts5d: "Offshore-Plattformen und Gemeinschaften",
+    fts6: "Ozeanische Territorien", fts6d: "Neue Modelle für die Ozean-Governance",
+    dtTitle: "Plattformen für Digitale Zwillinge",
+    dt1: "Digitaler Stadt-Zwilling", dt1d: "Urbane Simulation und Planung",
+    dt2: "Digitaler Flussbecken-Zwilling", dt2d: "Echtzeit-Flussüberwachung",
+    dt3: "Digitaler Küsten-Zwilling", dt3d: "Meeresspiegel- und Erosionsmodellierung",
+    dt4: "Digitaler Ozean-Zwilling", dt4d: "Simulation mariner Ökosysteme",
+    dt5: "Planetarer Digitaler Zwilling", dt5d: "Globales Umweltnetzwerk",
+    dt6: "Digitaler Infrastruktur-Zwilling", dt6d: "Kritisches Anlagenmanagement",
+    isTitle: "Innovationsdienstleistungen",
+    is1: "Konzeptentwicklung", is1d: "Von der Vision zum Prototyp",
+    is2: "Systemdesign", is2d: "Architektonische Rahmenwerke",
+    is3: "Forschung", is3d: "Angewandte und spekulative Forschung",
+    is4: "Entwicklung digitaler Zwillinge", is4d: "Maßgeschneiderte Zwillingsplattformen",
+    is5: "Strategische Vision", is5d: "Langfristige Roadmaps",
+    is6: "Globale Zusammenarbeit", is6d: "Internationale Partnerschaften",
+    isCTA: "Beratung anfragen →",
+    valTitle: "Unsere Werte",
+    val1: "🔬 Wissenschaftliche Integrität",
+    val2: "🌱 Nachhaltigkeit",
+    val3: "🤝 Zusammenarbeit",
+    val4: "💡 Innovation",
+    val5: "🌊 Wasserbewirtschaftung",
+    val6: "🧠 Transdisziplinarität",
+    val7: "⚖️ Gerechtigkeit",
+    val8: "🚀 Zukunftsorientiert",
+    officeTitle: "Innovationsbüro",
+    office1: "<strong>Hergestellt in Vranje, Republik Serbien</strong> · Unterstützt von Serbien · Offen für internationale Zusammenarbeit",
+    office2: "📍 42.5324, 21.9141 — Radnička 2, Vranje",
+    ltTitle: "Langfristige Vision",
+    ltSub: "Gestaltung der Zukunft von:",
+    lt1: "Flüssen", lt2: "Küsten", lt3: "Ozeanen",
+    lt4: "Territorien", lt5: "Städten", lt6: "Häfen",
+    lt7: "Wasserzivilisation", lt8: "Ozeanzivilisation",
+    lt9: "Digitalen Zwillingen", lt10: "KI-Systemen",
+    widgetTitle: "🚀 Kommunikationsinfrastruktur — Aufnahmezentrum Vranje",
+    widgetDate: "Radnička 2 · 7. August 2026",
+    widgetBadge: "✦ 21 Standorte auf dem 3D-Planeten",
+    widgetDesc: "Satelliten-Internet-Zugangssystem auf dem Dach installiert. Prototyp: zwei Solarmodule + Satelliteneinheit.",
+    widgetCoordsLabel: "Koordinaten:",
+    widgetMapLink: "Google Maps",
+    widgetBtn: "In Google Maps öffnen →",
+    contactTitle: "Kontaktieren Sie uns",
+    contactAddr: "📍 Vranje, Republik Serbien",
+    inputName: "Ihr Name",
+    inputOrg: "Organisation",
+    inputEmail: "E-Mail",
+    inputMsg: "Nachricht",
+    contactBtn: "Anfrage senden →",
+    footerPrivacy: "Datenschutzerklärung",
+    footerTerms: "Nutzungsbedingungen",
+    footerSitemap: "Sitemap",
+    copyright: "© 2026 Le Bureau de la Civilisation de l'Eau™. Alle Rechte vorbehalten."
+  },
+  fr: {
+    heroTagline: "Concevoir l'avenir de l'eau, des territoires et de la civilisation océanique",
+    heroSub: "Innovation sur mesure · Architecture système · Intelligence de l'eau · Jumeaux numériques · Économie bleue",
+    badge1: "🌍 Initiative mondiale",
+    badge2: "🏛️ Soutenu par la Serbie",
+    badge3: "🧠 Porté par la communauté",
+    badge4: "🔬 Recherche et innovation",
+    cta1: "Explorer nos travaux →",
+    cta2: "Nous contacter",
+    mTitle: "Mission et Vision",
+    mText1: "<strong>Mission :</strong> Nous développons des concepts sur mesure, des cadres de recherche et des architectures système pour les jumeaux numériques, les systèmes d'eau, l'économie bleue et la civilisation océanique.",
+    mText2: "<strong>Vision :</strong> Devenir un bureau d'innovation international façonnant l'avenir des territoires, des rivières et des systèmes océaniques par la science, le design et la technologie.",
+    mvrTitle: "Mission · Vision · Réalité",
+    mvrMissionTitle: "Mission",
+    mvrMission1: "Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™ est une initiative d'innovation communautaire créée par des professionnels ukrainiens résidant temporairement en République de Serbie.",
+    mvrMission2: "Notre mission est de transformer les connaissances professionnelles, l'expérience et le potentiel humain en une contribution pratique au développement des communautés qui ont fourni protection et soutien.",
+    mvrMission3: "Le Bureau développe des concepts, des modèles de recherche et des solutions prototypes dans les domaines suivants :",
+    f1: "territoires du futur",
+    f2: "systèmes hydriques et écologiques",
+    f3: "jumeaux numériques et technologies SIG",
+    f4: "architecture durable",
+    f5: "infrastructure adaptative",
+    f6: "planification spatiale alimentée par l'IA",
+    f7: "Économie bleue et civilisation océanique",
+    mvrMission4: "La mission du projet n'est pas de remplacer les institutions existantes, mais de créer une plateforme de coopération entre les citoyens, les professionnels, les communautés, les organisations éducatives et les institutions publiques.",
+    mvrVisionTitle: "Vision",
+    mvrVision1: "Nous croyons que chaque crise peut devenir un point de transformation.",
+    mvrVision2: "Le déplacement forcé ne signifie pas la perte de l'identité professionnelle. Dans les bonnes conditions, la connaissance et l'expérience peuvent devenir une ressource pour l'innovation, l'intégration et le développement.",
+    mvrVision3: "<strong>Notre vision est de créer un nouveau type de Bureau d'Architecture d'Innovation du 21e siècle :</strong>",
+    v1: "les communautés deviennent des laboratoires d'innovation pratique ;",
+    v2: "les environnements temporaires deviennent des prototypes de solutions futures ;",
+    v3: "le capital humain professionnel devient une contribution au développement territorial ;",
+    v4: "les technologies numériques soutiennent une meilleure prise de décision ;",
+    v5: "la coopération crée de la valeur au-delà des frontières.",
+    mvrVision4: "<strong>Objectif à long terme :</strong> Établir un réseau international de centres d'innovation travaillant avec l'Eau · les Territoires · les Villes · les Rivières · les Côtes · les Océans · les Systèmes Numériques de la Terre.",
+    mvrRealityTitle: "Réalité — Étape actuelle du projet",
+    mvrReality1: "<strong>Étape de formation expérimentale</strong>",
+    mvrReality2: "À l'heure actuelle, le Bureau est une initiative expérimentale en cours de formation. Ce n'est pas encore une organisation pleinement établie avec une infrastructure permanente. C'est une tentative pratique de créer un nouveau type de plateforme d'innovation dans des conditions réelles.",
+    mvrReality3: "Actuellement, le projet existe à travers :",
+    r1: "l'initiative professionnelle ;",
+    r2: "la participation volontaire ;",
+    r3: "le développement de concepts ;",
+    r4: "la coopération communautaire ;",
+    r5: "les contributions personnelles des participants.",
+    mvrReality4: "<em>Le Bureau se développe progressivement, en commençant par sa ressource principale — la connaissance et l'expérience humaines.</em>",
+    mvrDigitalTitle: "💻 Réalité de l'infrastructure numérique",
+    mvrDigital1: "À l'étape actuelle, le projet ne dispose pas d'une infrastructure numérique complète. L'absence d'un nom de domaine officiel, d'un hébergement professionnel, de serveurs dédiés ou de plateformes numériques spécialisées n'est pas causée par un manque d'idées ou de stratégie, mais par des ressources financières limitées pendant la phase de développement initiale.",
+    mvrDigital2: "Le site Web existant et les documents numériques représentent une démonstration prototype du concept.",
+    mvrDigital3: "Nous apprécierions un soutien sous forme de : enregistrement de domaine, services d'hébergement, infrastructure cloud, logiciels, équipement numérique et expertise technique.",
+    mvrSupportTitle: "🤝 Modèle ouvert de soutien et de coopération",
+    mvrSupport1: "Le Bureau est ouvert à différentes formes d'assistance et de partenariat.",
+    need1: "🚙 Infrastructure de transport",
+    need1d: "Priorité : mobilité pour la recherche sur le terrain, l'analyse territoriale, le transport d'équipement.",
+    need1n: "Besoins : véhicules tout-terrain d'occasion, véhicules d'expédition, véhicules de transport polyvalents.",
+    need2: "🚤 Transport nautique et maritime",
+    need2d: "Pour la recherche sur les systèmes côtiers et fluviaux, les expériences de technologie marine.",
+    need2n: "Besoins : petits bateaux, navires de recherche, équipement marin partiellement fonctionnel.",
+    need3: "🌊 Base de recherche",
+    need3d: "Objectif à long terme : base de recherche et d'innovation côtière.",
+    need3n: "Besoins : terrains côtiers, installations, ateliers, espaces de laboratoire.",
+    need4: "🖥️ Équipement technique",
+    need4d: "Équipement numérique, infrastructure de bureau, systèmes de communication.",
+    need4n: "Besoins : ordinateurs, serveurs, équipement satellite, équipement réseau.",
+    mvrFinancialTitle: "💶 Soutien financier et institutionnel",
+    mvrFinancial1: "Le soutien peut prendre différentes formes : dons, transfert d'équipement, partenariats institutionnels, subventions de recherche, participation à des programmes d'innovation, coopération éducative, aide à l'infrastructure.",
+    mvrFinancial2: "<em>Chaque contribution aide à transformer le concept en une plateforme d'innovation fonctionnelle.</em>",
+    mvrWhyTitle: "🌱 Pourquoi cela importe",
+    mvrWhy1: "Ce projet démontre un principe simple : <strong>Le potentiel humain ne disparaît pas avec le déplacement forcé.</strong>",
+    mvrWhy2: "Les ingénieurs, architectes, spécialistes informatiques, designers, chercheurs et managers peuvent continuer à créer de la valeur lorsqu'ils ont un espace pour la participation et le développement.",
+    mvrWhy3: "Vranje peut devenir non seulement un lieu de résidence temporaire, mais aussi un exemple vivant de la façon dont la coopération entre une communauté locale et le capital humain professionnel crée de nouvelles opportunités.",
+    mvrQuote: "« Nous sommes des professionnels ukrainiens, une équipe multinationale résidant temporairement en Serbie. Aujourd'hui, nous créons cette initiative avec des ressources limitées, mais avec une vision à long terme. Nous ne demandons pas seulement du soutien — nous offrons des connaissances, de l'expérience, de la créativité et notre volonté de contribuer. »",
+    mvrFinal1: "<strong>🇷🇸🇺🇦 Déclaration finale</strong><br>Le Bureau Civilisation Océanique™ aujourd'hui est une initiative d'innovation communautaire en développement.<br>Créé à Vranje. Soutenu par la Serbie. Ouvert à la coopération internationale.",
+    mvrFinal2: "La prochaine étape : coopération institutionnelle, infrastructure numérique, transport, équipement, capacité de recherche, partenariats d'innovation.",
+    mvrFinal3: "D'une petite initiative communautaire, un nouveau modèle de développement durable axé sur l'avenir peut émerger.",
+    expTitle: "Domaines d'expertise",
+    e1: "Intelligence de l'eau", e1d: "Gestion de l'eau basée sur les données",
+    e2: "Jumeaux numériques", e2d: "Jumeaux territoriaux et urbains",
+    e3: "Économie bleue", e3d: "Développement durable des océans et des côtes",
+    e4: "Support décisionnel IA", e4d: "Apprentissage automatique pour la planification de l'eau et des territoires",
+    e5: "Territoires du futur", e5d: "Systèmes territoriaux résilients",
+    e6: "Civilisation océanique", e6d: "Modèles futurs pour la vie océanique",
+    e7: "Architecture système", e7d: "Cadres pour les systèmes complexes",
+    e8: "Restauration des écosystèmes", e8d: "Restauration des rivières et des côtes",
+    e9: "Adaptation climatique", e9d: "Stratégies de résilience",
+    rdTitle: "Domaines de recherche",
+    rd1: "Systèmes fluviaux", rd1d: "Restauration, gestion des inondations, intelligence fluviale",
+    rd2: "Systèmes côtiers", rd2d: "Résilience, adaptation au niveau de la mer, zones côtières",
+    rd3: "Systèmes océaniques", rd3d: "Infrastructure flottante, robotique marine, innovation bleue",
+    ftsTitle: "Systèmes territoriaux futurs",
+    fts1: "Territoires intelligents", fts1d: "Régions connectées et pilotées par les données",
+    fts2: "Zones d'innovation bleue", fts2d: "Pôles d'innovation océanique et côtière",
+    fts3: "Villes résilientes", fts3d: "Systèmes urbains adaptatifs au climat",
+    fts4: "Bassins fluviaux 2.0", fts4d: "Gestion intégrée des rivières",
+    fts5: "Territoires flottants", fts5d: "Plateformes offshore et communautés",
+    fts6: "Territoires océaniques", fts6d: "Nouveaux modèles de gouvernance océanique",
+    dtTitle: "Plateformes de jumeaux numériques",
+    dt1: "Jumeau numérique urbain", dt1d: "Simulation et planification urbaine",
+    dt2: "Jumeau de bassin fluvial", dt2d: "Surveillance des rivières en temps réel",
+    dt3: "Jumeau côtier", dt3d: "Modélisation du niveau de la mer et de l'érosion",
+    dt4: "Jumeau océanique", dt4d: "Simulation des écosystèmes marins",
+    dt5: "Jumeau numérique planétaire", dt5d: "Réseau environnemental mondial",
+    dt6: "Jumeau d'infrastructure", dt6d: "Gestion des actifs critiques",
+    isTitle: "Services d'innovation",
+    is1: "Développement de concepts", is1d: "De la vision au prototype",
+    is2: "Conception système", is2d: "Cadres architecturaux",
+    is3: "Recherche", is3d: "Recherche appliquée et spéculative",
+    is4: "Développement de jumeaux numériques", is4d: "Plateformes de jumeaux personnalisées",
+    is5: "Vision stratégique", is5d: "Feuilles de route à long terme",
+    is6: "Coopération mondiale", is6d: "Partenariats internationaux",
+    isCTA: "Demander une consultation →",
+    valTitle: "Nos valeurs",
+    val1: "🔬 Intégrité scientifique",
+    val2: "🌱 Durabilité",
+    val3: "🤝 Collaboration",
+    val4: "💡 Innovation",
+    val5: "🌊 Gestion de l'eau",
+    val6: "🧠 Transdisciplinarité",
+    val7: "⚖️ Équité",
+    val8: "🚀 Axé sur l'avenir",
+    officeTitle: "Bureau d'innovation",
+    office1: "<strong>Fabriqué à Vranje, République de Serbie</strong> · Soutenu par la Serbie · Ouvert à la coopération internationale",
+    office2: "📍 42.5324, 21.9141 — Radnička 2, Vranje",
+    ltTitle: "Vision à long terme",
+    ltSub: "Concevoir l'avenir de :",
+    lt1: "Rivières", lt2: "Côtes", lt3: "Océans",
+    lt4: "Territoires", lt5: "Villes", lt6: "Ports",
+    lt7: "Civilisation de l'eau", lt8: "Civilisation océanique",
+    lt9: "Jumeaux numériques", lt10: "Systèmes d'IA",
+    widgetTitle: "🚀 Infrastructure de communications — Centre d'accueil de Vranje",
+    widgetDate: "Radnička 2 · 7 août 2026",
+    widgetBadge: "✦ 21 emplacements sur la planète 3D",
+    widgetDesc: "Système d'accès Internet par satellite installé sur le toit. Prototype : deux panneaux solaires + unité satellite.",
+    widgetCoordsLabel: "Coordonnées :",
+    widgetMapLink: "Google Maps",
+    widgetBtn: "Ouvrir dans Google Maps →",
+    contactTitle: "Contactez-nous",
+    contactAddr: "📍 Vranje, République de Serbie",
+    inputName: "Votre nom",
+    inputOrg: "Organisation",
+    inputEmail: "Email",
+    inputMsg: "Message",
+    contactBtn: "Envoyer la demande →",
+    footerPrivacy: "Politique de confidentialité",
+    footerTerms: "Conditions d'utilisation",
+    footerSitemap: "Plan du site",
+    copyright: "© 2026 Le Bureau de la Civilisation de l'Eau™. Tous droits réservés."
+  }
+};
+
+// ===== LANGUAGE SWITCHER =====
+document.querySelectorAll('.lang-bar a').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const lang = this.dataset.lang;
+    document.querySelectorAll('.lang-bar a').forEach(l => l.classList.remove('active'));
+    this.classList.add('active');
+    applyLanguage(lang);
+  });
+});
+
+function applyLanguage(lang) {
+  const t = translations[lang];
+  if (!t) return;
+
+  // Hero
+  document.getElementById('heroTagline').textContent = t.heroTagline;
+  document.getElementById('heroSub').textContent = t.heroSub;
+  document.getElementById('badge1').textContent = t.badge1;
+  document.getElementById('badge2').textContent = t.badge2;
+  document.getElementById('badge3').textContent = t.badge3;
+  document.getElementById('badge4').textContent = t.badge4;
+  document.getElementById('cta1').textContent = t.cta1;
+  document.getElementById('cta2').textContent = t.cta2;
+
+  // Mission
+  document.getElementById('mTitle').textContent = t.mTitle;
+  document.getElementById('mText1').innerHTML = t.mText1;
+  document.getElementById('mText2').innerHTML = t.mText2;
+
+  // MVR
+  document.getElementById('mvrTitle').textContent = t.mvrTitle;
+  document.getElementById('mvrMissionTitle').textContent = t.mvrMissionTitle;
+  document.getElementById('mvrMission1').textContent = t.mvrMission1;
+  document.getElementById('mvrMission2').textContent = t.mvrMission2;
+  document.getElementById('mvrMission3').textContent = t.mvrMission3;
+  document.getElementById('f1').textContent = t.f1;
+  document.getElementById('f2').textContent = t.f2;
+  document.getElementById('f3').textContent = t.f3;
+  document.getElementById('f4').textContent = t.f4;
+  document.getElementById('f5').textContent = t.f5;
+  document.getElementById('f6').textContent = t.f6;
+  document.getElementById('f7').textContent = t.f7;
+  document.getElementById('mvrMission4').innerHTML = t.mvrMission4;
+  document.getElementById('mvrVisionTitle').textContent = t.mvrVisionTitle;
+  document.getElementById('mvrVision1').textContent = t.mvrVision1;
+  document.getElementById('mvrVision2').textContent = t.mvrVision2;
+  document.getElementById('mvrVision3').innerHTML = t.mvrVision3;
+  document.getElementById('v1').textContent = t.v1;
+  document.getElementById('v2').textContent = t.v2;
+  document.getElementById('v3').textContent = t.v3;
+  document.getElementById('v4').textContent = t.v4;
+  document.getElementById('v5').textContent = t.v5;
+  document.getElementById('mvrVision4').innerHTML = t.mvrVision4;
+  document.getElementById('mvrRealityTitle').textContent = t.mvrRealityTitle;
+  document.getElementById('mvrReality1').innerHTML = t.mvrReality1;
+  document.getElementById('mvrReality2').textContent = t.mvrReality2;
+  document.getElementById('mvrReality3').textContent = t.mvrReality3;
+  document.getElementById('r1').textContent = t.r1;
+  document.getElementById('r2').textContent = t.r2;
+  document.getElementById('r3').textContent = t.r3;
+  document.getElementById('r4').textContent = t.r4;
+  document.getElementById('r5').textContent = t.r5;
+  document.getElementById('mvrReality4').innerHTML = t.mvrReality4;
+  document.getElementById('mvrDigitalTitle').innerHTML = t.mvrDigitalTitle;
+  document.getElementById('mvrDigital1').textContent = t.mvrDigital1;
+  document.getElementById('mvrDigital2').textContent = t.mvrDigital2;
+  document.getElementById('mvrDigital3').textContent = t.mvrDigital3;
+  document.getElementById('mvrSupportTitle').innerHTML = t.mvrSupportTitle;
+  document.getElementById('mvrSupport1').textContent = t.mvrSupport1;
+  document.getElementById('need1').innerHTML = t.need1;
+  document.getElementById('need1d').textContent = t.need1d;
+  document.getElementById('need1n').textContent = t.need1n;
+  document.getElementById('need2').innerHTML = t.need2;
+  document.getElementById('need2d').textContent = t.need2d;
+  document.getElementById('need2n').textContent = t.need2n;
+  document.getElementById('need3').innerHTML = t.need3;
+  document.getElementById('need3d').textContent = t.need3d;
+  document.getElementById('need3n').textContent = t.need3n;
+  document.getElementById('need4').innerHTML = t.need4;
+  document.getElementById('need4d').textContent = t.need4d;
+  document.getElementById('need4n').textContent = t.need4n;
+  document.getElementById('mvrFinancialTitle').innerHTML = t.mvrFinancialTitle;
+  document.getElementById('mvrFinancial1').textContent = t.mvrFinancial1;
+  document.getElementById('mvrFinancial2').innerHTML = t.mvrFinancial2;
+  document.getElementById('mvrWhyTitle').innerHTML = t.mvrWhyTitle;
+  document.getElementById('mvrWhy1').innerHTML = t.mvrWhy1;
+  document.getElementById('mvrWhy2').textContent = t.mvrWhy2;
+  document.getElementById('mvrWhy3').textContent = t.mvrWhy3;
+  document.getElementById('mvrQuote').innerHTML = t.mvrQuote;
+  document.getElementById('mvrFinal1').innerHTML = t.mvrFinal1;
+  document.getElementById('mvrFinal2').textContent = t.mvrFinal2;
+  document.getElementById('mvrFinal3').textContent = t.mvrFinal3;
+
+  // Expertise
+  document.getElementById('expTitle').textContent = t.expTitle;
+  document.getElementById('e1').textContent = t.e1;
+  document.getElementById('e1d').textContent = t.e1d;
+  document.getElementById('e2').textContent = t.e2;
+  document.getElementById('e2d').textContent = t.e2d;
+  document.getElementById('e3').textContent = t.e3;
+  document.getElementById('e3d').textContent = t.e3d;
+  document.getElementById('e4').textContent = t.e4;
+  document.getElementById('e4d').textContent = t.e4d;
+  document.getElementById('e5').textContent = t.e5;
+  document.getElementById('e5d').textContent = t.e5d;
+  document.getElementById('e6').textContent = t.e6;
+  document.getElementById('e6d').textContent = t.e6d;
+  document.getElementById('e7').textContent = t.e7;
+  document.getElementById('e7d').textContent = t.e7d;
+  document.getElementById('e8').textContent = t.e8;
+  document.getElementById('e8d').textContent = t.e8d;
+  document.getElementById('e9').textContent = t.e9;
+  document.getElementById('e9d').textContent = t.e9d;
+
+  // Research Domains
+  document.getElementById('rdTitle').textContent = t.rdTitle;
+  document.getElementById('rd1').textContent = t.rd1;
+  document.getElementById('rd1d').textContent = t.rd1d;
+  document.getElementById('rd2').textContent = t.rd2;
+  document.getElementById('rd2d').textContent = t.rd2d;
+  document.getElementById('rd3').textContent = t.rd3;
+  document.getElementById('rd3d').textContent = t.rd3d;
+
+  // Future Territorial Systems
+  document.getElementById('ftsTitle').textContent = t.ftsTitle;
+  document.getElementById('fts1').textContent = t.fts1;
+  document.getElementById('fts1d').textContent = t.fts1d;
+  document.getElementById('fts2').textContent = t.fts2;
+  document.getElementById('fts2d').textContent = t.fts2d;
+  document.getElementById('fts3').textContent = t.fts3;
+  document.getElementById('fts3d').textContent = t.fts3d;
+  document.getElementById('fts4').textContent = t.fts4;
+  document.getElementById('fts4d').textContent = t.fts4d;
+  document.getElementById('fts5').textContent = t.fts5;
+  document.getElementById('fts5d').textContent = t.fts5d;
+  document.getElementById('fts6').textContent = t.fts6;
+  document.getElementById('fts6d').textContent = t.fts6d;
+
+  // Digital Twins
+  document.getElementById('dtTitle').textContent = t.dtTitle;
+  document.getElementById('dt1').textContent = t.dt1;
+  document.getElementById('dt1d').textContent = t.dt1d;
+  document.getElementById('dt2').textContent = t.dt2;
+  document.getElementById('dt2d').textContent = t.dt2d;
+  document.getElementById('dt3').textContent = t.dt3;
+  document.getElementById('dt3d').textContent = t.dt3d;
+  document.getElementById('dt4').textContent = t.dt4;
+  document.getElementById('dt4d').textContent = t.dt4d;
+  document.getElementById('dt5').textContent = t.dt5;
+  document.getElementById('dt5d').textContent = t.dt5d;
+  document.getElementById('dt6').textContent = t.dt6;
+  document.getElementById('dt6d').textContent = t.dt6d;
+
+  // Innovation Services
+  document.getElementById('isTitle').textContent = t.isTitle;
+  document.getElementById('is1').textContent = t.is1;
+  document.getElementById('is1d').textContent = t.is1d;
+  document.getElementById('is2').textContent = t.is2;
+  document.getElementById('is2d').textContent = t.is2d;
+  document.getElementById('is3').textContent = t.is3;
+  document.getElementById('is3d').textContent = t.is3d;
+  document.getElementById('is4').textContent = t.is4;
+  document.getElementById('is4d').textContent = t.is4d;
+  document.getElementById('is5').textContent = t.is5;
+  document.getElementById('is5d').textContent = t.is5d;
+  document.getElementById('is6').textContent = t.is6;
+  document.getElementById('is6d').textContent = t.is6d;
+  document.getElementById('isCTA').textContent = t.isCTA;
+
+  // Values
+  document.getElementById('valTitle').textContent = t.valTitle;
+  document.getElementById('val1').textContent = t.val1;
+  document.getElementById('val2').textContent = t.val2;
+  document.getElementById('val3').textContent = t.val3;
+  document.getElementById('val4').textContent = t.val4;
+  document.getElementById('val5').textContent = t.val5;
+  document.getElementById('val6').textContent = t.val6;
+  document.getElementById('val7').textContent = t.val7;
+  document.getElementById('val8').textContent = t.val8;
+
+  // Office
+  document.getElementById('officeTitle').textContent = t.officeTitle;
+  document.getElementById('office1').innerHTML = t.office1;
+  document.getElementById('office2').textContent = t.office2;
+
+  // Long-Term Vision
+  document.getElementById('ltTitle').textContent = t.ltTitle;
+  document.getElementById('ltSub').textContent = t.ltSub;
+  document.getElementById('lt1').textContent = t.lt1;
+  document.getElementById('lt2').textContent = t.lt2;
+  document.getElementById('lt3').textContent = t.lt3;
+  document.getElementById('lt4').textContent = t.lt4;
+  document.getElementById('lt5').textContent = t.lt5;
+  document.getElementById('lt6').textContent = t.lt6;
+  document.getElementById('lt7').textContent = t.lt7;
+  document.getElementById('lt8').textContent = t.lt8;
+  document.getElementById('lt9').textContent = t.lt9;
+  document.getElementById('lt10').textContent = t.lt10;
+
+  // Widget
+  document.getElementById('widgetTitle').textContent = t.widgetTitle;
+  document.getElementById('widgetDate').textContent = t.widgetDate;
+  document.getElementById('widgetBadge').textContent = t.widgetBadge;
+  document.getElementById('widgetDesc').textContent = t.widgetDesc;
+  document.getElementById('widgetCoordsLabel').textContent = t.widgetCoordsLabel;
+  document.getElementById('widgetMapLink').textContent = t.widgetMapLink;
+  document.getElementById('widgetBtn').textContent = t.widgetBtn;
+
+  // Contact
+  document.getElementById('contactTitle').textContent = t.contactTitle;
+  document.getElementById('contactAddr').textContent = t.contactAddr;
+  document.getElementById('inputName').placeholder = t.inputName;
+  document.getElementById('inputOrg').placeholder = t.inputOrg;
+  document.getElementById('inputEmail').placeholder = t.inputEmail;
+  document.getElementById('inputMsg').placeholder = t.inputMsg;
+  document.getElementById('contactBtn').textContent = t.contactBtn;
+
+  // Footer
+  document.getElementById('footerPrivacy').textContent = t.footerPrivacy;
+  document.getElementById('footerTerms').textContent = t.footerTerms;
+  document.getElementById('footerSitemap').textContent = t.footerSitemap;
+  document.querySelector('.copyright').textContent = t.copyright;
+}
+
+// ===== FORM HANDLER =====
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  alert('Thank you for your message! We will get back to you soon.');
+  this.reset();
+});
 </script>
 
 </body>
