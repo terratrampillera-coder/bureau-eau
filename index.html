@@ -510,6 +510,30 @@ body.show-ar .ar-only { display:inline !important; }
 .modal-overlay .modal-card .highlight { color:var(--gold); font-weight:500; }
 
 /* ============================================================
+   MAP OVERLAY
+   ============================================================ */
+.map-overlay {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:#0c0a08; z-index:400;
+  opacity:0; pointer-events:none; transition:opacity 0.5s;
+}
+.map-overlay.open { opacity:1; pointer-events:all; }
+.map-overlay .map-close {
+  position:absolute; top:20px; right:24px; font-size:1.8rem;
+  color:#fff; background:none; border:none; cursor:pointer; z-index:10;
+  transition:0.2s;
+}
+.map-overlay .map-close:hover { color:var(--gold); transform:rotate(90deg); }
+.map-overlay .map-container { width:100%; height:100%; }
+.map-overlay .map-container iframe { width:100%; height:100%; border:none; }
+.map-overlay .map-label {
+  position:absolute; bottom:30px; left:50%; transform:translateX(-50%);
+  color:rgba(255,255,255,0.3); font-size:0.75rem; letter-spacing:2px;
+  background:rgba(0,0,0,0.5); padding:6px 20px; border-radius:20px;
+  backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.05);
+}
+
+/* ============================================================
    CONTACT SECTION
    ============================================================ */
 .contact-section {
@@ -721,7 +745,7 @@ body.show-ar .ar-only { display:inline !important; }
     <div class="divider"></div>
     <div class="group nav-group">
       <button class="btn active" data-nav="home"><i class="fas fa-home"></i><span class="label"> Home</span></button>
-      <a href="https://bureau-eau.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn" id="mapTrigger"><i class="fas fa-map"></i><span class="label"> Map</span></a>
+      <button class="btn" data-nav="map" id="mapTrigger"><i class="fas fa-map"></i><span class="label"> Map</span></button>
       <button class="btn" data-nav="features"><i class="fas fa-star"></i><span class="label"> Features</span></button>
       <a href="https://radio-triturus-vranje.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn" id="radioTrigger">
         <i class="fas fa-broadcast"></i><span class="label"> Radio</span>
@@ -1193,6 +1217,17 @@ body.show-ar .ar-only { display:inline !important; }
     <p style="margin-top:10px;"><strong style="color:var(--gold);">Vision:</strong> Create a new type of 21st-century Innovation Architecture Bureau where communities become laboratories for practical innovation.</p>
     <p style="margin-top:10px;font-size:0.8rem;color:var(--text-muted);">📍 Vranje, Serbia · 🏛️ Supported by Serbia · 🌍 Open to international cooperation</p>
   </div>
+</div>
+
+<!-- ============================================================
+   MAP OVERLAY
+   ============================================================ -->
+<div class="map-overlay" id="mapOverlay">
+  <button class="map-close" id="mapClose"><i class="fas fa-times"></i></button>
+  <div class="map-container">
+    <iframe src="https://maps.google.com/maps?q=42.5324,21.9141&z=12&output=embed" allowfullscreen loading="lazy"></iframe>
+  </div>
+  <div class="map-label">📍 Radnička 2 · Vranje · Republic of Serbia</div>
 </div>
 
 <!-- ============================================================
@@ -2549,6 +2584,39 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ================================================================
+// MAP OVERLAY — ОСТАВЛЯЕМ БЕЗ ИЗМЕНЕНИЙ
+// ================================================================
+const mapOverlay = document.getElementById('mapOverlay');
+const mapTrigger = document.getElementById('mapTrigger');
+const mapClose = document.getElementById('mapClose');
+
+function toggleMap(open) {
+  mapOverlay.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+
+// ================================================================
+// ИЗМЕНЕНИЕ: КНОПКА MAP ТЕПЕРЬ ОТКРЫВАЕТ НОВЫЙ СЕРВИС
+// ================================================================
+// Убираем старую привязку, которая открывала оверлей
+// mapTrigger.addEventListener('click', () => toggleMap(true));
+
+// Добавляем новое поведение: открываем ссылку в новой вкладке
+mapTrigger.addEventListener('click', (e) => {
+    e.preventDefault(); // Предотвращаем возможное стандартное поведение
+    window.open('https://le-bureau-map-service.vercel.app/', '_blank');
+});
+
+// Закрытие карты по крестику, клику на фон и Escape — оставляем без изменений
+mapClose.addEventListener('click', () => toggleMap(false));
+mapOverlay.addEventListener('click', (e) => {
+  if (e.target === mapOverlay) toggleMap(false);
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && mapOverlay.classList.contains('open')) toggleMap(false);
+});
+
+// ================================================================
 // FULLSCREEN
 // ================================================================
 const fullscreenBtn = document.getElementById('fullscreenBtn');
@@ -2612,14 +2680,16 @@ document.addEventListener('keydown', (e) => {
     }
   }
   if (e.key === 't' || e.key === 'T') toggleTheme();
+  if (e.key === 'm' || e.key === 'M') toggleMap(!mapOverlay.classList.contains('open'));
   if (e.key === 'Escape') {
+    if (mapOverlay.classList.contains('open')) toggleMap(false);
     if (avatarModal.classList.contains('open')) toggleAvatarModal(false);
     if (sidebar.classList.contains('open')) toggleSidebar(false);
   }
 });
 
 console.log('🌊 Sunreef HCCH™ · Le Bureau de la Civilisation de l\'Eau');
-console.log('📌 Shortcuts: [F] Fullscreen · [T] Theme · [Esc] Close');
+console.log('📌 Shortcuts: [F] Fullscreen · [T] Theme · [M] Map · [Esc] Close');
 console.log('📍 Made in Vranje, Republic of Serbia');
 </script>
 
