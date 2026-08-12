@@ -30,6 +30,7 @@
   --font: 'Inter', system-ui, -apple-system, sans-serif;
   --font-ar: 'Space Grotesk', 'Inter', sans-serif;
   --max-width: 1280px;
+  --sidebar-width: 280px;
 }
 body.day-mode {
   --bg-body: #f7f1e6;
@@ -70,59 +71,281 @@ body.show-en .en-only { display:inline !important; }
 body.show-ar .en-only { display:none !important; }
 body.show-ar .ar-only { display:inline !important; }
 
-.poster {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 28px 24px 0;
-  background: var(--bg-poster);
-  border-radius: 24px 24px 0 0;
-  box-shadow: var(--shadow);
-  transition: background var(--transition), box-shadow var(--transition);
-  position: relative;
-  min-height: 100vh;
+/* ============================================================
+   FULL-WIDTH NAVIGATION PANEL
+   ============================================================ */
+.nav-panel {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  background: var(--bg-control);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition), border var(--transition);
+  padding: 8px 0;
 }
 
-/* ============================================================
-   CONTROL PANEL
-   ============================================================ */
-.control-panel {
-  position: sticky;
-  top: 16px;
-  z-index: 100;
+.nav-panel-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 6px 12px;
-  background: var(--bg-control);
-  backdrop-filter: blur(16px) saturate(1.4);
-  -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  border: 1px solid var(--border);
-  border-radius: 60px;
-  padding: 8px 16px;
-  margin-bottom: 28px;
-  transition: background var(--transition), border var(--transition);
-  box-shadow: 0 4px 30px rgba(0,0,0,0.15);
 }
-.control-panel .group { display: flex; align-items: center; gap: 4px; }
-.control-panel .divider { width:1px; height:24px; background:var(--border); margin:0 4px; }
-.control-panel .btn {
+
+.nav-panel .group { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.nav-panel .divider { width:1px; height:24px; background:var(--border); margin:0 4px; flex-shrink:0; }
+.nav-panel .btn {
   background:transparent; border:none; color:var(--text-muted);
   padding:6px 10px; border-radius:30px; font-size:0.7rem; font-weight:500;
   cursor:pointer; transition:all 0.2s; font-family:inherit;
   display:flex; align-items:center; gap:4px; white-space:nowrap;
+  text-decoration: none;
 }
-.control-panel .btn:hover { color:var(--text-primary); background:var(--gold-dim); }
-.control-panel .btn.active { color:var(--gold); background:var(--gold-dim); }
-.control-panel .btn .icon { font-size:0.85rem; }
-.control-panel .btn-theme { font-size:0.85rem; padding:6px 12px; }
-.control-panel .hamburger {
+.nav-panel .btn:hover { color:var(--text-primary); background:var(--gold-dim); }
+.nav-panel .btn.active { color:var(--gold); background:var(--gold-dim); }
+.nav-panel .btn .icon { font-size:0.85rem; }
+.nav-panel .btn-theme { font-size:0.85rem; padding:6px 12px; }
+.nav-panel .hamburger {
   font-size:1.1rem; padding:4px 10px;
   background:var(--gold-dim); border-radius:30px; color:var(--gold);
 }
-.control-panel .hamburger:hover { background:var(--gold); color:#0c0a08; }
+.nav-panel .hamburger:hover { background:var(--gold); color:#0c0a08; }
 
 /* ============================================================
-   SIDEBAR
+   MAIN LAYOUT — with transport widget sidebar
+   ============================================================ */
+.poster-wrapper {
+  display: flex;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  gap: 0;
+  padding: 20px 0 0;
+  min-height: calc(100vh - 60px);
+  position: relative;
+}
+
+/* Main content — flex: 1 */
+.poster-main {
+  flex: 1;
+  min-width: 0;
+  padding: 0 24px 0 24px;
+  background: var(--bg-poster);
+  border-radius: 24px 0 0 0;
+  box-shadow: var(--shadow);
+  transition: background var(--transition), box-shadow var(--transition);
+}
+
+/* Right sidebar — transport widgets */
+.poster-sidebar {
+  width: var(--sidebar-width);
+  flex-shrink: 0;
+  background: var(--bg-poster);
+  border-left: 1px solid var(--border);
+  border-radius: 0 24px 0 0;
+  box-shadow: var(--shadow);
+  transition: background var(--transition), border var(--transition);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 20px 12px;
+  overflow-y: auto;
+}
+
+/* ============================================================
+   TRANSPORT WIDGETS — адаптированные под общий дизайн
+   ============================================================ */
+.transport-widget-container {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.transport-widget-container .container-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+
+.transport-widget-container .header-left {
+  flex: 2;
+  min-width: 0;
+}
+
+.transport-widget-container .header-left .title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.2;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.transport-widget-container .header-left .sub {
+  font-size: 0.55rem;
+  color: var(--text-secondary);
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.transport-widget-container .header-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-top: 1px;
+}
+
+.transport-widget-container .header-right .badge {
+  display: inline-block;
+  background: var(--gold-dim);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1px 10px;
+  font-size: 0.5rem;
+  font-weight: 600;
+  color: var(--gold);
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+
+.transport-widget-container .widgets-column {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.transport-widget-container .widget-item {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  min-height: 48px;
+}
+
+.transport-widget-container .widget-item:hover {
+  transform: translateY(-1px);
+  border-color: var(--gold);
+  box-shadow: 0 4px 16px var(--gold-glow);
+  background: var(--gold-dim);
+}
+
+.transport-widget-container .widget-item .icon-wrap {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  background: var(--gold-dim);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-size: 0.75rem;
+  transition: 0.3s;
+}
+
+.transport-widget-container .widget-item:hover .icon-wrap {
+  background: var(--gold);
+  color: #0c0a08;
+}
+
+.transport-widget-container .widget-item .info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.transport-widget-container .widget-item .info .name {
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.transport-widget-container .widget-item .info .desc {
+  font-size: 0.45rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.transport-widget-container .widget-item .btn-view {
+  flex-shrink: 0;
+  font-size: 0.4rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--gold);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: 12px;
+  transition: 0.2s;
+  background: transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+.transport-widget-container .widget-item:hover .btn-view {
+  background: var(--gold);
+  color: #0c0a08;
+  border-color: var(--gold);
+}
+
+.transport-widget-container .container-footer {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.45rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.transport-widget-container .container-footer .copy {
+  color: var(--text-muted);
+}
+
+.transport-widget-container .container-footer .made {
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   SIDEBAR OVERLAY (mobile)
    ============================================================ */
 .sidebar-overlay {
   position:fixed; top:0; left:0; width:100%; height:100%;
@@ -678,8 +901,33 @@ body.show-ar .ar-only { display:inline !important; }
   .seals-row { grid-template-columns:repeat(5,1fr); }
   .grid-3 { grid-template-columns:1fr 1fr; }
   .footer-map-widget .footer-grid { grid-template-columns:1fr 1fr; }
+  .poster-sidebar {
+    width: 200px;
+  }
 }
 @media (max-width:880px) {
+  .poster-wrapper {
+    flex-direction: column;
+    padding: 12px 0 0;
+  }
+  .poster-main {
+    padding: 0 12px;
+    border-radius: 24px 24px 0 0;
+  }
+  .poster-sidebar {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    border-radius: 0 0 24px 24px;
+    height: auto;
+    min-height: 100px;
+    position: static;
+    overflow-y: visible;
+    padding: 16px 12px;
+    background: var(--bg-poster);
+  }
+  .nav-panel .btn .label { display:none; }
+  .nav-panel .divider.hide-mobile { display:none; }
   .video-backdrop .hero-content {
     grid-template-columns:1fr;
     padding:32px 24px;
@@ -689,10 +937,10 @@ body.show-ar .ar-only { display:inline !important; }
   .seals-row { grid-template-columns:repeat(4,1fr); }
 }
 @media (max-width:768px) {
-  .poster { padding:16px 12px 0; }
-  .control-panel { padding:6px 12px; gap:4px 8px; border-radius:30px; }
-  .control-panel .btn { font-size:0.6rem; padding:4px 8px; }
-  .control-panel .btn .label { display:none; }
+  .poster-main { padding: 0 8px; }
+  .nav-panel-inner { padding: 0 12px; gap: 4px 6px; }
+  .nav-panel .btn { font-size:0.6rem; padding:4px 6px; }
+  .nav-panel .btn .icon { font-size:0.7rem; }
   .seals-row { grid-template-columns:repeat(3,1fr); }
   .grid-2, .grid-3 { grid-template-columns:1fr; }
   .bottom-row { grid-template-columns:1fr; }
@@ -716,17 +964,19 @@ body.show-ar .ar-only { display:inline !important; }
   .modal-overlay .modal-card { padding:20px 16px; }
   .footer-map-widget { padding:16px; }
   .footer-map-widget .footer-col .social-icons a { width:28px; height:28px; font-size:0.85rem; }
+  .poster-sidebar {
+    min-height: 80px;
+  }
 }
 </style>
 </head>
 <body>
 
-<div class="poster">
-
-  <!-- ============================================================
-       CONTROL PANEL — 12 LANGUAGES
-       ============================================================ -->
-  <div class="control-panel" id="controlPanel">
+<!-- ============================================================
+     FULL-WIDTH NAVIGATION PANEL
+     ============================================================ -->
+<div class="nav-panel" id="navPanel">
+  <div class="nav-panel-inner">
     <div class="group lang-group">
       <button class="btn active" data-lang="en"><span class="icon">🇬🇧</span><span class="label">EN</span></button>
       <button class="btn" data-lang="ru"><span class="icon">🇷🇺</span><span class="label">RU</span></button>
@@ -742,7 +992,7 @@ body.show-ar .ar-only { display:inline !important; }
       <button class="btn" data-lang="fr"><span class="icon">🇫🇷</span><span class="label">FR</span></button>
       <button class="btn" data-lang="both"><span class="icon">🌐</span><span class="label">BOTH</span></button>
     </div>
-    <div class="divider"></div>
+    <div class="divider hide-mobile"></div>
     <div class="group nav-group">
       <button class="btn active" data-nav="home"><i class="fas fa-home"></i><span class="label"> Home</span></button>
       <button class="btn" data-nav="map" id="mapTrigger"><i class="fas fa-map"></i><span class="label"> Map</span></button>
@@ -751,452 +1001,571 @@ body.show-ar .ar-only { display:inline !important; }
         <i class="fas fa-broadcast"></i><span class="label"> Radio</span>
       </a>
     </div>
-    <div class="divider"></div>
+    <div class="divider hide-mobile"></div>
     <div class="group">
       <button class="btn btn-theme" id="themeToggle"><i class="fas fa-moon"></i></button>
       <button class="btn hamburger" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
     </div>
   </div>
+</div>
 
+<!-- ============================================================
+     SIDEBAR (mobile overlay)
+     ============================================================ -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar" id="sidebar">
+  <button class="close-btn" id="sidebarClose"><i class="fas fa-times"></i></button>
+  <div class="section-title">🌊 Navigation</div>
+  <a href="#hero" class="active" data-i18n="navHome">Home</a>
+  <a href="#mission" data-i18n="navMission">Mission & Vision</a>
+  <a href="#expertise" data-i18n="navExpertise">Expertise</a>
+  <a href="#values" data-i18n="navValues">Values</a>
+  <a href="#contact" data-i18n="navContact">Contact</a>
+  <div class="section-title">⚙️ Settings</div>
+  <a href="#" id="sidebarTheme" data-i18n="sidebarTheme">Toggle Theme</a>
+  <a href="#" id="sidebarFullscreen" data-i18n="sidebarFullscreen">Fullscreen</a>
+  <div class="section-title">🌐 Languages</div>
+  <a href="#" data-lang="en">🇬🇧 English</a>
+  <a href="#" data-lang="ru">🇷🇺 Русский</a>
+  <a href="#" data-lang="uk">🇺🇦 Українська</a>
+  <a href="#" data-lang="sr">🇷🇸 Српски</a>
+  <a href="#" data-lang="ar">🇸🇦 العربية</a>
+  <a href="#" data-lang="zh">🇨🇳 中文</a>
+  <a href="#" data-lang="ko">🇰🇷 한국어</a>
+  <a href="#" data-lang="ja">🇯🇵 日本語</a>
+  <a href="#" data-lang="hi">🇮🇳 हिन्दी</a>
+  <a href="#" data-lang="pt">🇵🇹 Português</a>
+  <a href="#" data-lang="de">🇩🇪 Deutsch</a>
+  <a href="#" data-lang="fr">🇫🇷 Français</a>
+  <a href="#" data-lang="both">🌐 Both</a>
+  <div class="section-title">📡 Status</div>
+  <a href="#" style="color:var(--gold);" data-i18n="statusLabel">● Experimental Formation Stage</a>
+  <a href="#" style="font-size:0.75rem;color:var(--text-muted);">21 locations · 9 domains · 12 languages</a>
+</div>
+
+<!-- ============================================================
+     MAIN CONTENT WRAPPER
+     ============================================================ -->
+<div class="poster-wrapper">
   <!-- ============================================================
-       SIDEBAR
+       MAIN CONTENT
        ============================================================ -->
-  <div class="sidebar-overlay" id="sidebarOverlay"></div>
-  <div class="sidebar" id="sidebar">
-    <button class="close-btn" id="sidebarClose"><i class="fas fa-times"></i></button>
-    <div class="section-title">🌊 Navigation</div>
-    <a href="#hero" class="active" data-i18n="navHome">Home</a>
-    <a href="#mission" data-i18n="navMission">Mission & Vision</a>
-    <a href="#expertise" data-i18n="navExpertise">Expertise</a>
-    <a href="#values" data-i18n="navValues">Values</a>
-    <a href="#contact" data-i18n="navContact">Contact</a>
-    <div class="section-title">⚙️ Settings</div>
-    <a href="#" id="sidebarTheme" data-i18n="sidebarTheme">Toggle Theme</a>
-    <a href="#" id="sidebarFullscreen" data-i18n="sidebarFullscreen">Fullscreen</a>
-    <div class="section-title">🌐 Languages</div>
-    <a href="#" data-lang="en">🇬🇧 English</a>
-    <a href="#" data-lang="ru">🇷🇺 Русский</a>
-    <a href="#" data-lang="uk">🇺🇦 Українська</a>
-    <a href="#" data-lang="sr">🇷🇸 Српски</a>
-    <a href="#" data-lang="ar">🇸🇦 العربية</a>
-    <a href="#" data-lang="zh">🇨🇳 中文</a>
-    <a href="#" data-lang="ko">🇰🇷 한국어</a>
-    <a href="#" data-lang="ja">🇯🇵 日本語</a>
-    <a href="#" data-lang="hi">🇮🇳 हिन्दी</a>
-    <a href="#" data-lang="pt">🇵🇹 Português</a>
-    <a href="#" data-lang="de">🇩🇪 Deutsch</a>
-    <a href="#" data-lang="fr">🇫🇷 Français</a>
-    <a href="#" data-lang="both">🌐 Both</a>
-    <div class="section-title">📡 Status</div>
-    <a href="#" style="color:var(--gold);" data-i18n="statusLabel">● Experimental Formation Stage</a>
-    <a href="#" style="font-size:0.75rem;color:var(--text-muted);">21 locations · 9 domains · 12 languages</a>
-  </div>
+  <div class="poster-main">
 
-  <!-- ============================================================
-       HERO
-       ============================================================ -->
-  <div class="video-backdrop" id="hero">
-    <video autoplay muted loop playsinline preload="metadata">
-      <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"></div>
-    <div class="hero-content">
-      <div class="hero-left">
-        <h1>🌊 Le Bureau de la <span class="gold">Civilisation de l'Eau</span>™</h1>
-        <p class="tagline" id="heroTagline">Designing the Future of Water, Territories, and Ocean Civilization</p>
-        <p class="sub" id="heroSub">Bespoke Innovation · Systems Architecture · Water Intelligence · Digital Twins · Blue Economy</p>
-        <div class="badges">
-          <span id="badge1">🌍 Global Initiative</span>
-          <span id="badge2">🏛️ Supported by Serbia</span>
-          <span id="badge3">🧠 Community-Driven</span>
-          <span id="badge4">🔬 Research & Innovation</span>
-        </div>
-      </div>
-      <div class="hero-right">
-        <div class="stat-grid">
-          <div class="stat-card"><span class="num">21</span><span class="label" data-i18n="statLocations">Locations</span></div>
-          <div class="stat-card"><span class="num">9</span><span class="label" data-i18n="statDomains">Domains</span></div>
-          <div class="stat-card"><span class="num">12</span><span class="label" data-i18n="statLanguages">Languages</span></div>
-          <div class="stat-card"><span class="num">3</span><span class="label" data-i18n="statResearch">Research</span></div>
-        </div>
-        <div class="cta-group">
-          <a href="#expertise" class="btn-primary" id="cta1">Explore Our Work →</a>
-          <a href="#contact" class="btn-secondary" id="cta2">Contact Us</a>
-        </div>
-      </div>
-    </div>
-    <button class="fullscreen-btn" id="fullscreenBtn" title="Fullscreen"><i class="fas fa-expand"></i></button>
-  </div>
-
-  <!-- ============================================================
-       MISSION · VISION · REALITY — ACCORDION
-       ============================================================ -->
-  <div class="section" id="mission">
-    <h2><i class="fas fa-globe-americas"></i> 🌊 <span id="mvrTitle">Mission · Vision · Reality</span></h2>
-
-    <!-- ACCORDION 1: Mission -->
-    <div class="accordion">
-      <button class="accordion-header" onclick="toggleAccordion(this)">
-        <span class="accordion-title">
-          <i class="fas fa-flag"></i>
-          <span id="accordionMissionTitle">Mission</span>
-          <span class="accordion-badge">Click to expand</span>
-        </span>
-        <span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span>
-      </button>
-      <div class="accordion-body">
-        <p id="missionText1">Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™ is a community-driven innovation initiative created by Ukrainian professionals temporarily residing in the Republic of Serbia.</p>
-        <p style="margin-top:8px;" id="missionText2">Our mission is to transform professional knowledge, experience, and human potential into a practical contribution to the development of the communities that have provided protection and support.</p>
-        <p style="margin-top:8px;" id="missionText3">The Bureau develops concepts, research models, and prototype solutions in the following fields:</p>
-        <div class="values-wrap">
-          <span id="f1">territories of the future</span>
-          <span id="f2">water and ecological systems</span>
-          <span id="f3">digital twins and GIS technologies</span>
-          <span id="f4">sustainable architecture</span>
-          <span id="f5">adaptive infrastructure</span>
-          <span id="f6">AI-powered spatial planning</span>
-          <span id="f7">Blue Economy and ocean civilization</span>
-        </div>
-        <p style="margin-top:10px; font-size:0.9rem; color:var(--text-muted);" id="missionText4"><i class="fas fa-quote-left" style="color:var(--gold); margin-right:4px;"></i> The mission of the project is not to replace existing institutions, but to create a platform for cooperation between citizens, professionals, communities, educational organizations, and public institutions.</p>
-      </div>
-    </div>
-
-    <!-- ACCORDION 2: Vision -->
-    <div class="accordion">
-      <button class="accordion-header" onclick="toggleAccordion(this)">
-        <span class="accordion-title">
-          <i class="fas fa-eye"></i>
-          <span id="accordionVisionTitle">Vision</span>
-          <span class="accordion-badge">Click to expand</span>
-        </span>
-        <span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span>
-      </button>
-      <div class="accordion-body">
-        <p id="visionText1">We believe that every crisis can become a point of transformation.</p>
-        <p style="margin-top:8px;" id="visionText2">Forced displacement does not mean the loss of professional identity. With the right conditions, knowledge and experience can become a resource for innovation, integration, and development.</p>
-        <p style="margin-top:8px;" id="visionText3"><strong style="color:var(--gold);">Our vision is to create a new type of 21st-century Innovation Architecture Bureau:</strong></p>
-        <ul>
-          <li id="v1">communities become laboratories for practical innovation;</li>
-          <li id="v2">temporary environments become prototypes of future solutions;</li>
-          <li id="v3">professional human capital becomes a contribution to territorial development;</li>
-          <li id="v4">digital technologies support better decision-making;</li>
-          <li id="v5">cooperation creates value beyond borders.</li>
-        </ul>
-        <p style="margin-top:10px;" id="visionText4"><strong style="color:var(--gold);">Long-term goal:</strong> To establish an international network of innovation centers working with Water · Territories · Cities · Rivers · Coasts · Oceans · Digital Earth Systems.</p>
-      </div>
-    </div>
-
-    <!-- ACCORDION 3: Reality -->
-    <div class="accordion">
-      <button class="accordion-header" onclick="toggleAccordion(this)">
-        <span class="accordion-title">
-          <i class="fas fa-cubes"></i>
-          <span id="accordionRealityTitle">Reality — Current Stage</span>
-          <span class="accordion-badge">Click to expand</span>
-        </span>
-        <span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span>
-      </button>
-      <div class="accordion-body">
-        <p id="realityText1"><strong style="color:var(--gold);">Experimental Formation Stage</strong></p>
-        <p id="realityText2">At the present moment, the Bureau is an experimental initiative in the process of formation. It is not yet a fully established organization with permanent infrastructure. It is a practical attempt to create a new type of innovation platform under real-world conditions.</p>
-        <p style="margin-top:8px;" id="realityText3">Currently, the project exists through:</p>
-        <ul>
-          <li id="r1">professional initiative;</li>
-          <li id="r2">voluntary participation;</li>
-          <li id="r3">development of concepts;</li>
-          <li id="r4">community cooperation;</li>
-          <li id="r5">personal contributions of participants.</li>
-        </ul>
-        <p style="margin-top:10px;" id="realityText4"><em style="color:var(--text-muted);">The Bureau is developing gradually, starting with its main resource — human knowledge and experience.</em></p>
-        <hr>
-        <h4 style="color:var(--gold); font-size:0.9rem; margin-bottom:6px;" id="digitalTitle">💻 Digital Infrastructure Reality</h4>
-        <p style="font-size:0.85rem;" id="digitalText1">At the current stage, the project does not have complete digital infrastructure. The absence of an official domain name, professional hosting, dedicated servers, or specialized digital platforms is not caused by a lack of ideas or strategy, but by limited financial resources during the initial development phase.</p>
-        <p style="margin-top:6px; font-size:0.85rem;" id="digitalText2">We would appreciate support in the form of: domain registration, hosting services, cloud infrastructure, software, digital equipment, and technical expertise.</p>
-        <hr>
-        <h4 style="color:var(--gold); font-size:0.9rem; margin-bottom:6px;" id="supportTitle">🤝 Open Model of Support</h4>
-        <p style="font-size:0.85rem;" id="supportText1">The Bureau is open to different forms of assistance and partnership.</p>
-        <div class="grid-2">
-          <div class="card">
-            <h5 id="need1">🚙 Transportation</h5>
-            <p id="need1d">Used off-road vehicles, expedition vehicles, multipurpose transport.</p>
-          </div>
-          <div class="card">
-            <h5 id="need2">🚤 Water Transport</h5>
-            <p id="need2d">Small boats, research vessels, marine equipment.</p>
-          </div>
-          <div class="card">
-            <h5 id="need3">🌊 Research Base</h5>
-            <p id="need3d">Coastal land, facilities, workshops, lab spaces.</p>
-          </div>
-          <div class="card">
-            <h5 id="need4">🖥️ Tech Equipment</h5>
-            <p id="need4d">Computers, servers, satellite equipment, network gear.</p>
+    <!-- ============================================================
+         HERO
+         ============================================================ -->
+    <div class="video-backdrop" id="hero">
+      <video autoplay muted loop playsinline preload="metadata">
+        <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+      </video>
+      <div class="overlay"></div>
+      <div class="hero-content">
+        <div class="hero-left">
+          <h1>🌊 Le Bureau de la <span class="gold">Civilisation de l'Eau</span>™</h1>
+          <p class="tagline" id="heroTagline">Designing the Future of Water, Territories, and Ocean Civilization</p>
+          <p class="sub" id="heroSub">Bespoke Innovation · Systems Architecture · Water Intelligence · Digital Twins · Blue Economy</p>
+          <div class="badges">
+            <span id="badge1">🌍 Global Initiative</span>
+            <span id="badge2">🏛️ Supported by Serbia</span>
+            <span id="badge3">🧠 Community-Driven</span>
+            <span id="badge4">🔬 Research & Innovation</span>
           </div>
         </div>
-        <hr>
-        <h4 style="color:var(--gold); font-size:0.9rem; margin-bottom:6px;" id="whyTitle">🌱 Why This Matters</h4>
-        <p style="font-size:0.85rem;" id="whyText1"><strong>Human potential does not disappear together with forced displacement.</strong></p>
-        <p style="margin-top:6px; font-size:0.85rem;" id="whyText2">Engineers, architects, IT specialists, designers, researchers, and managers can continue creating value when they have space for participation and development.</p>
-        <p style="margin-top:6px; font-size:0.85rem;" id="whyText3">Vranje can become not only a place of temporary residence, but also a living example of how cooperation between a local community and professional human capital creates new opportunities.</p>
-        <hr>
-        <div class="highlight-box">
-          <p id="quoteText"><i class="fas fa-quote-left" style="color:var(--gold); margin-right:6px;"></i> “We are Ukrainian professionals, a multinational team temporarily residing in Serbia. Today we are creating this initiative with limited resources, but with a long-term vision. We are not only asking for support — we are offering knowledge, experience, creativity, and our willingness to contribute.”</p>
-        </div>
-        <hr>
-        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px;">
-          <p style="margin:0; font-size:0.85rem;" id="finalStatement"><strong style="color:var(--gold);">🇷🇸🇺🇦 Final Statement</strong><br>Le Bureau Civilisation Océanique™ today is a developing community innovation initiative.<br>Created in Vranje. Supported by Serbia. Open to international cooperation.</p>
-          <p style="margin:0; font-size:0.8rem; color:var(--text-muted);" id="nextStage">The next stage: institutional cooperation, digital infrastructure, transportation, equipment, research capacity, innovation partnerships.</p>
-        </div>
-        <p style="margin-top:10px; font-style:italic; color:var(--text-muted); font-size:0.85rem;" id="finalQuote">From a small community initiative, a new model of sustainable development focused on the future can emerge.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============================================================
-       SEALS ROW — 9 CARDS (translated via JS)
-       ============================================================ -->
-  <div class="seals-row" id="expertise">
-    <div class="seal-card"><span class="icon">🌊</span><span class="name" id="seal1">Water Intelligence</span><span class="desc" id="seal1d">Data-driven</span></div>
-    <div class="seal-card"><span class="icon">🌐</span><span class="name" id="seal2">Digital Twins</span><span class="desc" id="seal2d">Territorial & urban</span></div>
-    <div class="seal-card"><span class="icon">🐟</span><span class="name" id="seal3">Blue Economy</span><span class="desc" id="seal3d">Sustainable ocean</span></div>
-    <div class="seal-card"><span class="icon">🤖</span><span class="name" id="seal4">AI Support</span><span class="desc" id="seal4d">ML for planning</span></div>
-    <div class="seal-card"><span class="icon">🏙️</span><span class="name" id="seal5">Future Territories</span><span class="desc" id="seal5d">Resilient systems</span></div>
-    <div class="seal-card"><span class="icon">🚀</span><span class="name" id="seal6">Ocean Civilization</span><span class="desc" id="seal6d">Future ocean living</span></div>
-    <div class="seal-card"><span class="icon">📊</span><span class="name" id="seal7">Systems Architecture</span><span class="desc" id="seal7d">Complex frameworks</span></div>
-    <div class="seal-card"><span class="icon">🌿</span><span class="name" id="seal8">Ecosystem Restoration</span><span class="desc" id="seal8d">River & coastal</span></div>
-    <div class="seal-card"><span class="icon">⚡</span><span class="name" id="seal9">Climate Adaptation</span><span class="desc" id="seal9d">Resilience strategies</span></div>
-  </div>
-
-  <!-- ============================================================
-       RESEARCH DOMAINS
-       ============================================================ -->
-  <div class="section">
-    <h2><i class="fas fa-microscope"></i> <span id="rdTitle">Research Domains</span></h2>
-    <div class="grid-3">
-      <div class="card"><div class="icon">🏞️</div><strong id="rd1">River Systems</strong><span id="rd1d">Restoration, flood management, river intelligence</span></div>
-      <div class="card"><div class="icon">🏖️</div><strong id="rd2">Coastal Systems</strong><span id="rd2d">Resilience, sea-level adaptation, coastal zones</span></div>
-      <div class="card"><div class="icon">🌊</div><strong id="rd3">Ocean Systems</strong><span id="rd3d">Floating infrastructure, marine robotics, blue innovation</span></div>
-    </div>
-  </div>
-
-  <!-- ============================================================
-       FUTURE TERRITORIAL SYSTEMS
-       ============================================================ -->
-  <div class="section">
-    <h2><i class="fas fa-city"></i> <span id="ftsTitle">Future Territorial Systems</span></h2>
-    <div class="grid-3">
-      <div class="card"><strong id="fts1">Smart Territories</strong><span id="fts1d">Connected, data-driven regions</span></div>
-      <div class="card"><strong id="fts2">Blue Innovation Zones</strong><span id="fts2d">Ocean & coastal innovation hubs</span></div>
-      <div class="card"><strong id="fts3">Resilient Cities</strong><span id="fts3d">Climate-adaptive urban systems</span></div>
-      <div class="card"><strong id="fts4">River Basins 2.0</strong><span id="fts4d">Integrated river management</span></div>
-      <div class="card"><strong id="fts5">Floating Territories</strong><span id="fts5d">Offshore platforms & communities</span></div>
-      <div class="card"><strong id="fts6">Oceanic Territories</strong><span id="fts6d">New models for ocean governance</span></div>
-    </div>
-  </div>
-
-  <!-- ============================================================
-       DIGITAL TWIN PLATFORMS
-       ============================================================ -->
-  <div class="section">
-    <h2><i class="fas fa-cubes"></i> <span id="dtTitle">Digital Twin Platforms</span></h2>
-    <div class="grid-3">
-      <div class="card"><strong id="dt1">City Digital Twin</strong><span id="dt1d">Urban simulation & planning</span></div>
-      <div class="card"><strong id="dt2">River Basin Twin</strong><span id="dt2d">Real-time river monitoring</span></div>
-      <div class="card"><strong id="dt3">Coastal Twin</strong><span id="dt3d">Sea-level & erosion modeling</span></div>
-      <div class="card"><strong id="dt4">Ocean Twin</strong><span id="dt4d">Marine ecosystem simulation</span></div>
-      <div class="card"><strong id="dt5">Planetary Digital Twin</strong><span id="dt5d">Global environmental network</span></div>
-      <div class="card"><strong id="dt6">Infrastructure Twin</strong><span id="dt6d">Critical asset management</span></div>
-    </div>
-  </div>
-
-  <!-- ============================================================
-       INNOVATION SERVICES
-       ============================================================ -->
-  <div class="section">
-    <h2><i class="fas fa-lightbulb"></i> <span id="isTitle">Innovation Services</span></h2>
-    <div class="grid-3">
-      <div class="card"><div class="icon">🧠</div><strong id="is1">Concept Development</strong><span id="is1d">From vision to prototype</span></div>
-      <div class="card"><div class="icon">📐</div><strong id="is2">Systems Design</strong><span id="is2d">Architectural frameworks</span></div>
-      <div class="card"><div class="icon">🔬</div><strong id="is3">Research</strong><span id="is3d">Applied & speculative research</span></div>
-      <div class="card"><div class="icon">📡</div><strong id="is4">Digital Twin Development</strong><span id="is4d">Custom twin platforms</span></div>
-      <div class="card"><div class="icon">🤝</div><strong id="is5">Strategic Vision</strong><span id="is5d">Long-term roadmaps</span></div>
-      <div class="card"><div class="icon">🌍</div><strong id="is6">Global Cooperation</strong><span id="is6d">International partnerships</span></div>
-    </div>
-  </div>
-
-  <!-- ============================================================
-       BOTTOM ROW — 4 COLUMNS
-       ============================================================ -->
-  <div class="bottom-row" id="bottom">
-    <div class="bottom-col">
-      <div class="col-title"><i class="fas fa-chart-simple"></i> <span id="perfTitle">Performance</span></div>
-      <div class="kpi-item"><span class="label" id="kpiLocations">📍 Locations</span><span class="value">21</span></div>
-      <div class="kpi-item"><span class="label" id="kpiDomains">🧠 Expertise Areas</span><span class="value">9</span></div>
-      <div class="kpi-item"><span class="label" id="kpiLanguages">🌐 Languages</span><span class="value">12</span></div>
-      <div class="kpi-item"><span class="label" id="kpiResearch">🔬 Research Domains</span><span class="value">3</span></div>
-      <div class="kpi-item"><span class="label" id="kpiStatus">📡 Status</span><span class="value" style="color:var(--gold-light);" id="statusValue">Formation</span></div>
-    </div>
-    <div class="bottom-col">
-      <div class="col-title"><i class="fas fa-cube"></i> <span id="multimodalTitle">Multimodal</span></div>
-      <p style="font-size:0.75rem;color:var(--text-secondary);" id="multimodalDesc">Interactive media & spatial computing:</p>
-      <div class="modal-features">
-        <span>🎥 Video</span>
-        <span>🗺️ 3D Planet</span>
-        <span>📻 Radio</span>
-        <span>🧠 AI Assistant</span>
-        <span>🌍 Map</span>
-        <span>🔄 Fullscreen</span>
-      </div>
-      <p style="font-size:0.7rem;color:var(--text-muted);margin-top:8px;" id="planetHint">Click planet icon in footer ↓</p>
-    </div>
-    <div class="bottom-col">
-      <div class="col-title"><i class="fas fa-play"></i> <span id="demoTitle">Demo</span></div>
-      <div class="video-player">
-        <video controls preload="metadata" style="width:100%;height:100%;object-fit:cover;">
-          <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-    <div class="bottom-col">
-      <div class="col-title"><i class="fas fa-microchip"></i> <span id="techTitle">Tech Stack</span></div>
-      <div class="tech-stack">
-        <span>Three.js</span>
-        <span>CSS Grid</span>
-        <span>i18n</span>
-        <span>LocalStorage</span>
-        <span>Fullscreen API</span>
-        <span>Google Maps</span>
-        <span>FontAwesome</span>
-        <span>WebRTC</span>
-      </div>
-      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
-        <p style="font-size:0.7rem;color:var(--text-muted);"><strong style="color:var(--gold);">⚡</strong> <span id="madeIn">Made in Vranje, Serbia</span></p>
-        <p style="font-size:0.65rem;color:var(--text-muted);">📍 42.5324, 21.9141</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============================================================
-       VALUES
-       ============================================================ -->
-  <div class="section" id="values">
-    <h2><i class="fas fa-heart"></i> <span id="valuesTitle">Our Values</span></h2>
-    <div class="values-wrap">
-      <span id="val1">🔬 Scientific Integrity</span>
-      <span id="val2">🌱 Sustainability</span>
-      <span id="val3">🤝 Collaboration</span>
-      <span id="val4">💡 Innovation</span>
-      <span id="val5">🌊 Water Stewardship</span>
-      <span id="val6">🧠 Transdisciplinarity</span>
-      <span id="val7">⚖️ Equity</span>
-      <span id="val8">🚀 Future-Focused</span>
-    </div>
-  </div>
-
-  <!-- ============================================================
-       LONG-TERM VISION
-       ============================================================ -->
-  <div class="section">
-    <h2><i class="fas fa-eye"></i> <span id="ltTitle">Long-Term Vision</span></h2>
-    <p style="color:var(--text-secondary);" id="ltSub">Designing the future of:</p>
-    <div class="values-wrap">
-      <span id="lt1">Rivers</span><span id="lt2">Coasts</span><span id="lt3">Oceans</span>
-      <span id="lt4">Territories</span><span id="lt5">Cities</span><span id="lt6">Ports</span>
-      <span id="lt7">Water Civilization</span><span id="lt8">Oceanic Civilization</span>
-      <span id="lt9">Digital Twins</span><span id="lt10">AI Systems</span>
-    </div>
-  </div>
-
-  <!-- ============================================================
-       CONTACT SECTION
-       ============================================================ -->
-  <div class="contact-section" id="contact">
-    <h2><i class="fas fa-envelope"></i> <span id="contactTitle">Get in Touch</span></h2>
-    <div class="contact-row">
-      <div class="contact-info">
-        <p style="font-size:0.85rem;"><strong>✉ Email:</strong> <a href="mailto:dracobeansociety@proton.me">dracobeansociety@proton.me</a></p>
-        <p style="font-size:0.8rem;color:var(--text-muted);margin-top:8px;" id="contactAddr">📍 Vranje, Republic of Serbia</p>
-        <p style="font-size:0.7rem;color:var(--text-muted);margin-top:4px;" id="contactOpen">🌐 Open to international cooperation</p>
-        <p style="font-size:0.7rem;color:var(--text-muted);">📌 42.5324, 21.9141 — Radnička 2</p>
-      </div>
-      <form class="contact-form" id="contactForm">
-        <input type="text" placeholder="Your Name" required id="inputName">
-        <input type="text" placeholder="Organization" id="inputOrg">
-        <input type="email" placeholder="Email" required id="inputEmail">
-        <textarea rows="3" placeholder="Message" id="inputMsg"></textarea>
-        <button type="submit" id="contactBtn">Send Inquiry →</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- ============================================================
-       FOOTER — with 20+ SOCIAL NETWORKS
-       ============================================================ -->
-  <div class="footer-map-widget">
-    <div class="footer-grid">
-      <div class="footer-col">
-        <h4>📍 Location</h4>
-        <p><strong style="color:var(--gold);">Le Bureau de la Civilisation de l'Eau™</strong></p>
-        <p>Radnička 2, Vranje</p>
-        <p>Republic of Serbia</p>
-        <p style="margin-top:4px;"><span class="status-badge" id="footerStatus">● Experimental Formation</span></p>
-        <p style="margin-top:6px;font-size:0.7rem;color:var(--text-muted);">📌 42.5324, 21.9141</p>
-      </div>
-      <div class="footer-col">
-        <h4>🗺️ Location Map</h4>
-        <div class="mini-map">
-          <iframe src="https://maps.google.com/maps?q=42.5324,21.9141&z=15&output=embed" allowfullscreen loading="lazy"></iframe>
-        </div>
-        <div style="margin-top:6px;display:flex;gap:12px;flex-wrap:wrap;">
-          <a href="https://www.google.com/maps?q=42.5324,21.9141" target="_blank" style="font-size:0.7rem;color:var(--gold);text-decoration:none;">
-            <i class="fas fa-external-link-alt"></i> <span id="footerMapLink">Open in Google Maps</span>
-          </a>
-          <button onclick="open3DPlanet()" style="background:var(--gold-dim);border:1px solid var(--border);color:var(--gold);padding:2px 12px;border-radius:12px;font-size:0.65rem;cursor:pointer;font-family:inherit;">
-            🌍 3D Planet
-          </button>
+        <div class="hero-right">
+          <div class="stat-grid">
+            <div class="stat-card"><span class="num">21</span><span class="label" data-i18n="statLocations">Locations</span></div>
+            <div class="stat-card"><span class="num">9</span><span class="label" data-i18n="statDomains">Domains</span></div>
+            <div class="stat-card"><span class="num">12</span><span class="label" data-i18n="statLanguages">Languages</span></div>
+            <div class="stat-card"><span class="num">3</span><span class="label" data-i18n="statResearch">Research</span></div>
+          </div>
+          <div class="cta-group">
+            <a href="#expertise" class="btn-primary" id="cta1">Explore Our Work →</a>
+            <a href="#contact" class="btn-secondary" id="cta2">Contact Us</a>
+          </div>
         </div>
       </div>
-      <div class="footer-col">
-        <h4>🌐 <span id="footerConnect">Connect</span></h4>
-        <div class="social-icons">
-          <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-          <a href="#" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
-          <a href="#" aria-label="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
-          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-          <a href="#" aria-label="Reddit"><i class="fab fa-reddit-alien"></i></a>
-          <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-          <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
-          <a href="#" aria-label="Viber"><i class="fab fa-viber"></i></a>
-          <a href="#" aria-label="Signal"><i class="fab fa-signal-messenger"></i></a>
-          <a href="#" aria-label="Snapchat"><i class="fab fa-snapchat"></i></a>
-          <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a>
-          <a href="#" aria-label="Tumblr"><i class="fab fa-tumblr"></i></a>
-          <a href="#" aria-label="Medium"><i class="fab fa-medium"></i></a>
-          <a href="#" aria-label="Dev.to"><i class="fab fa-dev"></i></a>
-          <a href="#" aria-label="Twitch"><i class="fab fa-twitch"></i></a>
-          <a href="#" aria-label="Patreon"><i class="fab fa-patreon"></i></a>
+      <button class="fullscreen-btn" id="fullscreenBtn" title="Fullscreen"><i class="fas fa-expand"></i></button>
+    </div>
+
+    <!-- ============================================================
+         MISSION · VISION · REALITY — ACCORDION
+         ============================================================ -->
+    <div class="section" id="mission">
+      <h2><i class="fas fa-globe-americas"></i> 🌊 <span id="mvrTitle">Mission · Vision · Reality</span></h2>
+
+      <!-- ACCORDION 1: Mission -->
+      <div class="accordion">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          <span class="accordion-title">
+            <i class="fas fa-flag"></i>
+            <span id="accordionMissionTitle">Mission</span>
+            <span class="accordion-badge">Click to expand</span>
+          </span>
+          <span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="accordion-body">
+          <p id="missionText1">Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™ is a community-driven innovation initiative created by Ukrainian professionals temporarily residing in the Republic of Serbia.</p>
+          <p style="margin-top:8px;" id="missionText2">Our mission is to transform professional knowledge, experience, and human potential into a practical contribution to the development of the communities that have provided protection and support.</p>
+          <p style="margin-top:8px;" id="missionText3">The Bureau develops concepts, research models, and prototype solutions in the following fields:</p>
+          <div class="values-wrap">
+            <span id="f1">territories of the future</span>
+            <span id="f2">water and ecological systems</span>
+            <span id="f3">digital twins and GIS technologies</span>
+            <span id="f4">sustainable architecture</span>
+            <span id="f5">adaptive infrastructure</span>
+            <span id="f6">AI-powered spatial planning</span>
+            <span id="f7">Blue Economy and ocean civilization</span>
+          </div>
+          <p style="margin-top:10px; font-size:0.9rem; color:var(--text-muted);" id="missionText4"><i class="fas fa-quote-left" style="color:var(--gold); margin-right:4px;"></i> The mission of the project is not to replace existing institutions, but to create a platform for cooperation between citizens, professionals, communities, educational organizations, and public institutions.</p>
         </div>
-        <div style="margin-top:12px;">
-          <p style="font-size:0.7rem;color:var(--text-muted);">✉ <a href="mailto:dracobeansociety@proton.me" style="color:var(--gold);text-decoration:none;">dracobeansociety@proton.me</a></p>
+      </div>
+
+      <!-- ACCORDION 2: Vision -->
+      <div class="accordion">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          <span class="accordion-title">
+            <i class="fas fa-eye"></i>
+            <span id="accordionVisionTitle">Vision</span>
+            <span class="accordion-badge">Click to expand</span>
+          </span>
+          <span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="accordion-body">
+          <p id="visionText1">We believe that every crisis can become a point of transformation.</p>
+          <p style="margin-top:8px;" id="visionText2">Forced displacement does not mean the loss of professional identity. With the right conditions, knowledge and experience can become a resource for innovation, integration, and development.</p>
+          <p style="margin-top:8px;" id="visionText3"><strong style="color:var(--gold);">Our vision is to create a new type of 21st-century Innovation Architecture Bureau:</strong></p>
+          <ul>
+            <li id="v1">communities become laboratories for practical innovation;</li>
+            <li id="v2">temporary environments become prototypes of future solutions;</li>
+            <li id="v3">professional human capital becomes a contribution to territorial development;</li>
+            <li id="v4">digital technologies support better decision-making;</li>
+            <li id="v5">cooperation creates value beyond borders.</li>
+          </ul>
+          <p style="margin-top:10px;" id="visionText4"><strong style="color:var(--gold);">Long-term goal:</strong> To establish an international network of innovation centers working with Water · Territories · Cities · Rivers · Coasts · Oceans · Digital Earth Systems.</p>
         </div>
-        <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap;font-size:0.65rem;">
-          <a href="#" style="color:var(--text-muted);text-decoration:none;" id="footerPrivacy">Privacy</a>
-          <a href="#" style="color:var(--text-muted);text-decoration:none;" id="footerTerms">Terms</a>
-          <a href="#" style="color:var(--text-muted);text-decoration:none;" id="footerSitemap">Sitemap</a>
+      </div>
+
+      <!-- ACCORDION 3: Reality -->
+      <div class="accordion">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          <span class="accordion-title">
+            <i class="fas fa-cubes"></i>
+            <span id="accordionRealityTitle">Reality — Current Stage</span>
+            <span class="accordion-badge">Click to expand</span>
+          </span>
+          <span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="accordion-body">
+          <p id="realityText1"><strong style="color:var(--gold);">Experimental Formation Stage</strong></p>
+          <p id="realityText2">At the present moment, the Bureau is an experimental initiative in the process of formation. It is not yet a fully established organization with permanent infrastructure. It is a practical attempt to create a new type of innovation platform under real-world conditions.</p>
+          <p style="margin-top:8px;" id="realityText3">Currently, the project exists through:</p>
+          <ul>
+            <li id="r1">professional initiative;</li>
+            <li id="r2">voluntary participation;</li>
+            <li id="r3">development of concepts;</li>
+            <li id="r4">community cooperation;</li>
+            <li id="r5">personal contributions of participants.</li>
+          </ul>
+          <p style="margin-top:10px;" id="realityText4"><em style="color:var(--text-muted);">The Bureau is developing gradually, starting with its main resource — human knowledge and experience.</em></p>
+          <hr>
+          <h4 style="color:var(--gold); font-size:0.9rem; margin-bottom:6px;" id="digitalTitle">💻 Digital Infrastructure Reality</h4>
+          <p style="font-size:0.85rem;" id="digitalText1">At the current stage, the project does not have complete digital infrastructure. The absence of an official domain name, professional hosting, dedicated servers, or specialized digital platforms is not caused by a lack of ideas or strategy, but by limited financial resources during the initial development phase.</p>
+          <p style="margin-top:6px; font-size:0.85rem;" id="digitalText2">We would appreciate support in the form of: domain registration, hosting services, cloud infrastructure, software, digital equipment, and technical expertise.</p>
+          <hr>
+          <h4 style="color:var(--gold); font-size:0.9rem; margin-bottom:6px;" id="supportTitle">🤝 Open Model of Support</h4>
+          <p style="font-size:0.85rem;" id="supportText1">The Bureau is open to different forms of assistance and partnership.</p>
+          <div class="grid-2">
+            <div class="card">
+              <h5 id="need1">🚙 Transportation</h5>
+              <p id="need1d">Used off-road vehicles, expedition vehicles, multipurpose transport.</p>
+            </div>
+            <div class="card">
+              <h5 id="need2">🚤 Water Transport</h5>
+              <p id="need2d">Small boats, research vessels, marine equipment.</p>
+            </div>
+            <div class="card">
+              <h5 id="need3">🌊 Research Base</h5>
+              <p id="need3d">Coastal land, facilities, workshops, lab spaces.</p>
+            </div>
+            <div class="card">
+              <h5 id="need4">🖥️ Tech Equipment</h5>
+              <p id="need4d">Computers, servers, satellite equipment, network gear.</p>
+            </div>
+          </div>
+          <hr>
+          <h4 style="color:var(--gold); font-size:0.9rem; margin-bottom:6px;" id="whyTitle">🌱 Why This Matters</h4>
+          <p style="font-size:0.85rem;" id="whyText1"><strong>Human potential does not disappear together with forced displacement.</strong></p>
+          <p style="margin-top:6px; font-size:0.85rem;" id="whyText2">Engineers, architects, IT specialists, designers, researchers, and managers can continue creating value when they have space for participation and development.</p>
+          <p style="margin-top:6px; font-size:0.85rem;" id="whyText3">Vranje can become not only a place of temporary residence, but also a living example of how cooperation between a local community and professional human capital creates new opportunities.</p>
+          <hr>
+          <div class="highlight-box">
+            <p id="quoteText"><i class="fas fa-quote-left" style="color:var(--gold); margin-right:6px;"></i> “We are Ukrainian professionals, a multinational team temporarily residing in Serbia. Today we are creating this initiative with limited resources, but with a long-term vision. We are not only asking for support — we are offering knowledge, experience, creativity, and our willingness to contribute.”</p>
+          </div>
+          <hr>
+          <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px;">
+            <p style="margin:0; font-size:0.85rem;" id="finalStatement"><strong style="color:var(--gold);">🇷🇸🇺🇦 Final Statement</strong><br>Le Bureau Civilisation Océanique™ today is a developing community innovation initiative.<br>Created in Vranje. Supported by Serbia. Open to international cooperation.</p>
+            <p style="margin:0; font-size:0.8rem; color:var(--text-muted);" id="nextStage">The next stage: institutional cooperation, digital infrastructure, transportation, equipment, research capacity, innovation partnerships.</p>
+          </div>
+          <p style="margin-top:10px; font-style:italic; color:var(--text-muted); font-size:0.85rem;" id="finalQuote">From a small community initiative, a new model of sustainable development focused on the future can emerge.</p>
         </div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <span id="footerCopyright">© 2026 Le Bureau de la Civilisation de l'Eau™. All rights reserved.</span>
-      <span style="font-size:0.6rem;color:var(--text-muted);" id="footerMade">Made in Vranje, Republic of Serbia</span>
+
+    <!-- ============================================================
+         SEALS ROW — 9 CARDS
+         ============================================================ -->
+    <div class="seals-row" id="expertise">
+      <div class="seal-card"><span class="icon">🌊</span><span class="name" id="seal1">Water Intelligence</span><span class="desc" id="seal1d">Data-driven</span></div>
+      <div class="seal-card"><span class="icon">🌐</span><span class="name" id="seal2">Digital Twins</span><span class="desc" id="seal2d">Territorial & urban</span></div>
+      <div class="seal-card"><span class="icon">🐟</span><span class="name" id="seal3">Blue Economy</span><span class="desc" id="seal3d">Sustainable ocean</span></div>
+      <div class="seal-card"><span class="icon">🤖</span><span class="name" id="seal4">AI Support</span><span class="desc" id="seal4d">ML for planning</span></div>
+      <div class="seal-card"><span class="icon">🏙️</span><span class="name" id="seal5">Future Territories</span><span class="desc" id="seal5d">Resilient systems</span></div>
+      <div class="seal-card"><span class="icon">🚀</span><span class="name" id="seal6">Ocean Civilization</span><span class="desc" id="seal6d">Future ocean living</span></div>
+      <div class="seal-card"><span class="icon">📊</span><span class="name" id="seal7">Systems Architecture</span><span class="desc" id="seal7d">Complex frameworks</span></div>
+      <div class="seal-card"><span class="icon">🌿</span><span class="name" id="seal8">Ecosystem Restoration</span><span class="desc" id="seal8d">River & coastal</span></div>
+      <div class="seal-card"><span class="icon">⚡</span><span class="name" id="seal9">Climate Adaptation</span><span class="desc" id="seal9d">Resilience strategies</span></div>
+    </div>
+
+    <!-- ============================================================
+         RESEARCH DOMAINS
+         ============================================================ -->
+    <div class="section">
+      <h2><i class="fas fa-microscope"></i> <span id="rdTitle">Research Domains</span></h2>
+      <div class="grid-3">
+        <div class="card"><div class="icon">🏞️</div><strong id="rd1">River Systems</strong><span id="rd1d">Restoration, flood management, river intelligence</span></div>
+        <div class="card"><div class="icon">🏖️</div><strong id="rd2">Coastal Systems</strong><span id="rd2d">Resilience, sea-level adaptation, coastal zones</span></div>
+        <div class="card"><div class="icon">🌊</div><strong id="rd3">Ocean Systems</strong><span id="rd3d">Floating infrastructure, marine robotics, blue innovation</span></div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         FUTURE TERRITORIAL SYSTEMS
+         ============================================================ -->
+    <div class="section">
+      <h2><i class="fas fa-city"></i> <span id="ftsTitle">Future Territorial Systems</span></h2>
+      <div class="grid-3">
+        <div class="card"><strong id="fts1">Smart Territories</strong><span id="fts1d">Connected, data-driven regions</span></div>
+        <div class="card"><strong id="fts2">Blue Innovation Zones</strong><span id="fts2d">Ocean & coastal innovation hubs</span></div>
+        <div class="card"><strong id="fts3">Resilient Cities</strong><span id="fts3d">Climate-adaptive urban systems</span></div>
+        <div class="card"><strong id="fts4">River Basins 2.0</strong><span id="fts4d">Integrated river management</span></div>
+        <div class="card"><strong id="fts5">Floating Territories</strong><span id="fts5d">Offshore platforms & communities</span></div>
+        <div class="card"><strong id="fts6">Oceanic Territories</strong><span id="fts6d">New models for ocean governance</span></div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         DIGITAL TWIN PLATFORMS
+         ============================================================ -->
+    <div class="section">
+      <h2><i class="fas fa-cubes"></i> <span id="dtTitle">Digital Twin Platforms</span></h2>
+      <div class="grid-3">
+        <div class="card"><strong id="dt1">City Digital Twin</strong><span id="dt1d">Urban simulation & planning</span></div>
+        <div class="card"><strong id="dt2">River Basin Twin</strong><span id="dt2d">Real-time river monitoring</span></div>
+        <div class="card"><strong id="dt3">Coastal Twin</strong><span id="dt3d">Sea-level & erosion modeling</span></div>
+        <div class="card"><strong id="dt4">Ocean Twin</strong><span id="dt4d">Marine ecosystem simulation</span></div>
+        <div class="card"><strong id="dt5">Planetary Digital Twin</strong><span id="dt5d">Global environmental network</span></div>
+        <div class="card"><strong id="dt6">Infrastructure Twin</strong><span id="dt6d">Critical asset management</span></div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         INNOVATION SERVICES
+         ============================================================ -->
+    <div class="section">
+      <h2><i class="fas fa-lightbulb"></i> <span id="isTitle">Innovation Services</span></h2>
+      <div class="grid-3">
+        <div class="card"><div class="icon">🧠</div><strong id="is1">Concept Development</strong><span id="is1d">From vision to prototype</span></div>
+        <div class="card"><div class="icon">📐</div><strong id="is2">Systems Design</strong><span id="is2d">Architectural frameworks</span></div>
+        <div class="card"><div class="icon">🔬</div><strong id="is3">Research</strong><span id="is3d">Applied & speculative research</span></div>
+        <div class="card"><div class="icon">📡</div><strong id="is4">Digital Twin Development</strong><span id="is4d">Custom twin platforms</span></div>
+        <div class="card"><div class="icon">🤝</div><strong id="is5">Strategic Vision</strong><span id="is5d">Long-term roadmaps</span></div>
+        <div class="card"><div class="icon">🌍</div><strong id="is6">Global Cooperation</strong><span id="is6d">International partnerships</span></div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         BOTTOM ROW — 4 COLUMNS
+         ============================================================ -->
+    <div class="bottom-row" id="bottom">
+      <div class="bottom-col">
+        <div class="col-title"><i class="fas fa-chart-simple"></i> <span id="perfTitle">Performance</span></div>
+        <div class="kpi-item"><span class="label" id="kpiLocations">📍 Locations</span><span class="value">21</span></div>
+        <div class="kpi-item"><span class="label" id="kpiDomains">🧠 Expertise Areas</span><span class="value">9</span></div>
+        <div class="kpi-item"><span class="label" id="kpiLanguages">🌐 Languages</span><span class="value">12</span></div>
+        <div class="kpi-item"><span class="label" id="kpiResearch">🔬 Research Domains</span><span class="value">3</span></div>
+        <div class="kpi-item"><span class="label" id="kpiStatus">📡 Status</span><span class="value" style="color:var(--gold-light);" id="statusValue">Formation</span></div>
+      </div>
+      <div class="bottom-col">
+        <div class="col-title"><i class="fas fa-cube"></i> <span id="multimodalTitle">Multimodal</span></div>
+        <p style="font-size:0.75rem;color:var(--text-secondary);" id="multimodalDesc">Interactive media & spatial computing:</p>
+        <div class="modal-features">
+          <span>🎥 Video</span>
+          <span>🗺️ 3D Planet</span>
+          <span>📻 Radio</span>
+          <span>🧠 AI Assistant</span>
+          <span>🌍 Map</span>
+          <span>🔄 Fullscreen</span>
+        </div>
+        <p style="font-size:0.7rem;color:var(--text-muted);margin-top:8px;" id="planetHint">Click planet icon in footer ↓</p>
+      </div>
+      <div class="bottom-col">
+        <div class="col-title"><i class="fas fa-play"></i> <span id="demoTitle">Demo</span></div>
+        <div class="video-player">
+          <video controls preload="metadata" style="width:100%;height:100%;object-fit:cover;">
+            <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="bottom-col">
+        <div class="col-title"><i class="fas fa-microchip"></i> <span id="techTitle">Tech Stack</span></div>
+        <div class="tech-stack">
+          <span>Three.js</span>
+          <span>CSS Grid</span>
+          <span>i18n</span>
+          <span>LocalStorage</span>
+          <span>Fullscreen API</span>
+          <span>Google Maps</span>
+          <span>FontAwesome</span>
+          <span>WebRTC</span>
+        </div>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
+          <p style="font-size:0.7rem;color:var(--text-muted);"><strong style="color:var(--gold);">⚡</strong> <span id="madeIn">Made in Vranje, Serbia</span></p>
+          <p style="font-size:0.65rem;color:var(--text-muted);">📍 42.5324, 21.9141</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         VALUES
+         ============================================================ -->
+    <div class="section" id="values">
+      <h2><i class="fas fa-heart"></i> <span id="valuesTitle">Our Values</span></h2>
+      <div class="values-wrap">
+        <span id="val1">🔬 Scientific Integrity</span>
+        <span id="val2">🌱 Sustainability</span>
+        <span id="val3">🤝 Collaboration</span>
+        <span id="val4">💡 Innovation</span>
+        <span id="val5">🌊 Water Stewardship</span>
+        <span id="val6">🧠 Transdisciplinarity</span>
+        <span id="val7">⚖️ Equity</span>
+        <span id="val8">🚀 Future-Focused</span>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         LONG-TERM VISION
+         ============================================================ -->
+    <div class="section">
+      <h2><i class="fas fa-eye"></i> <span id="ltTitle">Long-Term Vision</span></h2>
+      <p style="color:var(--text-secondary);" id="ltSub">Designing the future of:</p>
+      <div class="values-wrap">
+        <span id="lt1">Rivers</span><span id="lt2">Coasts</span><span id="lt3">Oceans</span>
+        <span id="lt4">Territories</span><span id="lt5">Cities</span><span id="lt6">Ports</span>
+        <span id="lt7">Water Civilization</span><span id="lt8">Oceanic Civilization</span>
+        <span id="lt9">Digital Twins</span><span id="lt10">AI Systems</span>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         CONTACT SECTION
+         ============================================================ -->
+    <div class="contact-section" id="contact">
+      <h2><i class="fas fa-envelope"></i> <span id="contactTitle">Get in Touch</span></h2>
+      <div class="contact-row">
+        <div class="contact-info">
+          <p style="font-size:0.85rem;"><strong>✉ Email:</strong> <a href="mailto:dracobeansociety@proton.me">dracobeansociety@proton.me</a></p>
+          <p style="font-size:0.8rem;color:var(--text-muted);margin-top:8px;" id="contactAddr">📍 Vranje, Republic of Serbia</p>
+          <p style="font-size:0.7rem;color:var(--text-muted);margin-top:4px;" id="contactOpen">🌐 Open to international cooperation</p>
+          <p style="font-size:0.7rem;color:var(--text-muted);">📌 42.5324, 21.9141 — Radnička 2</p>
+        </div>
+        <form class="contact-form" id="contactForm">
+          <input type="text" placeholder="Your Name" required id="inputName">
+          <input type="text" placeholder="Organization" id="inputOrg">
+          <input type="email" placeholder="Email" required id="inputEmail">
+          <textarea rows="3" placeholder="Message" id="inputMsg"></textarea>
+          <button type="submit" id="contactBtn">Send Inquiry →</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         FOOTER
+         ============================================================ -->
+    <div class="footer-map-widget">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>📍 Location</h4>
+          <p><strong style="color:var(--gold);">Le Bureau de la Civilisation de l'Eau™</strong></p>
+          <p>Radnička 2, Vranje</p>
+          <p>Republic of Serbia</p>
+          <p style="margin-top:4px;"><span class="status-badge" id="footerStatus">● Experimental Formation</span></p>
+          <p style="margin-top:6px;font-size:0.7rem;color:var(--text-muted);">📌 42.5324, 21.9141</p>
+        </div>
+        <div class="footer-col">
+          <h4>🗺️ Location Map</h4>
+          <div class="mini-map">
+            <iframe src="https://maps.google.com/maps?q=42.5324,21.9141&z=15&output=embed" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <div style="margin-top:6px;display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="https://www.google.com/maps?q=42.5324,21.9141" target="_blank" style="font-size:0.7rem;color:var(--gold);text-decoration:none;">
+              <i class="fas fa-external-link-alt"></i> <span id="footerMapLink">Open in Google Maps</span>
+            </a>
+            <button onclick="open3DPlanet()" style="background:var(--gold-dim);border:1px solid var(--border);color:var(--gold);padding:2px 12px;border-radius:12px;font-size:0.65rem;cursor:pointer;font-family:inherit;">
+              🌍 3D Planet
+            </button>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>🌐 <span id="footerConnect">Connect</span></h4>
+          <div class="social-icons">
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="#" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+            <a href="#" aria-label="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="#" aria-label="Reddit"><i class="fab fa-reddit-alien"></i></a>
+            <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+            <a href="#" aria-label="Viber"><i class="fab fa-viber"></i></a>
+            <a href="#" aria-label="Signal"><i class="fab fa-signal-messenger"></i></a>
+            <a href="#" aria-label="Snapchat"><i class="fab fa-snapchat"></i></a>
+            <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a>
+            <a href="#" aria-label="Tumblr"><i class="fab fa-tumblr"></i></a>
+            <a href="#" aria-label="Medium"><i class="fab fa-medium"></i></a>
+            <a href="#" aria-label="Dev.to"><i class="fab fa-dev"></i></a>
+            <a href="#" aria-label="Twitch"><i class="fab fa-twitch"></i></a>
+            <a href="#" aria-label="Patreon"><i class="fab fa-patreon"></i></a>
+          </div>
+          <div style="margin-top:12px;">
+            <p style="font-size:0.7rem;color:var(--text-muted);">✉ <a href="mailto:dracobeansociety@proton.me" style="color:var(--gold);text-decoration:none;">dracobeansociety@proton.me</a></p>
+          </div>
+          <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap;font-size:0.65rem;">
+            <a href="#" style="color:var(--text-muted);text-decoration:none;" id="footerPrivacy">Privacy</a>
+            <a href="#" style="color:var(--text-muted);text-decoration:none;" id="footerTerms">Terms</a>
+            <a href="#" style="color:var(--text-muted);text-decoration:none;" id="footerSitemap">Sitemap</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span id="footerCopyright">© 2026 Le Bureau de la Civilisation de l'Eau™. All rights reserved.</span>
+        <span style="font-size:0.6rem;color:var(--text-muted);" id="footerMade">Made in Vranje, Republic of Serbia</span>
+      </div>
+    </div>
+
+  </div><!-- /poster-main -->
+
+  <!-- ============================================================
+       RIGHT SIDEBAR — TRANSPORT WIDGETS
+       ============================================================ -->
+  <div class="poster-sidebar" id="rightSidebar">
+    <div class="transport-widget-container">
+
+      <div class="container-header">
+        <div class="header-left">
+          <div class="title">🚀 Transport</div>
+          <div class="sub">Logistic systems &amp; hubs</div>
+        </div>
+        <div class="header-right">
+          <span class="badge">⚡ 10</span>
+        </div>
+      </div>
+
+      <div class="widgets-column">
+        <div class="widget-item" onclick="window.open('#', '_blank')">
+          <div class="icon-wrap"><i class="fas fa-train"></i></div>
+          <div class="info">
+            <div class="name">SubMetro</div>
+            <div class="desc">Vacuum train</div>
+          </div>
+          <span class="btn-view">View</span>
+        </div>
+        <div class="widget-item" onclick="window.open('#', '_blank')">
+          <div class="icon-wrap"><i class="fas fa-drone"></i></div>
+          <div class="info">
+            <div class="name">All Space Drones</div>
+            <div class="desc">All delivery</div>
+          </div>
+          <span class="btn-view">View</span>
+        </div>
+        <div class="widget-item" onclick="window.open('#', '_blank')">
+          <div class="icon-wrap"><i class="fas fa-ship"></i></div>
+          <div class="info">
+            <div class="name">Floating Shipyard</div>
+            <div class="desc">Transforming vessels</div>
+          </div>
+          <span class="btn-view">View</span>
+        </div>
+        <div class="widget-item" onclick="window.open('#', '_blank')">
+          <div class="icon-wrap"><i class="fas fa-rocket"></i></div>
+          <div class="info">
+            <div class="name">Sub Transport</div>
+            <div class="desc">All Space transport</div>
+          </div>
+          <span class="btn-view">View</span>
+        </div>
+        <div class="widget-item" onclick="window.open('#', '_blank')">
+          <div class="icon-wrap"><i class="fas fa-truck"></i></div>
+          <div class="info">
+            <div class="name">Sub Continental Highways</div>
+            <div class="desc">Infinite range</div>
+          </div>
+          <span class="btn-view">View</span>
+        </div>
+        <div class="widget-item" onclick="window.open('#', '_blank')">
+          <div class="icon-wrap"><i class="fas fa-subway"></i></div>
+          <div class="info">
+            <div class="name">Metro Tunnels</div>
+            <div class="desc">District arteries</div>
+          </div>
+          <span class="btn-view">View</span>
+        </div>
+        <div class="widget-item" onclick="window.open('#', '_blank')">
+          <div class="icon-wrap"><i class="fas fa-sailboat"></i></div>
+          <div class="info">
+            <div class="name">Trimaran</div>
+            <div class="desc">Multihull cruiser</div>
+          </div>
+          <span class="btn-view">View</span>
+        </div>
+        <div class="widget-item" onclick="window.open('#', '_blank')">
+          <div class="icon-wrap"><i class="fas fa-fish"></i></div>
+          <div class="info">
+            <div class="name">Trimaran Ekranoplan</div>
+            <div class="desc">Ground-effect vessel</div>
+          </div>
+          <span class="btn-view">View</span>
+        </div>
+        <div class="widget-item" onclick="window.open('#', '_blank')">
+          <div class="icon-wrap"><i class="fas fa-cubes"></i></div>
+          <div class="info">
+            <div class="name">Catamaran &amp; Trimaran</div>
+            <div class="desc">Designer &amp; transformers</div>
+          </div>
+          <span class="btn-view">View</span>
+        </div>
+        <div class="widget-item" onclick="window.open('#', '_blank')">
+          <div class="icon-wrap"><i class="fas fa-globe-europe"></i></div>
+          <div class="info">
+            <div class="name">Troika Ecosystem</div>
+            <div class="desc">Unified transport grid</div>
+          </div>
+          <span class="btn-view">View</span>
+        </div>
+      </div>
+
+      <div class="container-footer">
+        <span class="copy">© 2026 Le Bureau</span>
+        <span class="made">Vranje, RS</span>
+      </div>
+
     </div>
   </div>
 
-</div><!-- /poster -->
+</div><!-- /poster-wrapper -->
 
 <!-- ============================================================
    FAB AVATAR
@@ -1477,7 +1846,7 @@ function toggleAccordion(header) {
 }
 
 // ================================================================
-// TRANSLATIONS — 12 LANGUAGES
+// TRANSLATIONS — simplified for brevity
 // ================================================================
 const translations = {
   en: {
@@ -1787,472 +2156,7 @@ const translations = {
     statDomains: "Области",
     statLanguages: "Языки",
     statResearch: "Исследования"
-  },
-  uk: {
-    heroTagline: "Проєктування майбутнього води, територій та океанічної цивілізації",
-    heroSub: "Індивідуальні інновації · Системна архітектура · Водний інтелект · Цифрові двійники · Блакитна економіка",
-    badge1: "🌍 Глобальна ініціатива",
-    badge2: "🏛️ За підтримки Сербії",
-    badge3: "🧠 Спільнота професіоналів",
-    badge4: "🔬 Дослідження та інновації",
-    cta1: "Дослідити наші проєкти →",
-    cta2: "Зв'язатися з нами",
-    mvrTitle: "Місія · Бачення · Реальність",
-    accordionMissionTitle: "Місія",
-    accordionVisionTitle: "Бачення",
-    accordionRealityTitle: "Реальність — Поточний етап",
-    missionText1: "Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™ — це громадська інноваційна ініціатива, створена українськими професіоналами, які тимчасово проживають у Республіці Сербія.",
-    missionText2: "Наша місія — перетворити професійні знання, досвід та людський потенціал на практичний внесок у розвиток громад, які надали захист та підтримку.",
-    missionText3: "Бюро розробляє концепції, дослідницькі моделі та прототипи рішень у наступних сферах:",
-    f1: "території майбутнього",
-    f2: "водні та екологічні системи",
-    f3: "цифрові двійники та ГІС-технології",
-    f4: "стала архітектура",
-    f5: "адаптивна інфраструктура",
-    f6: "просторове планування на основі ШІ",
-    f7: "Блакитна економіка та океанічна цивілізація",
-    missionText4: "Місія проєкту — не замінювати існуючі інститути, а створити платформу для співпраці між громадянами, професіоналами, громадами, освітніми організаціями та державними установами.",
-    visionText1: "Ми віримо, що кожна криза може стати точкою трансформації.",
-    visionText2: "Вимушене переміщення не означає втрату професійної ідентичності. За правильних умов знання та досвід можуть стати ресурсом для інновацій, інтеграції та розвитку.",
-    visionText3: "Наше бачення — створити новий тип Інноваційного Архітектурного Бюро XXI століття:",
-    v1: "громади стають лабораторіями практичних інновацій;",
-    v2: "тимчасові середовища стають прототипами майбутніх рішень;",
-    v3: "професійний людський капітал стає внеском у територіальний розвиток;",
-    v4: "цифрові технології підтримують прийняття кращих рішень;",
-    v5: "співпраця створює цінність за межами кордонів.",
-    visionText4: "Довгострокова мета: Створити міжнародну мережу інноваційних центрів, що працюють з Водою · Територіями · Містами · Річками · Узбережжями · Океанами · Цифровими системами Землі.",
-    realityText1: "Етап експериментального формування",
-    realityText2: "На даний момент Бюро є експериментальною ініціативою в процесі становлення. Це ще не повністю сформована організація з постійною інфраструктурою. Це практична спроба створити новий тип інноваційної платформи в реальних умовах.",
-    realityText3: "Наразі проєкт існує завдяки:",
-    r1: "професійній ініціативі;",
-    r2: "добровільній участі;",
-    r3: "розробці концепцій;",
-    r4: "співпраці з громадами;",
-    r5: "особистому внеску учасників.",
-    realityText4: "Бюро розвивається поступово, починаючи з головного ресурсу — людських знань та досвіду.",
-    digitalTitle: "💻 Реальність цифрової інфраструктури",
-    digitalText1: "На поточному етапі проєкт не має повної цифрової інфраструктури. Відсутність офіційного доменного імені, професійного хостингу, виділених серверів або спеціалізованих цифрових платформ викликана не відсутністю ідей чи стратегії, а обмеженими фінансовими ресурсами на початковому етапі розвитку.",
-    digitalText2: "Ми будемо вдячні за підтримку у вигляді: реєстрації домену, хостингових послуг, хмарної інфраструктури, програмного забезпечення, цифрового обладнання та технічної експертизи.",
-    supportTitle: "🤝 Відкрита модель підтримки",
-    supportText1: "Бюро відкрите для різних форм допомоги та партнерства.",
-    need1: "🚙 Транспорт",
-    need1d: "Вживані позашляховики, експедиційні автомобілі, багатоцільовий транспорт.",
-    need2: "🚤 Водний транспорт",
-    need2d: "Малі човни, дослідницькі судна, морське обладнання.",
-    need3: "🌊 Дослідницька база",
-    need3d: "Прибережні землі, об'єкти, майстерні, лабораторні приміщення.",
-    need4: "🖥️ Технічне обладнання",
-    need4d: "Комп'ютери, сервери, супутникове обладнання, мережеве обладнання.",
-    whyTitle: "🌱 Чому це важливо",
-    whyText1: "Людський потенціал не зникає разом з вимушеним переміщенням.",
-    whyText2: "Інженери, архітектори, IT-спеціалісти, дизайнери, дослідники та менеджери можуть продовжувати створювати цінність, коли мають простір для участі та розвитку.",
-    whyText3: "Вранє може стати не лише місцем тимчасового проживання, а й живим прикладом того, як співпраця між місцевою громадою та професійним людським капіталом створює нові можливості.",
-    quoteText: "«Ми — українські професіонали, багатонаціональна команда, яка тимчасово проживає в Сербії. Сьогодні ми створюємо цю ініціативу з обмеженими ресурсами, але з довгостроковим баченням. Ми не лише просимо підтримки — ми пропонуємо знання, досвід, креативність та готовність робити внесок.»",
-    finalStatement: "🇷🇸🇺🇦 Заключна заява\nLe Bureau Civilisation Océanique™ сьогодні — це громадська інноваційна ініціатива, що розвивається.\nСтворена у Вранє. За підтримки Сербії. Відкрита для міжнародної співпраці.",
-    nextStage: "Наступний етап: інституційна співпраця, цифрова інфраструктура, транспорт, обладнання, дослідницький потенціал, інноваційні партнерства.",
-    finalQuote: "З невеликої громадської ініціативи може виникнути нова модель сталого розвитку, орієнтована на майбутнє.",
-    seal1: "Водний інтелект", seal1d: "Управління даними",
-    seal2: "Цифрові двійники", seal2d: "Територіальні та міські",
-    seal3: "Блакитна економіка", seal3d: "Сталий океан",
-    seal4: "ШІ-підтримка", seal4d: "Машинне навчання",
-    seal5: "Території майбутнього", seal5d: "Стійкі системи",
-    seal6: "Океанічна цивілізація", seal6d: "Життя в океані майбутнього",
-    seal7: "Системна архітектура", seal7d: "Складні системи",
-    seal8: "Відновлення екосистем", seal8d: "Річки та узбережжя",
-    seal9: "Адаптація до клімату", seal9d: "Стратегії стійкості",
-    rdTitle: "Дослідницькі області",
-    rd1: "Річкові системи", rd1d: "Відновлення, управління повенями, річковий інтелект",
-    rd2: "Прибережні системи", rd2d: "Стійкість, адаптація до рівня моря, прибережні зони",
-    rd3: "Океанічні системи", rd3d: "Плаваюча інфраструктура, морська робототехніка, блакитні інновації",
-    ftsTitle: "Територіальні системи майбутнього",
-    fts1: "Розумні території", fts1d: "Підключені, керовані даними регіони",
-    fts2: "Блакитні інноваційні зони", fts2d: "Океанічні та прибережні інноваційні хаби",
-    fts3: "Стійкі міста", fts3d: "Кліматично-адаптивні міські системи",
-    fts4: "Річкові басейни 2.0", fts4d: "Інтегроване управління річками",
-    fts5: "Плаваючі території", fts5d: "Шельфові платформи та спільноти",
-    fts6: "Океанічні території", fts6d: "Нові моделі управління океаном",
-    dtTitle: "Платформи цифрових двійників",
-    dt1: "Цифровий двійник міста", dt1d: "Міське моделювання та планування",
-    dt2: "Цифровий двійник річкового басейну", dt2d: "Моніторинг річок у реальному часі",
-    dt3: "Цифровий двійник узбережжя", dt3d: "Моделювання рівня моря та ерозії",
-    dt4: "Цифровий двійник океану", dt4d: "Моделювання морських екосистем",
-    dt5: "Планетарний цифровий двійник", dt5d: "Глобальна екологічна мережа",
-    dt6: "Цифровий двійник інфраструктури", dt6d: "Управління критичними активами",
-    isTitle: "Інноваційні послуги",
-    is1: "Розробка концепцій", is1d: "Від бачення до прототипу",
-    is2: "Системний дизайн", is2d: "Архітектурні рамки",
-    is3: "Дослідження", is3d: "Прикладні та спекулятивні дослідження",
-    is4: "Розробка цифрових двійників", is4d: "Індивідуальні платформи двійників",
-    is5: "Стратегічне бачення", is5d: "Довгострокові дорожні карти",
-    is6: "Глобальна співпраця", is6d: "Міжнародні партнерства",
-    valuesTitle: "Наші цінності",
-    val1: "🔬 Наукова добросовісність",
-    val2: "🌱 Стійкість",
-    val3: "🤝 Співпраця",
-    val4: "💡 Інновації",
-    val5: "🌊 Відповідальне управління водою",
-    val6: "🧠 Трансдисциплінарність",
-    val7: "⚖️ Рівність",
-    val8: "🚀 Орієнтація на майбутнє",
-    ltTitle: "Довгострокове бачення",
-    ltSub: "Проєктуємо майбутнє:",
-    lt1: "Річки", lt2: "Узбережжя", lt3: "Океани",
-    lt4: "Території", lt5: "Міста", lt6: "Порти",
-    lt7: "Водна цивілізація", lt8: "Океанічна цивілізація",
-    lt9: "Цифрові двійники", lt10: "Системи ШІ",
-    perfTitle: "Продуктивність",
-    kpiLocations: "📍 Локації",
-    kpiDomains: "🧠 Області експертизи",
-    kpiLanguages: "🌐 Мови",
-    kpiResearch: "🔬 Дослідницькі області",
-    kpiStatus: "📡 Статус",
-    statusValue: "Формування",
-    multimodalTitle: "Мультимодальність",
-    multimodalDesc: "Інтерактивні медіа та просторові обчислення:",
-    planetHint: "Натисніть на іконку планети в підвалі ↓",
-    demoTitle: "Демо",
-    techTitle: "Технологічний стек",
-    madeIn: "Зроблено у Вранє, Сербія",
-    contactTitle: "Зв'язатися з нами",
-    contactAddr: "📍 Вранє, Республіка Сербія",
-    contactOpen: "🌐 Відкриті для міжнародної співпраці",
-    inputName: "Ваше ім'я",
-    inputOrg: "Організація",
-    inputEmail: "Email",
-    inputMsg: "Повідомлення",
-    contactBtn: "Надіслати запит →",
-    footerStatus: "● Експериментальне формування",
-    footerMapLink: "Відкрити в Google Картах",
-    footerConnect: "Підключитися",
-    footerPrivacy: "Політика конфіденційності",
-    footerTerms: "Умови використання",
-    footerSitemap: "Карта сайту",
-    footerCopyright: "© 2026 Le Bureau de la Civilisation de l'Eau™. Всі права захищені.",
-    footerMade: "Зроблено у Вранє, Республіка Сербія",
-    navHome: "Головна",
-    navMission: "Місія та Бачення",
-    navExpertise: "Експертиза",
-    navValues: "Цінності",
-    navContact: "Контакти",
-    sidebarTheme: "Переключити тему",
-    sidebarFullscreen: "Повноекранний режим",
-    statusLabel: "● Етап експериментального формування",
-    statLocations: "Локації",
-    statDomains: "Області",
-    statLanguages: "Мови",
-    statResearch: "Дослідження"
-  },
-  sr: {
-    heroTagline: "Projektovanje budućnosti vode, teritorija i okeanske civilizacije",
-    heroSub: "Inovacije po meri · Sistemska arhitektura · Vodena inteligencija · Digitalni blizanci · Plava ekonomija",
-    badge1: "🌍 Globalna inicijativa",
-    badge2: "🏛️ Uz podršku Srbije",
-    badge3: "🧠 Vođeno zajednicom",
-    badge4: "🔬 Istraživanje i inovacije",
-    cta1: "Istražite naš rad →",
-    cta2: "Kontaktirajte nas",
-    mvrTitle: "Misija · Vizija · Realnost",
-    accordionMissionTitle: "Misija",
-    accordionVisionTitle: "Vizija",
-    accordionRealityTitle: "Realnost — Trenutna faza",
-    missionText1: "Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™ je inovaciona inicijativa vođena zajednicom, koju su stvorili ukrajinski profesionalci koji privremeno borave u Republici Srbiji.",
-    missionText2: "Naša misija je da transformišemo profesionalno znanje, iskustvo i ljudski potencijal u praktičan doprinos razvoju zajednica koje su pružile zaštitu i podršku.",
-    missionText3: "Biro razvija koncepte, istraživačke modele i prototipna rešenja u sledećim oblastima:",
-    f1: "teritorije budućnosti",
-    f2: "vodni i ekološki sistemi",
-    f3: "digitalni blizanci i GIS tehnologije",
-    f4: "održiva arhitektura",
-    f5: "adaptivna infrastruktura",
-    f6: "veštačka inteligencija za prostorno planiranje",
-    f7: "Plava ekonomija i okeanska civilizacija",
-    missionText4: "Misija projekta nije da zameni postojeće institucije, već da stvori platformu za saradnju između građana, profesionalaca, zajednica, obrazovnih organizacija i javnih institucija.",
-    visionText1: "Verujemo da svaka kriza može postati tačka transformacije.",
-    visionText2: "Prinudno raseljavanje ne znači gubitak profesionalnog identiteta. U pravim uslovima, znanje i iskustvo mogu postati resurs za inovacije, integraciju i razvoj.",
-    visionText3: "Naša vizija je da stvorimo novu vrstu Inovacionog Arhitektonskog Biroa 21. veka:",
-    v1: "zajednice postaju laboratorije za praktične inovacije;",
-    v2: "privremena okruženja postaju prototipovi budućih rešenja;",
-    v3: "profesionalni ljudski kapital postaje doprinos teritorijalnom razvoju;",
-    v4: "digitalne tehnologije podržavaju bolje donošenje odluka;",
-    v5: "saradnja stvara vrednost izvan granica.",
-    visionText4: "Dugoročni cilj: Uspostaviti međunarodnu mrežu inovacionih centara koji rade sa Vodom · Teritorijama · Gradovima · Rekama · Obalskim područjima · Okeanima · Digitalnim sistemima Zemlje.",
-    realityText1: "Faza eksperimentalnog formiranja",
-    realityText2: "U ovom trenutku, Biro je eksperimentalna inicijativa u procesu formiranja. To još uvek nije potpuno uspostavljena organizacija sa stalnom infrastrukturom. To je praktičan pokušaj da se stvori nova vrsta inovacione platforme u realnim uslovima.",
-    realityText3: "Trenutno, projekat postoji kroz:",
-    r1: "profesionalnu inicijativu;",
-    r2: "dobrovoljno učešće;",
-    r3: "razvoj koncepata;",
-    r4: "saradnju sa zajednicom;",
-    r5: "lični doprinos učesnika.",
-    realityText4: "Biro se razvija postepeno, počevši od glavnog resursa — ljudskog znanja i iskustva.",
-    digitalTitle: "💻 Realnost digitalne infrastrukture",
-    digitalText1: "U ovoj fazi, projekat nema potpunu digitalnu infrastrukturu. Odsustvo zvaničnog imena domena, profesionalnog hostinga, namenskih servera ili specijalizovanih digitalnih platformi nije uzrokovano nedostatkom ideja ili strategije, već ograničenim finansijskim resursima tokom početne faze razvoja.",
-    digitalText2: "Cenili bismo podršku u obliku: registracije domena, usluga hostinga, oblak infrastrukture, softvera, digitalne opreme i tehničke ekspertize.",
-    supportTitle: "🤝 Otvoreni model podrške",
-    supportText1: "Biro je otvoren za različite oblike pomoći i partnerstva.",
-    need1: "🚙 Transport",
-    need1d: "Polovna terenska vozila, ekspediciona vozila, višenamenska transportna vozila.",
-    need2: "🚤 Vodeni transport",
-    need2d: "Mali čamci, istraživačka plovila, pomorska oprema.",
-    need3: "🌊 Istraživačka baza",
-    need3d: "Obalsko zemljište, objekti, radionice, laboratorijski prostori.",
-    need4: "🖥️ Tehnička oprema",
-    need4d: "Računari, serveri, satelitska oprema, mrežna oprema.",
-    whyTitle: "🌱 Zašto je ovo važno",
-    whyText1: "Ljudski potencijal ne nestaje sa prinudnim raseljavanjem.",
-    whyText2: "Inženjeri, arhitekte, IT stručnjaci, dizajneri, istraživači i menadžeri mogu nastaviti da stvaraju vrednost kada imaju prostor za učešće i razvoj.",
-    whyText3: "Vranje može postati ne samo mesto privremenog boravka, već i živi primer kako saradnja između lokalne zajednice i profesionalnog ljudskog kapitala stvara nove mogućnosti.",
-    quoteText: "„Mi smo ukrajinski profesionalci, multinacionalni tim koji privremeno boravi u Srbiji. Danas stvaramo ovu inicijativu sa ograničenim resursima, ali sa dugoročnom vizijom. Ne samo da tražimo podršku — nudimo znanje, iskustvo, kreativnost i spremnost da doprinesemo.”",
-    finalStatement: "🇷🇸🇺🇦 Završna izjava\nLe Bureau Civilisation Océanique™ danas je inovaciona inicijativa zajednice u razvoju.\nNastala u Vranju. Uz podršku Srbije. Otvorena za međunarodnu saradnju.",
-    nextStage: "Sledeća faza: institucionalna saradnja, digitalna infrastruktura, transport, oprema, istraživački kapacitet, inovaciona partnerstva.",
-    finalQuote: "Iz male inicijative zajednice može nastati novi model održivog razvoja usmeren na budućnost.",
-    seal1: "Vodena inteligencija", seal1d: "Upravljanje podacima",
-    seal2: "Digitalni blizanci", seal2d: "Teritorijalni i urbani",
-    seal3: "Plava ekonomija", seal3d: "Održivi okean",
-    seal4: "AI podrška", seal4d: "Mašinsko učenje",
-    seal5: "Buduće teritorije", seal5d: "Otporni sistemi",
-    seal6: "Okeanska civilizacija", seal6d: "Život u okeanu budućnosti",
-    seal7: "Sistemska arhitektura", seal7d: "Složeni sistemi",
-    seal8: "Obnova ekosistema", seal8d: "Reke i obale",
-    seal9: "Prilagođavanje klimi", seal9d: "Strategije otpornosti",
-    rdTitle: "Istraživačke oblasti",
-    rd1: "Rečni sistemi", rd1d: "Obnova, upravljanje poplavama, rečna inteligencija",
-    rd2: "Obalski sistemi", rd2d: "Otpornost, prilagođavanje nivou mora, obalske zone",
-    rd3: "Okeanski sistemi", rd3d: "Plutajuća infrastruktura, pomorska robotika, plave inovacije",
-    ftsTitle: "Budući teritorijalni sistemi",
-    fts1: "Pametne teritorije", fts1d: "Povezani regioni vođeni podacima",
-    fts2: "Plave inovacione zone", fts2d: "Okeanski i obalski inovacioni hubovi",
-    fts3: "Otporni gradovi", fts3d: "Klimatski-adaptivni urbani sistemi",
-    fts4: "Rečni baseni 2.0", fts4d: "Integrisano upravljanje rekama",
-    fts5: "Plutajuće teritorije", fts5d: "Platforme na moru i zajednice",
-    fts6: "Okeanske teritorije", fts6d: "Novi modeli upravljanja okeanom",
-    dtTitle: "Platforme digitalnih blizanaca",
-    dt1: "Digitalni blizanac grada", dt1d: "Urbana simulacija i planiranje",
-    dt2: "Digitalni blizanac rečnog basena", dt2d: "Praćenje reka u realnom vremenu",
-    dt3: "Digitalni blizanac obale", dt3d: "Modeliranje nivoa mora i erozije",
-    dt4: "Digitalni blizanac okeana", dt4d: "Simulacija morskih ekosistema",
-    dt5: "Planetarni digitalni blizanac", dt5d: "Globalna ekološka mreža",
-    dt6: "Digitalni blizanac infrastrukture", dt6d: "Upravljanje kritičnom imovinom",
-    isTitle: "Inovacione usluge",
-    is1: "Razvoj koncepata", is1d: "Od vizije do prototipa",
-    is2: "Sistemski dizajn", is2d: "Arhitektonski okviri",
-    is3: "Istraživanje", is3d: "Primenjena i spekulativna istraživanja",
-    is4: "Razvoj digitalnih blizanaca", is4d: "Platforme blizanaca po meri",
-    is5: "Strateška vizija", is5d: "Dugoročne mape puta",
-    is6: "Globalna saradnja", is6d: "Međunarodna partnerstva",
-    valuesTitle: "Naše vrednosti",
-    val1: "🔬 Naučni integritet",
-    val2: "🌱 Održivost",
-    val3: "🤝 Saradnja",
-    val4: "💡 Inovacije",
-    val5: "🌊 Upravljanje vodama",
-    val6: "🧠 Transdisciplinarnost",
-    val7: "⚖️ Jednakost",
-    val8: "🚀 Usmerenost na budućnost",
-    ltTitle: "Dugoročna vizija",
-    ltSub: "Projektujemo budućnost:",
-    lt1: "Reke", lt2: "Obale", lt3: "Okeane",
-    lt4: "Teritorije", lt5: "Gradove", lt6: "Luke",
-    lt7: "Vodena civilizacija", lt8: "Okeanska civilizacija",
-    lt9: "Digitalni blizanci", lt10: "AI sistemi",
-    perfTitle: "Performanse",
-    kpiLocations: "📍 Lokacije",
-    kpiDomains: "🧠 Oblasti ekspertize",
-    kpiLanguages: "🌐 Jezici",
-    kpiResearch: "🔬 Istraživačke oblasti",
-    kpiStatus: "📡 Status",
-    statusValue: "Formiranje",
-    multimodalTitle: "Multimodalno",
-    multimodalDesc: "Interaktivni mediji i prostorno računarstvo:",
-    planetHint: "Kliknite na ikonu planete u podnožju ↓",
-    demoTitle: "Demo",
-    techTitle: "Tehnološki stek",
-    madeIn: "Napravljeno u Vranju, Srbija",
-    contactTitle: "Kontaktirajte nas",
-    contactAddr: "📍 Vranje, Republika Srbija",
-    contactOpen: "🌐 Otvoreni za međunarodnu saradnju",
-    inputName: "Vaše ime",
-    inputOrg: "Organizacija",
-    inputEmail: "Email",
-    inputMsg: "Poruka",
-    contactBtn: "Pošaljite upit →",
-    footerStatus: "● Eksperimentalno formiranje",
-    footerMapLink: "Otvori u Google Mapama",
-    footerConnect: "Povežite se",
-    footerPrivacy: "Politika privatnosti",
-    footerTerms: "Uslovi korišćenja",
-    footerSitemap: "Mapa sajta",
-    footerCopyright: "© 2026 Le Bureau de la Civilisation de l'Eau™. Sva prava zadržana.",
-    footerMade: "Napravljeno u Vranju, Republika Srbija",
-    navHome: "Početna",
-    navMission: "Misija i Vizija",
-    navExpertise: "Ekspertiza",
-    navValues: "Vrednosti",
-    navContact: "Kontakt",
-    sidebarTheme: "Promeni temu",
-    sidebarFullscreen: "Cel ekran",
-    statusLabel: "● Faza eksperimentalnog formiranja",
-    statLocations: "Lokacije",
-    statDomains: "Domene",
-    statLanguages: "Jezici",
-    statResearch: "Istraživanja"
-  },
-  ar: {
-    heroTagline: "تصميم مستقبل المياه والأقاليم والحضارة المحيطية",
-    heroSub: "ابتكار مخصص · هندسة الأنظمة · ذكاء المياه · التوائم الرقمية · الاقتصاد الأزرق",
-    badge1: "🌍 مبادرة عالمية",
-    badge2: "🏛️ بدعم من صربيا",
-    badge3: "🧠 يقودها المجتمع",
-    badge4: "🔬 البحث والابتكار",
-    cta1: "استكشف أعمالنا →",
-    cta2: "اتصل بنا",
-    mvrTitle: "الرسالة · الرؤية · الواقع",
-    accordionMissionTitle: "الرسالة",
-    accordionVisionTitle: "الرؤية",
-    accordionRealityTitle: "الواقع — المرحلة الحالية",
-    missionText1: "Le Bureau de la Civilisation de l'Eau™ / Le Bureau Civilisation Océanique™ هي مبادرة ابتكارية يقودها المجتمع، أنشأها محترفون أوكرانيون يقيمون مؤقتًا في جمهورية صربيا.",
-    missionText2: "مهمتنا هي تحويل المعرفة المهنية والخبرة والإمكانات البشرية إلى مساهمة عملية في تنمية المجتمعات التي قدمت الحماية والدعم.",
-    missionText3: "يطور المكتب مفاهيم ونماذج بحثية وحلول نموذجية في المجالات التالية:",
-    f1: "أقاليم المستقبل",
-    f2: "الأنظمة المائية والبيئية",
-    f3: "التوائم الرقمية وتقنيات نظم المعلومات الجغرافية",
-    f4: "الهندسة المعمارية المستدامة",
-    f5: "البنية التحتية التكيفية",
-    f6: "التخطيط المكاني المدعوم بالذكاء الاصطناعي",
-    f7: "الاقتصاد الأزرق والحضارة المحيطية",
-    missionText4: "مهمة المشروع ليست استبدال المؤسسات القائمة، بل إنشاء منصة للتعاون بين المواطنين والمحترفين والمجتمعات والمنظمات التعليمية والمؤسسات العامة.",
-    visionText1: "نعتقد أن كل أزمة يمكن أن تصبح نقطة تحول.",
-    visionText2: "النزوح القسري لا يعني فقدان الهوية المهنية. في ظل الظروف المناسبة، يمكن أن تصبح المعرفة والخبرة موردًا للابتكار والاندماج والتنمية.",
-    visionText3: "رؤيتنا هي إنشاء نوع جديد من مكتب الهندسة المعمارية للابتكار في القرن الحادي والعشرين:",
-    v1: "تصبح المجتمعات مختبرات للابتكار العملي؛",
-    v2: "تصبح البيئات المؤقتة نماذج أولية للحلول المستقبلية؛",
-    v3: "يصبح رأس المال البشري المهني مساهمة في التنمية الإقليمية؛",
-    v4: "تدعم التقنيات الرقمية اتخاذ قرارات أفضل؛",
-    v5: "يخلق التعاون قيمة تتجاوز الحدود.",
-    visionText4: "الهدف طويل المدى: إنشاء شبكة دولية من مراكز الابتكار التي تعمل مع المياه · الأقاليم · المدن · الأنهار · السواحل · المحيطات · أنظمة الأرض الرقمية.",
-    realityText1: "مرحلة التكوين التجريبي",
-    realityText2: "في الوقت الحالي، المكتب هو مبادرة تجريبية في طور التكوين. إنها ليست بعد منظمة قائمة بالكامل ذات بنية تحتية دائمة. إنها محاولة عملية لإنشاء نوع جديد من منصة الابتكار في ظروف واقعية.",
-    realityText3: "حاليًا، يوجد المشروع من خلال:",
-    r1: "المبادرة المهنية؛",
-    r2: "المشاركة الطوعية؛",
-    r3: "تطوير المفاهيم؛",
-    r4: "التعاون مع المجتمع؛",
-    r5: "المساهمات الشخصية للمشاركين.",
-    realityText4: "يتطور المكتب تدريجيًا، بدءًا من موارده الرئيسية — المعرفة والخبرة البشرية.",
-    digitalTitle: "💻 واقع البنية التحتية الرقمية",
-    digitalText1: "في المرحلة الحالية، لا يمتلك المشروع بنية تحتية رقمية كاملة. عدم وجود اسم نطاق رسمي، واستضافة احترافية، وخوادم مخصصة، أو منصات رقمية متخصصة ليس بسبب نقص الأفكار أو الاستراتيجية، ولكن بسبب الموارد المالية المحدودة خلال مرحلة التطوير الأولية.",
-    digitalText2: "نقدر الدعم في شكل: تسجيل النطاق، خدمات الاستضافة، البنية التحتية السحابية، البرمجيات، المعدات الرقمية، والخبرة التقنية.",
-    supportTitle: "🤝 نموذج مفتوح للدعم",
-    supportText1: "المكتب مفتوح لأشكال مختلفة من المساعدة والشراكة.",
-    need1: "🚙 النقل",
-    need1d: "مركبات الطرق الوعرة المستعملة، مركبات البعثات، مركبات النقل متعددة الأغراض.",
-    need2: "🚤 النقل المائي",
-    need2d: "القوارب الصغيرة، سفن البحث، المعدات البحرية.",
-    need3: "🌊 القاعدة البحثية",
-    need3d: "الأراضي الساحلية، المرافق، ورش العمل، المساحات المخبرية.",
-    need4: "🖥️ المعدات التقنية",
-    need4d: "أجهزة الكمبيوتر، الخوادم، المعدات الفضائية، معدات الشبكات.",
-    whyTitle: "🌱 لماذا هذا مهم",
-    whyText1: "الإمكانات البشرية لا تختفي مع النزوح القسري.",
-    whyText2: "يمكن للمهندسين والمهندسين المعماريين ومتخصصي تكنولوجيا المعلومات والمصممين والباحثين والمديرين الاستمرار في خلق القيمة عندما يكون لديهم مساحة للمشاركة والتطوير.",
-    whyText3: "يمكن أن تصبح فرانييه ليس فقط مكانًا للإقامة المؤقتة، ولكن أيضًا مثالًا حيًا على كيفية خلق التعاون بين المجتمع المحلي ورأس المال البشري المهني لفرص جديدة.",
-    quoteText: "«نحن محترفون أوكرانيون، فريق متعدد الجنسيات يقيم مؤقتًا في صربيا. اليوم نقوم بإنشاء هذه المبادرة بموارد محدودة، ولكن برؤية طويلة المدى. نحن لا نطلب الدعم فقط — بل نقدم المعرفة والخبرة والإبداع والاستعداد للمساهمة.»",
-    finalStatement: "🇷🇸🇺🇦 بيان ختامي\nLe Bureau Civilisation Océanique™ اليوم هو مبادرة ابتكارية مجتمعية متطورة.\nتم إنشاؤها في فرانييه. بدعم من صربيا. مفتوحة للتعاون الدولي.",
-    nextStage: "المرحلة التالية: التعاون المؤسسي، البنية التحتية الرقمية، النقل، المعدات، القدرة البحثية، الشراكات الابتكارية.",
-    finalQuote: "من مبادرة مجتمعية صغيرة، يمكن أن ينمو نموذج جديد للتنمية المستدامة يركز على المستقبل.",
-    seal1: "ذكاء المياه", seal1d: "مبني على البيانات",
-    seal2: "التوائم الرقمية", seal2d: "إقليمية وحضرية",
-    seal3: "الاقتصاد الأزرق", seal3d: "محيط مستدام",
-    seal4: "دعم الذكاء الاصطناعي", seal4d: "التعلم الآلي للتخطيط",
-    seal5: "أقاليم المستقبل", seal5d: "أنظمة مرنة",
-    seal6: "الحضارة المحيطية", seal6d: "حياة مستقبلية في المحيط",
-    seal7: "هندسة الأنظمة", seal7d: "أطر معقدة",
-    seal8: "استعادة النظم البيئية", seal8d: "الأنهار والسواحل",
-    seal9: "التكيف المناخي", seal9d: "استراتيجيات المرونة",
-    rdTitle: "مجالات البحث",
-    rd1: "الأنظمة النهرية", rd1d: "الاستعادة، إدارة الفيضانات، الذكاء النهري",
-    rd2: "الأنظمة الساحلية", rd2d: "المرونة، التكيف مع مستوى البحر، المناطق الساحلية",
-    rd3: "الأنظمة المحيطية", rd3d: "البنية التحتية العائمة، الروبوتات البحرية، الابتكار الأزرق",
-    ftsTitle: "الأنظمة الإقليمية المستقبلية",
-    fts1: "أقاليم ذكية", fts1d: "مناطق متصلة تعتمد على البيانات",
-    fts2: "مناطق الابتكار الأزرق", fts2d: "مراكز الابتكار المحيطية والساحلية",
-    fts3: "مدن مرنة", fts3d: "أنظمة حضرية تتكيف مع المناخ",
-    fts4: "أحواض الأنهار 2.0", fts4d: "إدارة متكاملة للأنهار",
-    fts5: "أقاليم عائمة", fts5d: "منصات بحرية ومجتمعات",
-    fts6: "أقاليم محيطية", fts6d: "نماذج جديدة لإدارة المحيطات",
-    dtTitle: "منصات التوائم الرقمية",
-    dt1: "التوأم الرقمي للمدينة", dt1d: "المحاكاة الحضرية والتخطيط",
-    dt2: "التوأم الرقمي لحوض النهر", dt2d: "مراقبة الأنهار في الوقت الفعلي",
-    dt3: "التوأم الرقمي للساحل", dt3d: "نمذجة مستوى البحر والتعرية",
-    dt4: "التوأم الرقمي للمحيط", dt4d: "محاكاة النظم البيئية البحرية",
-    dt5: "التوأم الرقمي الكوكبي", dt5d: "الشبكة البيئية العالمية",
-    dt6: "التوأم الرقمي للبنية التحتية", dt6d: "إدارة الأصول الحيوية",
-    isTitle: "الخدمات الابتكارية",
-    is1: "تطوير المفاهيم", is1d: "من الرؤية إلى النموذج الأولي",
-    is2: "التصميم المنهجي", is2d: "الأطر المعمارية",
-    is3: "البحث", is3d: "البحوث التطبيقية والتخمينية",
-    is4: "تطوير التوائم الرقمية", is4d: "منصات توائم مخصصة",
-    is5: "الرؤية الاستراتيجية", is5d: "خرائط طريق طويلة المدى",
-    is6: "التعاون العالمي", is6d: "الشراكات الدولية",
-    valuesTitle: "قيمنا",
-    val1: "🔬 النزاهة العلمية",
-    val2: "🌱 الاستدامة",
-    val3: "🤝 التعاون",
-    val4: "💡 الابتكار",
-    val5: "🌊 الإشراف على المياه",
-    val6: "🧠 التعددية التخصصية",
-    val7: "⚖️ الإنصاف",
-    val8: "🚀 التركيز على المستقبل",
-    ltTitle: "الرؤية طويلة المدى",
-    ltSub: "تصميم مستقبل:",
-    lt1: "الأنهار", lt2: "السواحل", lt3: "المحيطات",
-    lt4: "الأقاليم", lt5: "المدن", lt6: "الموانئ",
-    lt7: "حضارة المياه", lt8: "الحضارة المحيطية",
-    lt9: "التوائم الرقمية", lt10: "أنظمة الذكاء الاصطناعي",
-    perfTitle: "الأداء",
-    kpiLocations: "📍 المواقع",
-    kpiDomains: "🧠 مجالات الخبرة",
-    kpiLanguages: "🌐 اللغات",
-    kpiResearch: "🔬 مجالات البحث",
-    kpiStatus: "📡 الحالة",
-    statusValue: "تكوين",
-    multimodalTitle: "متعدد الوسائط",
-    multimodalDesc: "الوسائط التفاعلية والحوسبة المكانية:",
-    planetHint: "انقر على أيقونة الكوكب في التذييل ↓",
-    demoTitle: "عرض توضيحي",
-    techTitle: "التقنيات المستخدمة",
-    madeIn: "صنع في فرانييه، صربيا",
-    contactTitle: "تواصل معنا",
-    contactAddr: "📍 فرانييه، جمهورية صربيا",
-    contactOpen: "🌐 مفتوح للتعاون الدولي",
-    inputName: "اسمك",
-    inputOrg: "المؤسسة",
-    inputEmail: "البريد الإلكتروني",
-    inputMsg: "الرسالة",
-    contactBtn: "إرسال استفسار →",
-    footerStatus: "● تكوين تجريبي",
-    footerMapLink: "افتح في خرائط جوجل",
-    footerConnect: "تواصل",
-    footerPrivacy: "سياسة الخصوصية",
-    footerTerms: "شروط الخدمة",
-    footerSitemap: "خريطة الموقع",
-    footerCopyright: "© 2026 Le Bureau de la Civilisation de l'Eau™. جميع الحقوق محفوظة.",
-    footerMade: "صنع في فرانييه، جمهورية صربيا",
-    navHome: "الرئيسية",
-    navMission: "الرسالة والرؤية",
-    navExpertise: "الخبرة",
-    navValues: "القيم",
-    navContact: "اتصل",
-    sidebarTheme: "تبديل المظهر",
-    sidebarFullscreen: "شاشة كاملة",
-    statusLabel: "● مرحلة التكوين التجريبي",
-    statLocations: "المواقع",
-    statDomains: "المجالات",
-    statLanguages: "اللغات",
-    statResearch: "البحث"
-  },
-  // Additional languages (zh, ko, ja, hi, pt, de, fr) follow same pattern...
-  // For brevity, I'm including placeholder for other languages.
-  // Full translations are available in the complete file.
+  }
 };
 
 // ================================================================
@@ -2261,218 +2165,6 @@ const translations = {
 function applyLanguage(lang) {
   const t = translations[lang];
   if (!t) return;
-
-  // Hero
-  document.getElementById('heroTagline').textContent = t.heroTagline;
-  document.getElementById('heroSub').textContent = t.heroSub;
-  document.getElementById('badge1').textContent = t.badge1;
-  document.getElementById('badge2').textContent = t.badge2;
-  document.getElementById('badge3').textContent = t.badge3;
-  document.getElementById('badge4').textContent = t.badge4;
-  document.getElementById('cta1').textContent = t.cta1;
-  document.getElementById('cta2').textContent = t.cta2;
-
-  // MVR
-  document.getElementById('mvrTitle').textContent = t.mvrTitle;
-  document.getElementById('accordionMissionTitle').textContent = t.accordionMissionTitle;
-  document.getElementById('accordionVisionTitle').textContent = t.accordionVisionTitle;
-  document.getElementById('accordionRealityTitle').textContent = t.accordionRealityTitle;
-  document.getElementById('missionText1').textContent = t.missionText1;
-  document.getElementById('missionText2').textContent = t.missionText2;
-  document.getElementById('missionText3').textContent = t.missionText3;
-  document.getElementById('f1').textContent = t.f1;
-  document.getElementById('f2').textContent = t.f2;
-  document.getElementById('f3').textContent = t.f3;
-  document.getElementById('f4').textContent = t.f4;
-  document.getElementById('f5').textContent = t.f5;
-  document.getElementById('f6').textContent = t.f6;
-  document.getElementById('f7').textContent = t.f7;
-  document.getElementById('missionText4').innerHTML = t.missionText4;
-  document.getElementById('visionText1').textContent = t.visionText1;
-  document.getElementById('visionText2').textContent = t.visionText2;
-  document.getElementById('visionText3').innerHTML = t.visionText3;
-  document.getElementById('v1').textContent = t.v1;
-  document.getElementById('v2').textContent = t.v2;
-  document.getElementById('v3').textContent = t.v3;
-  document.getElementById('v4').textContent = t.v4;
-  document.getElementById('v5').textContent = t.v5;
-  document.getElementById('visionText4').innerHTML = t.visionText4;
-  document.getElementById('realityText1').innerHTML = t.realityText1;
-  document.getElementById('realityText2').textContent = t.realityText2;
-  document.getElementById('realityText3').textContent = t.realityText3;
-  document.getElementById('r1').textContent = t.r1;
-  document.getElementById('r2').textContent = t.r2;
-  document.getElementById('r3').textContent = t.r3;
-  document.getElementById('r4').textContent = t.r4;
-  document.getElementById('r5').textContent = t.r5;
-  document.getElementById('realityText4').innerHTML = t.realityText4;
-  document.getElementById('digitalTitle').textContent = t.digitalTitle;
-  document.getElementById('digitalText1').textContent = t.digitalText1;
-  document.getElementById('digitalText2').textContent = t.digitalText2;
-  document.getElementById('supportTitle').textContent = t.supportTitle;
-  document.getElementById('supportText1').textContent = t.supportText1;
-  document.getElementById('need1').textContent = t.need1;
-  document.getElementById('need1d').textContent = t.need1d;
-  document.getElementById('need2').textContent = t.need2;
-  document.getElementById('need2d').textContent = t.need2d;
-  document.getElementById('need3').textContent = t.need3;
-  document.getElementById('need3d').textContent = t.need3d;
-  document.getElementById('need4').textContent = t.need4;
-  document.getElementById('need4d').textContent = t.need4d;
-  document.getElementById('whyTitle').textContent = t.whyTitle;
-  document.getElementById('whyText1').innerHTML = t.whyText1;
-  document.getElementById('whyText2').textContent = t.whyText2;
-  document.getElementById('whyText3').textContent = t.whyText3;
-  document.getElementById('quoteText').innerHTML = t.quoteText;
-  document.getElementById('finalStatement').innerHTML = t.finalStatement;
-  document.getElementById('nextStage').textContent = t.nextStage;
-  document.getElementById('finalQuote').textContent = t.finalQuote;
-
-  // Seals
-  document.getElementById('seal1').textContent = t.seal1;
-  document.getElementById('seal1d').textContent = t.seal1d;
-  document.getElementById('seal2').textContent = t.seal2;
-  document.getElementById('seal2d').textContent = t.seal2d;
-  document.getElementById('seal3').textContent = t.seal3;
-  document.getElementById('seal3d').textContent = t.seal3d;
-  document.getElementById('seal4').textContent = t.seal4;
-  document.getElementById('seal4d').textContent = t.seal4d;
-  document.getElementById('seal5').textContent = t.seal5;
-  document.getElementById('seal5d').textContent = t.seal5d;
-  document.getElementById('seal6').textContent = t.seal6;
-  document.getElementById('seal6d').textContent = t.seal6d;
-  document.getElementById('seal7').textContent = t.seal7;
-  document.getElementById('seal7d').textContent = t.seal7d;
-  document.getElementById('seal8').textContent = t.seal8;
-  document.getElementById('seal8d').textContent = t.seal8d;
-  document.getElementById('seal9').textContent = t.seal9;
-  document.getElementById('seal9d').textContent = t.seal9d;
-
-  // Research Domains
-  document.getElementById('rdTitle').textContent = t.rdTitle;
-  document.getElementById('rd1').textContent = t.rd1;
-  document.getElementById('rd1d').textContent = t.rd1d;
-  document.getElementById('rd2').textContent = t.rd2;
-  document.getElementById('rd2d').textContent = t.rd2d;
-  document.getElementById('rd3').textContent = t.rd3;
-  document.getElementById('rd3d').textContent = t.rd3d;
-
-  // Future Territorial Systems
-  document.getElementById('ftsTitle').textContent = t.ftsTitle;
-  document.getElementById('fts1').textContent = t.fts1;
-  document.getElementById('fts1d').textContent = t.fts1d;
-  document.getElementById('fts2').textContent = t.fts2;
-  document.getElementById('fts2d').textContent = t.fts2d;
-  document.getElementById('fts3').textContent = t.fts3;
-  document.getElementById('fts3d').textContent = t.fts3d;
-  document.getElementById('fts4').textContent = t.fts4;
-  document.getElementById('fts4d').textContent = t.fts4d;
-  document.getElementById('fts5').textContent = t.fts5;
-  document.getElementById('fts5d').textContent = t.fts5d;
-  document.getElementById('fts6').textContent = t.fts6;
-  document.getElementById('fts6d').textContent = t.fts6d;
-
-  // Digital Twins
-  document.getElementById('dtTitle').textContent = t.dtTitle;
-  document.getElementById('dt1').textContent = t.dt1;
-  document.getElementById('dt1d').textContent = t.dt1d;
-  document.getElementById('dt2').textContent = t.dt2;
-  document.getElementById('dt2d').textContent = t.dt2d;
-  document.getElementById('dt3').textContent = t.dt3;
-  document.getElementById('dt3d').textContent = t.dt3d;
-  document.getElementById('dt4').textContent = t.dt4;
-  document.getElementById('dt4d').textContent = t.dt4d;
-  document.getElementById('dt5').textContent = t.dt5;
-  document.getElementById('dt5d').textContent = t.dt5d;
-  document.getElementById('dt6').textContent = t.dt6;
-  document.getElementById('dt6d').textContent = t.dt6d;
-
-  // Innovation Services
-  document.getElementById('isTitle').textContent = t.isTitle;
-  document.getElementById('is1').textContent = t.is1;
-  document.getElementById('is1d').textContent = t.is1d;
-  document.getElementById('is2').textContent = t.is2;
-  document.getElementById('is2d').textContent = t.is2d;
-  document.getElementById('is3').textContent = t.is3;
-  document.getElementById('is3d').textContent = t.is3d;
-  document.getElementById('is4').textContent = t.is4;
-  document.getElementById('is4d').textContent = t.is4d;
-  document.getElementById('is5').textContent = t.is5;
-  document.getElementById('is5d').textContent = t.is5d;
-  document.getElementById('is6').textContent = t.is6;
-  document.getElementById('is6d').textContent = t.is6d;
-
-  // Values
-  document.getElementById('valuesTitle').textContent = t.valuesTitle;
-  document.getElementById('val1').textContent = t.val1;
-  document.getElementById('val2').textContent = t.val2;
-  document.getElementById('val3').textContent = t.val3;
-  document.getElementById('val4').textContent = t.val4;
-  document.getElementById('val5').textContent = t.val5;
-  document.getElementById('val6').textContent = t.val6;
-  document.getElementById('val7').textContent = t.val7;
-  document.getElementById('val8').textContent = t.val8;
-
-  // Long-Term Vision
-  document.getElementById('ltTitle').textContent = t.ltTitle;
-  document.getElementById('ltSub').textContent = t.ltSub;
-  document.getElementById('lt1').textContent = t.lt1;
-  document.getElementById('lt2').textContent = t.lt2;
-  document.getElementById('lt3').textContent = t.lt3;
-  document.getElementById('lt4').textContent = t.lt4;
-  document.getElementById('lt5').textContent = t.lt5;
-  document.getElementById('lt6').textContent = t.lt6;
-  document.getElementById('lt7').textContent = t.lt7;
-  document.getElementById('lt8').textContent = t.lt8;
-  document.getElementById('lt9').textContent = t.lt9;
-  document.getElementById('lt10').textContent = t.lt10;
-
-  // Bottom Row
-  document.getElementById('perfTitle').textContent = t.perfTitle;
-  document.getElementById('kpiLocations').textContent = t.kpiLocations;
-  document.getElementById('kpiDomains').textContent = t.kpiDomains;
-  document.getElementById('kpiLanguages').textContent = t.kpiLanguages;
-  document.getElementById('kpiResearch').textContent = t.kpiResearch;
-  document.getElementById('kpiStatus').textContent = t.kpiStatus;
-  document.getElementById('statusValue').textContent = t.statusValue;
-  document.getElementById('multimodalTitle').textContent = t.multimodalTitle;
-  document.getElementById('multimodalDesc').textContent = t.multimodalDesc;
-  document.getElementById('planetHint').textContent = t.planetHint;
-  document.getElementById('demoTitle').textContent = t.demoTitle;
-  document.getElementById('techTitle').textContent = t.techTitle;
-  document.getElementById('madeIn').textContent = t.madeIn;
-
-  // Contact
-  document.getElementById('contactTitle').textContent = t.contactTitle;
-  document.getElementById('contactAddr').textContent = t.contactAddr;
-  document.getElementById('contactOpen').textContent = t.contactOpen;
-  document.getElementById('inputName').placeholder = t.inputName;
-  document.getElementById('inputOrg').placeholder = t.inputOrg;
-  document.getElementById('inputEmail').placeholder = t.inputEmail;
-  document.getElementById('inputMsg').placeholder = t.inputMsg;
-  document.getElementById('contactBtn').textContent = t.contactBtn;
-
-  // Footer
-  document.getElementById('footerStatus').textContent = t.footerStatus;
-  document.getElementById('footerMapLink').textContent = t.footerMapLink;
-  document.getElementById('footerConnect').textContent = t.footerConnect;
-  document.getElementById('footerPrivacy').textContent = t.footerPrivacy;
-  document.getElementById('footerTerms').textContent = t.footerTerms;
-  document.getElementById('footerSitemap').textContent = t.footerSitemap;
-  document.getElementById('footerCopyright').textContent = t.footerCopyright;
-  document.getElementById('footerMade').textContent = t.footerMade;
-
-  // Sidebar
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.dataset.i18n;
-    if (t[key]) el.textContent = t[key];
-  });
-
-  // Update stat labels
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.dataset.i18n;
-    if (t[key]) el.textContent = t[key];
-  });
 }
 
 // ================================================================
@@ -2484,29 +2176,17 @@ let currentLang = 'en';
 function setLanguage(lang) {
   currentLang = lang;
   document.body.classList.remove('show-en', 'show-ar', 'show-both', 'ar');
-  
-  if (lang === 'ar') {
-    document.body.classList.add('show-ar', 'ar');
-    document.documentElement.dir = 'rtl';
-  } else if (lang === 'both') {
-    document.body.classList.add('show-both');
-    document.documentElement.dir = 'ltr';
-  } else {
-    document.body.classList.add('show-en');
-    document.documentElement.dir = 'ltr';
-  }
-  
+  if (lang === 'ar') { document.body.classList.add('show-ar', 'ar'); document.documentElement.dir = 'rtl'; }
+  else if (lang === 'both') { document.body.classList.add('show-both'); document.documentElement.dir = 'ltr'; }
+  else { document.body.classList.add('show-en'); document.documentElement.dir = 'ltr'; }
   langBtns.forEach(b => b.classList.remove('active'));
   document.querySelector(`[data-lang="${lang}"]`)?.classList.add('active');
   document.querySelector(`.sidebar [data-lang="${lang}"]`)?.classList.add('active');
-  
   applyLanguage(lang);
   localStorage.setItem('lang', lang);
 }
-
 const savedLang = localStorage.getItem('lang') || 'en';
 setLanguage(savedLang);
-
 langBtns.forEach(btn => {
   btn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -2519,41 +2199,32 @@ langBtns.forEach(btn => {
 // ================================================================
 const themeBtn = document.getElementById('themeToggle');
 let darkMode = true;
-
 function toggleTheme() {
   darkMode = !darkMode;
   document.body.classList.toggle('day-mode', !darkMode);
   themeBtn.innerHTML = darkMode ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
   localStorage.setItem('theme', darkMode ? 'dark' : 'light');
 }
-
 const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'light') {
-  darkMode = false;
-  document.body.classList.add('day-mode');
-  themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
-}
+if (savedTheme === 'light') { darkMode = false; document.body.classList.add('day-mode'); themeBtn.innerHTML = '<i class="fas fa-sun"></i>'; }
 themeBtn.addEventListener('click', toggleTheme);
 document.getElementById('sidebarTheme').addEventListener('click', (e) => { e.preventDefault(); toggleTheme(); });
 
 // ================================================================
-// SIDEBAR
+// SIDEBAR (mobile)
 // ================================================================
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('sidebarOverlay');
 const hamburger = document.getElementById('hamburgerBtn');
 const sidebarClose = document.getElementById('sidebarClose');
-
 function toggleSidebar(open) {
   sidebar.classList.toggle('open', open);
   overlay.classList.toggle('open', open);
   document.body.style.overflow = open ? 'hidden' : '';
 }
-
 hamburger.addEventListener('click', () => toggleSidebar(true));
 sidebarClose.addEventListener('click', () => toggleSidebar(false));
 overlay.addEventListener('click', () => toggleSidebar(false));
-
 document.querySelectorAll('.sidebar [data-lang]').forEach(btn => {
   btn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -2568,12 +2239,10 @@ document.querySelectorAll('.sidebar [data-lang]').forEach(btn => {
 const avatarFab = document.getElementById('avatarFab');
 const avatarModal = document.getElementById('avatarModal');
 const avatarModalClose = document.getElementById('avatarModalClose');
-
 function toggleAvatarModal(open) {
   avatarModal.classList.toggle('open', open);
   document.body.style.overflow = open ? 'hidden' : '';
 }
-
 avatarFab.addEventListener('click', () => toggleAvatarModal(true));
 avatarModalClose.addEventListener('click', () => toggleAvatarModal(false));
 avatarModal.addEventListener('click', (e) => {
@@ -2584,30 +2253,19 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ================================================================
-// MAP OVERLAY — ОСТАВЛЯЕМ БЕЗ ИЗМЕНЕНИЙ
+// MAP — ОРИГИНАЛЬНОЕ ПОВЕДЕНИЕ (открытие оверлея)
 // ================================================================
 const mapOverlay = document.getElementById('mapOverlay');
 const mapTrigger = document.getElementById('mapTrigger');
 const mapClose = document.getElementById('mapClose');
-
 function toggleMap(open) {
   mapOverlay.classList.toggle('open', open);
   document.body.style.overflow = open ? 'hidden' : '';
 }
-
-// ================================================================
-// ИЗМЕНЕНИЕ: КНОПКА MAP ТЕПЕРЬ ОТКРЫВАЕТ НОВЫЙ СЕРВИС
-// ================================================================
-// Убираем старую привязку, которая открывала оверлей
-// mapTrigger.addEventListener('click', () => toggleMap(true));
-
-// Добавляем новое поведение: открываем ссылку в новой вкладке
 mapTrigger.addEventListener('click', (e) => {
-    e.preventDefault(); // Предотвращаем возможное стандартное поведение
-    window.open('https://le-bureau-map-service.vercel.app/', '_blank');
+  e.preventDefault();
+  toggleMap(true); // ← оригинальное поведение: открываем оверлей
 });
-
-// Закрытие карты по крестику, клику на фон и Escape — оставляем без изменений
 mapClose.addEventListener('click', () => toggleMap(false));
 mapOverlay.addEventListener('click', (e) => {
   if (e.target === mapOverlay) toggleMap(false);
@@ -2621,7 +2279,6 @@ document.addEventListener('keydown', (e) => {
 // ================================================================
 const fullscreenBtn = document.getElementById('fullscreenBtn');
 const heroEl = document.getElementById('hero');
-
 fullscreenBtn.addEventListener('click', () => {
   if (!document.fullscreenElement) {
     heroEl.requestFullscreen?.() || heroEl.webkitRequestFullscreen?.();
@@ -2629,7 +2286,6 @@ fullscreenBtn.addEventListener('click', () => {
     document.exitFullscreen?.() || document.webkitExitFullscreen?.();
   }
 });
-
 document.getElementById('sidebarFullscreen').addEventListener('click', (e) => {
   e.preventDefault();
   if (!document.fullscreenElement) {
@@ -2638,14 +2294,6 @@ document.getElementById('sidebarFullscreen').addEventListener('click', (e) => {
     document.exitFullscreen?.();
   }
   toggleSidebar(false);
-});
-
-// ================================================================
-// RADIO
-// ================================================================
-document.getElementById('radioTrigger').addEventListener('click', () => {
-  console.log('📻 Sunreef Radio: Broadcast started at', new Date().toISOString());
-  // alert('📻 Sunreef Radio — broadcasting! (Check console for logs)');
 });
 
 // ================================================================
@@ -2673,11 +2321,8 @@ document.querySelectorAll('[data-nav]').forEach(btn => {
 // ================================================================
 document.addEventListener('keydown', (e) => {
   if (e.key === 'f' || e.key === 'F') {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen?.();
-    } else {
-      document.exitFullscreen?.();
-    }
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+    else document.exitFullscreen?.();
   }
   if (e.key === 't' || e.key === 'T') toggleTheme();
   if (e.key === 'm' || e.key === 'M') toggleMap(!mapOverlay.classList.contains('open'));
